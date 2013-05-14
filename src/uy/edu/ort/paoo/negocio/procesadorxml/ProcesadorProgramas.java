@@ -3,8 +3,6 @@ package uy.edu.ort.paoo.negocio.procesadorxml;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,42 +13,76 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import uy.edu.ort.paoo.datos.dao.IClienteDAO;
+import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
+import uy.edu.ort.paoo.datos.dominio.Pagina;
+import uy.edu.ort.paoo.datos.dominio.Programa;
+import uy.edu.ort.paoo.datos.factory.Factory;
+
 
 public class ProcesadorProgramas {
-	public static void ejercicio2(String ruta){
+	public static String NODO_PROGRAMA ="programa";
+	public static String NODO_CLIENTE ="cliente";
+	public static String NODO_NOMBRE ="nombre";
+	public static String NODO_PAGINA ="pagina";
+	public static String NODO_PAGINAS ="paginas";
+	public static String NODO_HTMLDATA ="htmlData";
+	
+	//TODO: Unit test 
+	public static void procesarProgramas(String ruta){
+		IClienteDAO clienteDAO = Factory.getClienteDAO();
+		IProgramaDAO programaDAO = Factory.getProgramaDAO();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
-        StringBuffer sb = new StringBuffer("<table  border='1'>");
+        Programa prog;
+        Pagina pag;
         try {
             builder = factory.newDocumentBuilder();
             Document document = builder.parse(new File(ruta));
-            NodeList stocks = document.getElementsByTagName("stock");
-            for (int i = 0; i < stocks.getLength(); i++) {
-                Node stock = stocks.item(i);
-                NodeList hijos = stock.getChildNodes();
+            NodeList programas = document.getElementsByTagName(NODO_PROGRAMA);
+
+            for (int i = 0; i < programas.getLength(); i++) {
+            	Node programaNode = programas.item(i);
+            	prog = new Programa();            	
+                NodeList hijos = programaNode.getChildNodes();
                 for (int j = 0; j < hijos.getLength(); j++) {
-                    if(hijos.item(j).getNodeType() == Node.ELEMENT_NODE){
-                        traverseTree(hijos.item(j),sb);
+                	Node n = hijos.item(j);
+                    if(n.getNodeType() == Node.ELEMENT_NODE){
+                    	if(n.getNodeName().equals(NODO_CLIENTE)){
+                    		prog.setCliente(clienteDAO.getByPK(n.getNodeValue()));
+                    	}
+                    	if(n.getNodeName().equals(NODO_NOMBRE)){
+                    		prog.setNombre(n.getNodeValue());
+                    	}
+                    	if(n.getNodeName().equals(NODO_PAGINAS)){
+                    		NodeList pags = n.getChildNodes();
+                            for (int p = 0; p < pags.getLength(); p++) {
+                            	Node pagNode = pags.item(p);
+                            	if(pagNode.getNodeType() == Node.ELEMENT_NODE){
+                            		pag = new Pagina();
+                            		if(pagNode.getNodeName().equals(NODO_NOMBRE)){
+                                 		pag.setNombre(pagNode.getNodeValue());
+                                 	}
+                                 	if(pagNode.getNodeName().equals(NODO_HTMLDATA)){
+                                 		pag.setBody(pagNode.getNodeValue());
+                                 	}
+                                 	prog.getPaginas().add(pag);
+                            	}
+                            }
+                    	}
                     }
                 }
+
+                programaDAO.save(prog);
             }
-            sb.append("</table>");
-            crearArchivo(sb);
         } catch (SAXException ex) {
+        	//TODO: Capa Exceptions !!!!!!!!!!!!!
             //Logger.getLogger(PracticoDOM.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException|ParserConfigurationException  ex) {
             //Logger.getLogger(PracticoDOM.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public static void traverseTree(Node node, StringBuffer sb){
-        sb.append("<tr>");
-        sb.append("<td>");
-        sb.append(node.getFirstChild().getNodeValue());
-        sb.append("</td>");
-        sb.append("</tr>");
-        
-    }
     
     public static void crearArchivo(StringBuffer sb){
     	File f = new File("src/resources/porfolio.html");

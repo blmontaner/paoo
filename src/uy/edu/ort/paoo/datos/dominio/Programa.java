@@ -1,5 +1,6 @@
 package uy.edu.ort.paoo.datos.dominio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Programa {
@@ -7,7 +8,9 @@ public class Programa {
 	private String nombre;
 	private List<Pagina> paginas;
 	
-	public Programa(){}
+	public Programa(){
+		paginas = new ArrayList<>();
+	}
 	
 	public Cliente getCliente() {
 		return cliente;

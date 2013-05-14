@@ -1,5 +1,7 @@
 package uy.edu.ort.paoo.datos.dao;
 
-public interface IProgramaDAO extends IDAO{
+import uy.edu.ort.paoo.datos.dominio.Programa;
+
+public interface IProgramaDAO extends IDAO<Programa>{
 
 }

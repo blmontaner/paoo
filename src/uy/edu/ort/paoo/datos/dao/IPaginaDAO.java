@@ -1,5 +1,7 @@
 package uy.edu.ort.paoo.datos.dao;
 
-public interface IPaginaDAO extends IDAO{
+import uy.edu.ort.paoo.datos.dominio.Pagina;
+
+public interface IPaginaDAO extends IDAO<Pagina>{
 
 }
