@@ -19,8 +19,7 @@ public class ClienteDAO implements IClienteDAO{
 
 	@Override
 	public List<Cliente> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return DB.getInstance().getClientes();
 	}
 
 	@Override
@@ -31,7 +30,11 @@ public class ClienteDAO implements IClienteDAO{
 
 	@Override
 	public Cliente getByPK(Object id) {
-		// TODO Auto-generated method stub
+		for(Cliente c: DB.getInstance().getClientes()){
+			if(c.getIdentificador().equals(id)){
+				return c;
+			}
+		}
 		return null;
 	}
 

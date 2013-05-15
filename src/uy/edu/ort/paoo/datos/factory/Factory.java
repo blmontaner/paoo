@@ -7,6 +7,7 @@ import uy.edu.ort.paoo.datos.dao.memoria.ProgramaDAO;
 
 public class Factory {
 
+	//TODO: usar reflection
 	public static IClienteDAO getClienteDAO(){
 		return new ClienteDAO();
 	}

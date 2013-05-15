@@ -1,9 +1,15 @@
 package uy.edu.ort.paoo.negocio.procesadorxml;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,9 +21,12 @@ import org.xml.sax.SAXException;
 
 import uy.edu.ort.paoo.datos.dao.IClienteDAO;
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
+import uy.edu.ort.paoo.datos.dao.memoria.DB;
+import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.factory.Factory;
+import uy.edu.ort.paoo.exceptions.PaooException;
 
 
 public class ProcesadorProgramas {
@@ -28,7 +37,6 @@ public class ProcesadorProgramas {
 	public static String NODO_PAGINAS ="paginas";
 	public static String NODO_HTMLDATA ="htmlData";
 	
-	//TODO: Unit test 
 	public static void procesarProgramas(String ruta){
 		IClienteDAO clienteDAO = Factory.getClienteDAO();
 		IProgramaDAO programaDAO = Factory.getProgramaDAO();
@@ -83,7 +91,20 @@ public class ProcesadorProgramas {
         }
     }
     
-    
+	public static void ingresarClientes(String ruta) throws PaooException{
+		JAXBContext context;
+		ClientesLista clientes = null;
+		
+		try {
+			context = JAXBContext.newInstance(ClientesLista.class);
+			Unmarshaller um = context.createUnmarshaller();
+			clientes = (ClientesLista) um.unmarshal(new FileReader(ruta));
+		} catch (JAXBException | FileNotFoundException e) {
+			throw new PaooException(e.getMessage());
+		}
+		DB.getInstance().setClientes(clientes.getClientes());
+	}
+	
     public static void crearArchivo(StringBuffer sb){
     	File f = new File("src/resources/porfolio.html");
     	try {
