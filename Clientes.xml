@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clientes>
+<cliente>
+<nombre>Best Caller</nombre>
+<direccion>21 de Setiembre 1402</direccion>
+<identificador>CL1</identificador>
+<telefono>27101010</telefono>
+<pagina>www.bestcaller.com</pagina>
+</cliente>
+<cliente>
+<nombre>Uru Cell</nombre>
+<direccion>Paysansú 1480</direccion>
+<identificador>CL2</identificador>
+<telefono>24118968</telefono>
+<pagina>www.urucell.com.uy</pagina>
+</cliente>
+<cliente>
+<nombre>CongeladosYCia</nombre>
+<direccion>Berro 1345</direccion>
+<identificador>CL3</identificador>
+<telefono>27856936</telefono>
+<pagina></pagina>
+</cliente>
+<cliente>
+<nombre>ImprentaPerfecto</nombre>
+<direccion>Durazno 678</direccion>
+<identificador>CL1</identificador>
+<telefono>24158978</telefono>
+<pagina></pagina>
+</cliente>
+</clientes>
