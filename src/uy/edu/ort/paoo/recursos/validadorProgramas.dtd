@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Valido que listado_programas contenga al menos un programa -->
+<!ELEMENT listado_programas (programa+) >
+
+<!-- Valido que programa contenga los elementos cliente, nombre y paginas -->
+<!ELEMENT programa (cliente,nombre,paginas)>
+<!ELEMENT cliente (#PCDATA)>
+<!ELEMENT nombre (#PCDATA)>
+<!ELEMENT paginas (#PCDATA)>
+
+<!-- Valido que pagina contenga los elementos nombre y htmlData -->
+<!ELEMENT pagina (nombre,htmlData)>
+<!ELEMENT nombre (#PCDATA)>
+<!ELEMENT htmlData (#PCDATA)>
+
+<!-- Valido que paginas contenga al menos una pagina -->
+<!ELEMENT paginas (pagina+) >
+
+<!--  -->
+<!ELEMENT htmlData (#PCDATA)>

@@ -7,4 +7,21 @@
          
       </paginas>
    </programa>
+   <programa>
+      <cliente>CL1</cliente>
+      <nombre>BestCaller</nombre>
+      <paginas>
+         <pagina>
+                <nombre>inicio</nombre>
+                <htmlData><![CDATA[<html>
+<body>
+<h1>Best Seller</h1>
+<p>Welcome to Best Seller site.</p>
+<p>Through this pages you can:</p>
+<p>Browse our <a href="catalog.html">catalog</a></p>
+</body>
+</html>]]></htmlData>
+            </pagina>
+      </paginas>
+   </programa>
 </listado_programas>

@@ -36,10 +36,10 @@ public class ProcesadorProgramas {
     public static String NODO_PAGINA = "pagina";
     public static String NODO_PAGINAS = "paginas";
     public static String NODO_HTMLDATA = "htmlData";
-    
     public static ClientesLista clientes = null;
 
     public static void procesarProgramas(String ruta) {
+        Resultado resultado = new Resultado();
         IClienteDAO clienteDAO = Factory.getClienteDAO();
         IProgramaDAO programaDAO = Factory.getProgramaDAO();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -59,24 +59,45 @@ public class ProcesadorProgramas {
                     Node n = hijos.item(j);
                     if (n.getNodeType() == Node.ELEMENT_NODE) {
                         if (n.getNodeName().equals(NODO_CLIENTE)) {
-                            prog.setCliente(clienteDAO.getByPK(n.getNodeValue()));
+                            Cliente cAux = clienteDAO.getByPK(n.getTextContent());
+                            if (cAux != null) {
+                                prog.setCliente(cAux);
+                            } else {
+                                resultado.aumentarDescartados();
+                                break;
+                            }
                         }
                         if (n.getNodeName().equals(NODO_NOMBRE)) {
-                            prog.setNombre(n.getNodeValue());
+                            if(Utilidades.isValidName(n.getTextContent())){
+                                prog.setNombre(n.getTextContent());
+                            } else {
+                                resultado.aumentarDescartados();
+                                break;
+                            }
                         }
                         if (n.getNodeName().equals(NODO_PAGINAS)) {
                             NodeList pags = n.getChildNodes();
                             for (int p = 0; p < pags.getLength(); p++) {
                                 Node pagNode = pags.item(p);
+                                boolean errorPagina = true;
                                 if (pagNode.getNodeType() == Node.ELEMENT_NODE) {
                                     pag = new Pagina();
                                     if (pagNode.getNodeName().equals(NODO_NOMBRE)) {
-                                        pag.setNombre(pagNode.getNodeValue());
+                                        if(Utilidades.isValidName(n.getTextContent())){
+                                            pag.setNombre(pagNode.getTextContent());
+                                            errorPagina = false;
+                                        } else {
+                                            resultado.aumentarErrores();
+                                            errorPagina = true;
+                                        }
+                                        
                                     }
-                                    if (pagNode.getNodeName().equals(NODO_HTMLDATA)) {
-                                        pag.setBody(pagNode.getNodeValue());
+                                    if(!errorPagina) {
+                                        if (pagNode.getNodeName().equals(NODO_HTMLDATA)) {
+                                            pag.setBody(pagNode.getTextContent());
+                                        }
+                                        prog.getPaginas().add(pag);
                                     }
-                                    prog.getPaginas().add(pag);
                                 }
                             }
                         }
@@ -84,6 +105,8 @@ public class ProcesadorProgramas {
                 }
 
                 programaDAO.save(prog);
+                resultado.aumentarProcesados();
+                //return resultado;
             }
         } catch (SAXException ex) {
             //TODO: Capa Exceptions !!!!!!!!!!!!!
@@ -95,7 +118,7 @@ public class ProcesadorProgramas {
 
     public static void ingresarClientes(String ruta) throws PaooException {
         JAXBContext context;
-        
+
         try {
             context = JAXBContext.newInstance(ClientesLista.class);
             Unmarshaller um = context.createUnmarshaller();
@@ -105,10 +128,8 @@ public class ProcesadorProgramas {
         }
         DB.getInstance().setClientes(clientes.getClientes());
     }
-    
-    
-    private static void validarCliente(File xml) throws PaooException
-    {
+
+    private static void validarCliente(File xml) throws PaooException {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder;
@@ -125,8 +146,7 @@ public class ProcesadorProgramas {
                         if (n.getNodeName().equals(NODO_CLIENTE)) {
                             Cliente cAux = new Cliente();
                             cAux.setIdentificador(n.getTextContent());
-                            if(!clientes.existeCliente(cAux))
-                            {
+                            if (!clientes.existeCliente(cAux)) {
                                 throw new PaooException("No existe un cliente con identificador especificado: " + cAux.getIdentificador());
                             }
                         }
@@ -142,23 +162,22 @@ public class ProcesadorProgramas {
             Logger.getLogger(ProcesadorProgramas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /*
      * Metodo para cargar programas y validarlos
      * Antes de llamarlo deberia cargar los clientes
      */
-    public static void cargarProgramas(String rutaXML, String rutaXSD)
-    {
+    public static void cargarProgramas(String rutaXML, String rutaXSD) throws PaooException {
         File xml = new File(rutaXML);
         File xsd = new File(rutaXSD);
-        
+
         try {
-            if(Utilidades.validarXMLContraXSD(xml, xsd))
-            {
+            if (Utilidades.validarXMLContraXSD(xml, xsd)) {
                 //Realizar el resto de las validaciones
                 validarCliente(xml);
             }
-        } catch (Exception e) {
+        } catch (PaooException ex) {
+            throw ex;
         }
     }
 }

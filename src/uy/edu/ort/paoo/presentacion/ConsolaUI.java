@@ -18,10 +18,23 @@ public class ConsolaUI {
 	public static void main(String[] args) {
 		
 		try {
-			ProcesadorProgramas.ingresarClientes("src/uy/edu/ort/paoo/recursos/Clientes.xml");
+			/*ProcesadorProgramas.ingresarClientes("src/uy/edu/ort/paoo/recursos/Clientes.xml");
                         System.out.println(DB.getInstance().getClientes());
-                        ProcesadorProgramas.cargarProgramas("src/uy/edu/ort/paoo/recursos/programas.xml", "src/uy/edu/ort/paoo/recursos/validadorProgramasXSD.xsd");
-		} catch (PaooException e) {
+                        ProcesadorProgramas.cargarProgramas("src/uy/edu/ort/paoo/recursos/programasSinPaginas.xml", "src/uy/edu/ort/paoo/recursos/validadorProgramasXSD.xsd");
+                        * */
+                     
+                    for (int i = 0; i < 10; i++) {
+                        System.out.println("i >> " + i);
+                        for (int j = 0; j < 10; j++) {
+                            System.out.println("j >> " + j);
+                            if(j == 5){
+                                break;
+                                System.out.println("j22 >> " + j);
+                            }
+                        }
+                    }
+                    
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
