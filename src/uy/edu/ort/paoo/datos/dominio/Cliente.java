@@ -56,5 +56,10 @@ public class Cliente {
 				+ ", identificador=" + identificador + ", telefono=" + telefono
 				+ ", pagina=" + pagina + "]";
 	}
+        
+        public boolean Equals(Object obj)
+        {
+            return this.getIdentificador().equals(((Cliente)obj).getIdentificador());
+        }
 	
 }

@@ -31,4 +31,15 @@ public class ClientesLista {
 	public void setBooks(List<Cliente> clientes) {
 		this.clientes = clientes;
 	}
+        
+        public boolean existeCliente(Cliente cliente)
+        {
+            for (Cliente c : clientes) {
+                if(c.Equals(cliente))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 }

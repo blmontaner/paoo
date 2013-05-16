@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listado_programas>
+   <programa>
+      <cliente>a_l</cliente>
+      <nombre>BestCaller</nombre>
+      <paginas>
+         <pagina>
+            <nombre>inicio</nombre>
+            <htmlData><![CDATA[<html>
+<body>
+<h1>Best Seller</h1>
+<p>Welcome to Best Seller site.</p>
+<p>Through this pages you can:</p>
+<p>Browse our <a href="catalog.html">catalog</a></p>
+</body>
+</html>]]></htmlData>
+         </pagina>
+         <pagina>
+            <nombre>catalog</nombre>
+            <htmlData><![CDATA[<html>
+<body>
+<h1>Catalog</h1>
+<ul>
+<li>Jay-Pea-Eyes Aka Junior Private Investigators
+by John Priest</li>
+<li>Rainy Day Poems
+by James McDonald (Goodreads Author)</li>
+<li>Jack Templar, Monster Hunter (The Templar Chronicles, #1)
+by Jeff Gunhus (Goodreads Author)</li>
+</ul>
+</html>]]></htmlData>
+         </pagina>
+      </paginas>
+   </programa>
+</listado_programas>
