@@ -27,6 +27,7 @@ import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.factory.Factory;
 import uy.edu.ort.paoo.exceptions.PaooException;
+import uy.edu.ort.paoo.manejofs.ManejoFS;
 
 public class ProcesadorProgramas {
 
@@ -38,7 +39,7 @@ public class ProcesadorProgramas {
     public static String NODO_HTMLDATA = "htmlData";
     public static ClientesLista clientes = null;
 
-    public static void procesarProgramas(String ruta) {
+    public static Resultado procesarProgramas(String ruta) throws PaooException {
         Resultado resultado = new Resultado();
         IClienteDAO clienteDAO = Factory.getClienteDAO();
         IProgramaDAO programaDAO = Factory.getProgramaDAO();
@@ -68,8 +69,9 @@ public class ProcesadorProgramas {
                             }
                         }
                         if (n.getNodeName().equals(NODO_NOMBRE)) {
-                            if(Utilidades.isValidName(n.getTextContent())){
+                            if (Utilidades.isValidName(n.getTextContent())) {
                                 prog.setNombre(n.getTextContent());
+                                ManejoFS.crearDirectorio(n.getTextContent());
                             } else {
                                 resultado.aumentarDescartados();
                                 break;
@@ -82,22 +84,34 @@ public class ProcesadorProgramas {
                                 boolean errorPagina = true;
                                 if (pagNode.getNodeType() == Node.ELEMENT_NODE) {
                                     pag = new Pagina();
-                                    if (pagNode.getNodeName().equals(NODO_NOMBRE)) {
-                                        if(Utilidades.isValidName(n.getTextContent())){
-                                            pag.setNombre(pagNode.getTextContent());
-                                            errorPagina = false;
-                                        } else {
-                                            resultado.aumentarErrores();
-                                            errorPagina = true;
+                                    //recorro los nodos de la pagina
+                                    NodeList nodos = pagNode.getChildNodes();
+                                    for(int x = 0; x < nodos.getLength(); x++)
+                                    {
+                                        Node atributoPagina = nodos.item(x);
+                                        if (pagNode.getNodeType() == Node.ELEMENT_NODE) {
+                                            if (atributoPagina.getNodeName().equals(NODO_NOMBRE)) {
+                                                
+                                                if (Utilidades.isValidName(atributoPagina.getTextContent())) {
+                                                    //System.out.println(" >>>> " + atributoPagina.getNodeName());
+                                                    pag.setNombre(atributoPagina.getTextContent());
+
+                                                    errorPagina = false;
+                                                } else {
+                                                    resultado.aumentarErrores();
+                                                    errorPagina = true;
+                                                }
+                                            }
                                         }
-                                        
-                                    }
-                                    if(!errorPagina) {
-                                        if (pagNode.getNodeName().equals(NODO_HTMLDATA)) {
-                                            pag.setBody(pagNode.getTextContent());
+                                        if (!errorPagina) {
+                                            if (atributoPagina.getNodeName().equals(NODO_HTMLDATA)) {
+                                                System.out.println(" >>>> " + atributoPagina.getTextContent());
+                                                pag.setBody(atributoPagina.getTextContent());
+                                            }
                                         }
-                                        prog.getPaginas().add(pag);
                                     }
+                                    ManejoFS.crearArchivoHtml(prog.getNombre(), pag.getBody(), pag.getNombre());
+                                    prog.getPaginas().add(pag);
                                 }
                             }
                         }
@@ -106,7 +120,6 @@ public class ProcesadorProgramas {
 
                 programaDAO.save(prog);
                 resultado.aumentarProcesados();
-                //return resultado;
             }
         } catch (SAXException ex) {
             //TODO: Capa Exceptions !!!!!!!!!!!!!
@@ -114,6 +127,7 @@ public class ProcesadorProgramas {
         } catch (IOException | ParserConfigurationException ex) {
             //Logger.getLogger(PracticoDOM.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return resultado;
     }
 
     public static void ingresarClientes(String ruta) throws PaooException {
@@ -174,7 +188,7 @@ public class ProcesadorProgramas {
         try {
             if (Utilidades.validarXMLContraXSD(xml, xsd)) {
                 //Realizar el resto de las validaciones
-                validarCliente(xml);
+                procesarProgramas(rutaXML);
             }
         } catch (PaooException ex) {
             throw ex;

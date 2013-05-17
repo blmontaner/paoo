@@ -49,18 +49,6 @@ public class Utilidades {
             throw new PaooException(ex.getMessage());
         }
     }
-
-    public static void crearArchivo(StringBuffer sb) throws PaooException {
-        File f = new File("src/resources/porfolio.html");
-        try {
-            FileWriter fw = new FileWriter(f);
-            fw.write(sb.toString());
-            fw.flush();
-            fw.close();
-        } catch (IOException ex) {
-            throw new PaooException(ex.getMessage());
-        }
-    }
     
     public static boolean isValidName(String text)
     {
