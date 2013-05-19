@@ -9,7 +9,8 @@ package uy.edu.ort.paoo.negocio.procesadorxml;
  * @author Victor
  */
 public class Resultado {
-    private int procesados;
+
+	private int procesados;
     private int errores;
     private int descartados;
     
@@ -83,5 +84,11 @@ public class Resultado {
     public int getExitosos() {
         return (procesados - (descartados + errores));
     }
-
+    
+    @Override
+	public String toString() {
+		return "Resultado \nProcesados: " + getProcesados()
+				+ "\nErrores: " + getErrores() + "\nDescartados: "
+				+ getDescartados() + "\nExitosos: " + getExitosos() ;
+	}
 }

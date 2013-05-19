@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -117,22 +119,19 @@ public class ProcesadorProgramas {
                         }
                     }
                 }
-
                 programaDAO.save(prog);
                 resultado.aumentarProcesados();
             }
-        } catch (SAXException ex) {
-            //TODO: Capa Exceptions !!!!!!!!!!!!!
-            //Logger.getLogger(PracticoDOM.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException | ParserConfigurationException ex) {
-            //Logger.getLogger(PracticoDOM.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (SAXException | IOException | ParserConfigurationException ex) {
+        	throw new PaooException(ex.getMessage());
+        } 
+        
         return resultado;
     }
 
-    public static void ingresarClientes(String ruta) throws PaooException {
+    public static Resultado ingresarClientes(String ruta) throws PaooException {
         JAXBContext context;
-
+        Resultado res = new Resultado();
         try {
             context = JAXBContext.newInstance(ClientesLista.class);
             Unmarshaller um = context.createUnmarshaller();
@@ -140,7 +139,18 @@ public class ProcesadorProgramas {
         } catch (JAXBException | FileNotFoundException e) {
             throw new PaooException(e.getMessage());
         }
-        DB.getInstance().setClientes(clientes.getClientes());
+        List<Cliente> clst = new ArrayList<>();
+        //valido q los clientes q se quieren ingresar no existan ya en el sistema
+        for(Cliente c: clientes.getClientes()){
+        	if(Factory.getClienteDAO().getByPK(c.getIdentificador())==null){
+        		clst.add(c);
+        	}else{
+        		res.aumentarDescartados();
+        	}
+        	res.aumentarProcesados();
+        }
+        DB.getInstance().getClientes().addAll(clst);
+        return res;
     }
 
     private static void validarCliente(File xml) throws PaooException {
