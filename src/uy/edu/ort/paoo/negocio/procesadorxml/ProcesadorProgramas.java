@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,6 +32,10 @@ import uy.edu.ort.paoo.datos.factory.Factory;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.manejofs.ManejoFS;
 
+/**
+ *
+ * @author Victor
+ */
 public class ProcesadorProgramas {
 
     public static String NODO_PROGRAMA = "programa";
@@ -41,6 +46,12 @@ public class ProcesadorProgramas {
     public static String NODO_HTMLDATA = "htmlData";
     public static ClientesLista clientes = null;
 
+    /**
+     *
+     * @param ruta
+     * @return
+     * @throws PaooException
+     */
     public static Resultado procesarProgramas(String ruta) throws PaooException {
         Resultado resultado = new Resultado();
         IClienteDAO clienteDAO = Factory.getClienteDAO();
@@ -88,14 +99,12 @@ public class ProcesadorProgramas {
                                     pag = new Pagina();
                                     //recorro los nodos de la pagina
                                     NodeList nodos = pagNode.getChildNodes();
-                                    for(int x = 0; x < nodos.getLength(); x++)
-                                    {
+                                    for (int x = 0; x < nodos.getLength(); x++) {
                                         Node atributoPagina = nodos.item(x);
                                         if (pagNode.getNodeType() == Node.ELEMENT_NODE) {
                                             if (atributoPagina.getNodeName().equals(NODO_NOMBRE)) {
-                                                
+
                                                 if (Utilidades.isValidName(atributoPagina.getTextContent())) {
-                                                    //System.out.println(" >>>> " + atributoPagina.getNodeName());
                                                     pag.setNombre(atributoPagina.getTextContent());
 
                                                     errorPagina = false;
@@ -107,12 +116,15 @@ public class ProcesadorProgramas {
                                         }
                                         if (!errorPagina) {
                                             if (atributoPagina.getNodeName().equals(NODO_HTMLDATA)) {
-                                                System.out.println(" >>>> " + atributoPagina.getTextContent());
                                                 pag.setBody(atributoPagina.getTextContent());
                                             }
                                         }
                                     }
-                                    ManejoFS.crearArchivoHtml(prog.getNombre(), pag.getBody(), pag.getNombre());
+                                    File f = ManejoFS.crearArchivoHtml(prog.getNombre(), pag.getBody(), pag.getNombre());
+                                    pag.setLineas(Utilidades.obtenerLineasArchivo(f));
+                                    pag.setPeso(f.length());
+                                    //Convierto a PDF
+                                    Utilidades.crearPDF(f.getAbsolutePath(), prog.getNombre(), pag.getNombre());
                                     prog.getPaginas().add(pag);
                                 }
                             }
@@ -123,12 +135,18 @@ public class ProcesadorProgramas {
                 resultado.aumentarProcesados();
             }
         } catch (SAXException | IOException | ParserConfigurationException ex) {
-        	throw new PaooException(ex.getMessage());
-        } 
-        
+            throw new PaooException(ex.getMessage());
+        }
+
         return resultado;
     }
 
+    /**
+     *
+     * @param ruta
+     * @return
+     * @throws PaooException
+     */
     public static Resultado ingresarClientes(String ruta) throws PaooException {
         JAXBContext context;
         Resultado res = new Resultado();
@@ -141,13 +159,13 @@ public class ProcesadorProgramas {
         }
         List<Cliente> clst = new ArrayList<>();
         //valido q los clientes q se quieren ingresar no existan ya en el sistema
-        for(Cliente c: clientes.getClientes()){
-        	if(Factory.getClienteDAO().getByPK(c.getIdentificador())==null){
-        		clst.add(c);
-        	}else{
-        		res.aumentarDescartados();
-        	}
-        	res.aumentarProcesados();
+        for (Cliente c : clientes.getClientes()) {
+            if (Factory.getClienteDAO().getByPK(c.getIdentificador()) == null) {
+                clst.add(c);
+            } else {
+                res.aumentarDescartados();
+            }
+            res.aumentarProcesados();
         }
         DB.getInstance().getClientes().addAll(clst);
         return res;
@@ -190,6 +208,12 @@ public class ProcesadorProgramas {
     /*
      * Metodo para cargar programas y validarlos
      * Antes de llamarlo deberia cargar los clientes
+     */
+    /**
+     *
+     * @param rutaXML
+     * @param rutaXSD
+     * @throws PaooException
      */
     public static void cargarProgramas(String rutaXML, String rutaXSD) throws PaooException {
         File xml = new File(rutaXML);
