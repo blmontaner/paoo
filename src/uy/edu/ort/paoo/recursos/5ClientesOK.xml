@@ -3,29 +3,36 @@
     <cliente>
         <nombre>Best Caller</nombre>
         <direccion>21 de Setiembre 1402</direccion>
-        <identificador>CL1</identificador>
+        <identificador>CL10</identificador>
         <telefono>27101010</telefono>
         <pagina>www.bestcaller.com</pagina>
     </cliente>
     <cliente>
         <nombre>Uru Cell</nombre>
         <direccion>Paysansú 1480</direccion>
-        <identificador>CL2</identificador>
+        <identificador>CL11</identificador>
         <telefono>24118968</telefono>
         <pagina>www.urucell.com.uy</pagina>
     </cliente>
     <cliente>
         <nombre>CongeladosYCia</nombre>
         <direccion>Berro 1345</direccion>
-        <identificador>CL3</identificador>
+        <identificador>CL12</identificador>
         <telefono>27856936</telefono>
-        <pagina></pagina>
+        <pagina>www.congeladosYCia.com.uy</pagina>
     </cliente>
     <cliente>
         <nombre>ImprentaPerfecto</nombre>
         <direccion>Durazno 678</direccion>
-        <identificador>CL1</identificador>
+        <identificador>CL13</identificador>
         <telefono>24158978</telefono>
-        <pagina></pagina>
+        <pagina>www.imprentaPerfecto.com</pagina>
+    </cliente>
+	<cliente>
+        <nombre>ImprentaCasiPerfecto</nombre>
+        <direccion>Suarez 678</direccion>
+        <identificador>CL14</identificador>
+        <telefono>24158978</telefono>
+        <pagina>www.imprentaCasiPerfecto.com.uy</pagina>
     </cliente>
 </clientes>

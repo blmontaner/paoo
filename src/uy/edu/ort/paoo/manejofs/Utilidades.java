@@ -16,18 +16,31 @@ import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
  */
 public class Utilidades {
     
-    public static void crearArchivo(String sb, String path) throws PaooException {
+    /**
+     *
+     * @param sb
+     * @param path
+     * @return
+     * @throws PaooException
+     */
+    public static File crearArchivo(String sb, String path) throws PaooException {
         File f = new File(path);
         try {
             FileWriter fw = new FileWriter(f);
             fw.write(sb);
             fw.flush();
             fw.close();
+            return f;
         } catch (IOException ex) {
             throw new PaooException(ex.getMessage());
         }
     }
     
+    /**
+     *
+     * @param path
+     * @throws PaooException
+     */
     public static void crearDirectorio(String path) throws PaooException {
         //File dir = new File(ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathProgramas") + nombre);
         File dir = new File(path);

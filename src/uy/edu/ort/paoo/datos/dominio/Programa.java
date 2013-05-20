@@ -30,4 +30,22 @@ public class Programa {
 	public void setPaginas(List<Pagina> paginas) {
 		this.paginas = paginas;
 	}
+	public long getPesoTotal(){
+		long ret=0;
+		for(Pagina p : getPaginas()){
+			ret +=p.getPeso();
+		}
+		return ret;
+	}
+	public int getCantidadPaginas(){
+		return getPaginas().size();
+	}
+
+	@Override
+	public String toString() {
+		return "Programa [cliente: " + cliente.getIdentificador() + ", nombre: " + nombre
+				+" w pags: "+getPesoTotal()
+				+ " nro pags: "+getCantidadPaginas()+", paginas: " + paginas + "]";
+	}
+	
 }
