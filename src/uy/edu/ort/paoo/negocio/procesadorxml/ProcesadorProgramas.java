@@ -6,7 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -120,11 +122,7 @@ public class ProcesadorProgramas {
                                             }
                                         }
                                     }
-                                    File f = ManejoFS.crearArchivoHtml(prog.getNombre(), pag.getBody(), pag.getNombre());
-                                    pag.setLineas(Utilidades.obtenerLineasArchivo(f));
-                                    pag.setPeso(f.length());
-                                    //Convierto a PDF
-                                    Utilidades.crearPDF(f.getAbsolutePath(), prog.getNombre(), pag.getNombre());
+                                    //ManejoFS.crearArchivoHtml(prog.getNombre(), pag.getBody(), pag.getNombre());
                                     prog.getPaginas().add(pag);
                                 }
                             }
@@ -157,7 +155,8 @@ public class ProcesadorProgramas {
         } catch (JAXBException | FileNotFoundException e) {
             throw new PaooException(e.getMessage());
         }
-        List<Cliente> clst = new ArrayList<>();
+        //uso un hashMap para asegurarme q no tengo repetidos
+        Map<String,Cliente> cmap = new HashMap<>();
         //valido q los clientes q se quieren ingresar no existan ya en el sistema
         for (Cliente c : clientes.getClientes()) {
             if (Factory.getClienteDAO().getByPK(c.getIdentificador()) == null) {
@@ -167,7 +166,7 @@ public class ProcesadorProgramas {
             }
             res.aumentarProcesados();
         }
-        DB.getInstance().getClientes().addAll(clst);
+        DB.getInstance().getClientes().addAll(cmap.values());
         return res;
     }
 

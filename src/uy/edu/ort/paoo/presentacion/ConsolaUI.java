@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import uy.edu.ort.paoo.datos.dominio.Cliente;
+import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.negocio.facade.NegocioFacade;
 import uy.edu.ort.paoo.negocio.procesadorxml.ProcesadorProgramas;
@@ -26,7 +27,7 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
  *
  */
 public class ConsolaUI {
-
+	
     /**
      * @param args
      */
@@ -142,4 +143,14 @@ public class ConsolaUI {
         System.out.println(">> topw -\tTop 10 prog mas pesados");
         System.out.println(">> exit -\tSalir");
     }
+	
+	private static <O> void imprimirLista(List<O> lst,String mensaje){
+		if(!lst.isEmpty() && lst.get(0)!=null && lst.size()>0){
+			for(O o : lst){
+				System.out.println(o);
+			}
+		}else{
+			System.out.println(mensaje);
+		}
+	}
 }

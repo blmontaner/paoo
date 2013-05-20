@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listado_programas>
+   <programa>
+      <cliente>CL1</cliente>
+      <nombre>Programa 1 mas pags</nombre>
+      <paginas>
+         <pagina>
+            <nombre>inicio</nombre>
+            <htmlData><![CDATA[<html>
+<body>
+<h1>Best Seller</h1>
+<p>Welcome to Best Seller site.</p>
+<p>Through this pages you can:</p>
+<p>Browse our <a href="catalog.html">catalog</a></p>
+</body>
+</html>]]></htmlData>
+         </pagina>
+         <pagina>
+            <nombre>catalog</nombre>
+            <htmlData><![CDATA[<html>
+<body>
+<h1>Catalog</h1>
+<ul>
+<li>Jay-Pea-Eyes Aka Junior Private Investigators
+by John Priest</li>
+<li>Rainy Day Poems
+by James McDonald (Goodreads Author)</li>
+<li>Jack Templar, Monster Hunter (The Templar Chronicles, #1)
+by Jeff Gunhus (Goodreads Author)</li>
+</ul>
+</html>]]></htmlData>
+         </pagina>
+		 <pagina>
+            <nombre>inicio2</nombre>
+            <htmlData><![CDATA[<html>
+<body>
+<h1>Best Seller</h1>
+<p>Welcome to Best Seller site.</p>
+<p>Through this pages you can:</p>
+<p>Browse our <a href="catalog.html">catalog</a></p>
+</body>
+</html>]]></htmlData>
+         </pagina>
+         <pagina>
+            <nombre>catalog2</nombre>
+            <htmlData><![CDATA[<html>
+<body>
+<h1>Catalog</h1>
+<ul>
+<li>Jay-Pea-Eyes Aka Junior Private Investigators
+by John Priest</li>
+<li>Rainy Day Poems
+by James McDonald (Goodreads Author)</li>
+<li>Jack Templar, Monster Hunter (The Templar Chronicles, #1)
+by Jeff Gunhus (Goodreads Author)</li>
+</ul>
+</html>]]></htmlData>
+         </pagina>
+		 <pagina>
+            <nombre>inicio3</nombre>
+            <htmlData><![CDATA[<html>
+<body>
+<h1>Best Seller</h1>
+<p>Welcome to Best Seller site.</p>
+<p>Through this pages you can:</p>
+<p>Browse our <a href="catalog.html">catalog</a></p>
+</body>
+</html>]]></htmlData>
+         </pagina>
+         <pagina>
+            <nombre>catalog3</nombre>
+            <htmlData><![CDATA[<html>
+<body>
+<h1>Catalog</h1>
+<ul>
+<li>Jay-Pea-Eyes Aka Junior Private Investigators
+by John Priest</li>
+<li>Rainy Day Poems
+by James McDonald (Goodreads Author)</li>
+<li>Jack Templar, Monster Hunter (The Templar Chronicles, #1)
+by Jeff Gunhus (Goodreads Author)</li>
+</ul>
+</html>]]></htmlData>
+         </pagina>
+      </paginas>
+   </programa>
+   <programa>
+      <cliente>CL3</cliente>
+      <nombre>Menos PAgs</nombre>
+      <paginas>
+         <pagina>
+            <nombre>inicio</nombre>
+            <htmlData><![CDATA[<html>
+<body>
+<h1>Best Seller</h1>
+<p>Welcome to Best Seller site.</p>
+<p>Through this pages you can:</p>
+<p>Browse our <a href="catalog.html">catalog</a></p>
+</body>
+</html>]]></htmlData>
+         </pagina>         
+      </paginas>
+   </programa>
+   <programa>
+      <cliente>CL2</cliente>
+      <nombre>2 pags</nombre>
+      <paginas>
+         <pagina>
+            <nombre>inicio m</nombre>
+            <htmlData><![CDATA[<html>
+<body>
+<h1>Best Seller</h1>
+<p>Welcome to Best Seller site.</p>
+<p>Through this pages you can:</p>
+<p>Browse our <a href="catalog.html">catalog</a></p>
+</body>
+</html>]]></htmlData>
+         </pagina>
+         <pagina>
+            <nombre>catalog m</nombre>
+            <htmlData><![CDATA[<html>
+<body>
+<h1>Catalog</h1>
+<ul>
+<li>Jay-Pea-Eyes Aka Junior Private Investigators
+by John Priest</li>
+<li>Rainy Day Poems
+by James McDonald (Goodreads Author)</li>
+<li>Jack Templar, Monster Hunter (The Templar Chronicles, #1)
+by Jeff Gunhus (Goodreads Author)</li>
+</ul>
+</html>]]></htmlData>
+         </pagina>
+      </paginas>
+   </programa>
+   <programa>
+      <cliente>CL4</cliente>
+      <nombre>1 pag</nombre>
+      <paginas>
+         <pagina>
+            <nombre>inicio</nombre>
+            <htmlData><![CDATA[<html>
+<body>
+<h1>Best Seller</h1>
+<p>Welcome to Best Seller site.</p>
+<p>Through this pages you can:</p>
+<p>Browse our <a href="catalog.html">catalog</a></p>
+</body>
+</html>]]></htmlData>
+         </pagina>         
+      </paginas>
+   </programa>
+</listado_programas>
