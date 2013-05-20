@@ -44,7 +44,8 @@ public class Programa {
 	@Override
 	public String toString() {
 		return "Programa [cliente: " + cliente.getIdentificador() + ", nombre: " + nombre
-				+ " #pags: "+getCantidadPaginas()+", paginas: " + paginas + "]";
+				+" w pags: "+getPesoTotal()
+				+ " nro pags: "+getCantidadPaginas()+", paginas: " + paginas + "]";
 	}
 	
 }
