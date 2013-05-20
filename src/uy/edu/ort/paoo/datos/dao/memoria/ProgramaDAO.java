@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
+import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.dominio.ProgramaComparator;
 import uy.edu.ort.paoo.datos.dominio.ProgramaComparator.EnumProgramaComparator;
@@ -24,9 +25,12 @@ public class ProgramaDAO implements IProgramaDAO{
 
 	@Override
 	public Programa getByPK(Object id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		for(Programa p: DB.getInstance().getProgramas()){
+			if(p.getNombre().equals(id)){
+				return p;
+			}
+		}
+		return null;	}
 
 	@Override
 	public List<Programa> getAll() {
