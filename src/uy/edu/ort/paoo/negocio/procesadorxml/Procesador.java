@@ -32,13 +32,13 @@ import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.factory.Factory;
 import uy.edu.ort.paoo.exceptions.PaooException;
-import uy.edu.ort.paoo.manejofs.ManejoFS;
+import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 
 /**
  *
  * @author Victor
  */
-public class ProcesadorProgramas {
+public class Procesador {
 
     public static String NODO_PROGRAMA = "programa";
     public static String NODO_CLIENTE = "cliente";
@@ -86,7 +86,6 @@ public class ProcesadorProgramas {
                         if (n.getNodeName().equals(NODO_NOMBRE)) {
                             if (Utilidades.isValidName(n.getTextContent())) {
                                 prog.setNombre(n.getTextContent());
-                                ManejoFS.crearDirectorio(n.getTextContent());
                             } else {
                                 resultado.aumentarDescartados();
                                 break;
@@ -122,7 +121,6 @@ public class ProcesadorProgramas {
                                             }
                                         }
                                     }
-                                    //ManejoFS.crearArchivoHtml(prog.getNombre(), pag.getBody(), pag.getNombre());
                                     prog.getPaginas().add(pag);
                                 }
                             }
@@ -130,6 +128,7 @@ public class ProcesadorProgramas {
                     }
                 }
                 programaDAO.save(prog);
+                resultado.getObjetosProcesados().add(prog);
                 resultado.aumentarProcesados();
             }
         } catch (SAXException | IOException | ParserConfigurationException ex) {
@@ -145,9 +144,10 @@ public class ProcesadorProgramas {
      * @return
      * @throws PaooException
      */
-    public static Resultado ingresarClientes(String ruta) throws PaooException {
+    public static Resultado ingresarClientes(String nombreArchivo) throws PaooException {
         JAXBContext context;
         Resultado res = new Resultado();
+        String ruta = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos") + nombreArchivo;
         try {
             context = JAXBContext.newInstance(ClientesLista.class);
             Unmarshaller um = context.createUnmarshaller();
@@ -170,40 +170,6 @@ public class ProcesadorProgramas {
         return res;
     }
 
-    private static void validarCliente(File xml) throws PaooException {
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder;
-            builder = factory.newDocumentBuilder();
-            Document document = builder.parse(xml);
-            NodeList programas = document.getElementsByTagName(NODO_PROGRAMA);
-
-            for (int i = 0; i < programas.getLength(); i++) {
-                Node programaNode = programas.item(i);
-                NodeList hijos = programaNode.getChildNodes();
-                for (int j = 0; j < hijos.getLength(); j++) {
-                    Node n = hijos.item(j);
-                    if (n.getNodeType() == Node.ELEMENT_NODE) {
-                        if (n.getNodeName().equals(NODO_CLIENTE)) {
-                            Cliente cAux = new Cliente();
-                            cAux.setIdentificador(n.getTextContent());
-                            if (!clientes.existeCliente(cAux)) {
-                                throw new PaooException("No existe un cliente con identificador especificado: " + cAux.getIdentificador());
-                            }
-                        }
-                    }
-                }
-            }
-            System.out.println("Esssito");
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(ProcesadorProgramas.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            Logger.getLogger(ProcesadorProgramas.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ProcesadorProgramas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     /*
      * Metodo para cargar programas y validarlos
      * Antes de llamarlo deberia cargar los clientes
@@ -214,17 +180,22 @@ public class ProcesadorProgramas {
      * @param rutaXSD
      * @throws PaooException
      */
-    public static void cargarProgramas(String rutaXML, String rutaXSD) throws PaooException {
+    public static Resultado cargarProgramas(String nombreXML) throws PaooException {
+        
+        String rutaXSD = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathXSD");
+        String rutaXML = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos") + nombreXML;
+        
         File xml = new File(rutaXML);
         File xsd = new File(rutaXSD);
 
         try {
             if (Utilidades.validarXMLContraXSD(xml, xsd)) {
                 //Realizar el resto de las validaciones
-                procesarProgramas(rutaXML);
+                return procesarProgramas(rutaXML);
             }
         } catch (PaooException ex) {
             throw ex;
         }
+        return null;
     }
 }

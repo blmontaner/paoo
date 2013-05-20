@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Programa {
+    
+    public static String PROPIEDAD_CLIENTE = "Cliente";
+    
 	private Cliente cliente;
 	private String nombre;
 	private List<Pagina> paginas;

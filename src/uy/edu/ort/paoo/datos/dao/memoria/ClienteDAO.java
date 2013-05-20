@@ -5,9 +5,18 @@ import java.util.List;
 import uy.edu.ort.paoo.datos.dao.IClienteDAO;
 import uy.edu.ort.paoo.datos.dominio.Cliente;
 
+/**
+ *
+ * @author Victor Nessi
+ * @author Bruno Montaner
+ */
 public class ClienteDAO implements IClienteDAO{
 
-	@Override
+	/**
+     *
+     * @param entity Cliente a salvar
+     */
+    @Override
 	public void save(Cliente entity) {
 		DB.getInstance().getClientes().add(entity);
 	}

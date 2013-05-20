@@ -12,7 +12,7 @@ import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.negocio.facade.NegocioFacade;
-import uy.edu.ort.paoo.negocio.procesadorxml.ProcesadorProgramas;
+import uy.edu.ort.paoo.negocio.procesadorxml.Procesador;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -83,6 +83,8 @@ public class ConsolaUI {
 					break;
 				case COMANDO_PROGRAMAS_SOLICITADOS_CLIENTE:
 					System.out.println(">>Programas Solicitados Cliente");
+                                        mensaje = arg.isEmpty()? "No hay clientes en el sistema" : "No hay clientes con ese id";
+                                        imprimirLista(NegocioFacade.programasSolicitadosCliente(arg), mensaje);
 					break;
 				case COMANDO_TOP_PAGINAS:
 					System.out.println(">>Top 10 prog con mas paginas");

@@ -4,20 +4,25 @@
  */
 package uy.edu.ort.paoo.negocio.procesadorxml;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @author Victor
  */
-public class Resultado {
+public class Resultado <T> {
 
 	private int procesados;
 	private int errores;
 	private int descartados;
+        private List<T> objetosProcesados;
 
 	public Resultado() {
 		this.descartados = 0;
 		this.procesados = 0;
 		this.errores = 0;
+                objetosProcesados = new ArrayList<T>();
 	}
 
 	/**
@@ -86,6 +91,8 @@ public class Resultado {
 	public int getExitosos() {
 		return (procesados - (descartados + errores));
 	}
+        
+        
 
 	@Override
 	public String toString() {
@@ -93,4 +100,18 @@ public class Resultado {
 				+ getErrores() + "\nDescartados: " + getDescartados()
 				+ "\nExitosos: " + getExitosos();
 	}
+
+    /**
+     * @return the objetosProcesados
+     */
+    public List<T> getObjetosProcesados() {
+        return objetosProcesados;
+    }
+
+    /**
+     * @param objetosProcesados the objetosProcesados to set
+     */
+    public void setObjetosProcesados(List<T> objetosProcesados) {
+        this.objetosProcesados = objetosProcesados;
+    }
 }
