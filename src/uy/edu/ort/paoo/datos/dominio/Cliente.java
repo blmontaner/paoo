@@ -52,9 +52,9 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [nombre=" + nombre + ", direccion=" + direccion
-				+ ", identificador=" + identificador + ", telefono=" + telefono
-				+ ", pagina=" + pagina + "]";
+		return "Cliente [nombre: " + nombre + ", direccion: " + direccion
+				+ ", identificador: " + identificador + ", telefono: " + telefono
+				+ ", pagina: " + pagina + "]";
 	}
         
         public boolean Equals(Object obj)

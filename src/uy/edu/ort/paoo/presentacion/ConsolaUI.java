@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import uy.edu.ort.paoo.datos.dominio.Cliente;
+import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.negocio.facade.NegocioFacade;
 import uy.edu.ort.paoo.negocio.procesadorxml.ProcesadorProgramas;
@@ -25,7 +26,7 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
  * @author Victor Nessi
  * */
 public class ConsolaUI {
-
+	
 	/**
 	 * @param args
 	 */
@@ -37,6 +38,7 @@ public class ConsolaUI {
 	public static final String COMANDO_TOP_PAGINAS= "topn";
 	public static final String COMANDO_TOP_PESADOS= "topw";
 	public static final String COMANDO_EXIT= "exit";
+	public static final String NO_HAY_PROGRAMAS_EN_EL_SISTEMA = "No hay programas en el sistema";
 	
 	public static void main(String[] args) {
 
@@ -51,7 +53,7 @@ public class ConsolaUI {
 				String[] read= line.trim().split(" ");
 				String comando = read[0];
 				String arg = read.length>1 ? read[1] : "";				
-				
+				String mensaje="";
 				switch (comando) {
 				case COMANDO_CARGAR_CLIENTES:
 					System.out.println(">>Carga Clientes");
@@ -71,31 +73,24 @@ public class ConsolaUI {
 					break;
 				case COMANDO_PROGRAMAS_SOLICITADOS:
 					System.out.println(">>Programas Solicitados");
-					NegocioFacade.programasSolicitados(arg);
+					mensaje = arg == null? NO_HAY_PROGRAMAS_EN_EL_SISTEMA : "No hay programas con ese nombre";
+					imprimirLista(NegocioFacade.programasSolicitados(arg),NO_HAY_PROGRAMAS_EN_EL_SISTEMA);
 					break;
 				case COMANDO_LISTA_CLIENTES:
 					System.out.println(">>Listado Clientes");
-					List<Cliente> clst = NegocioFacade.listadoClientes(arg);
-					if(clst.size()>0){
-						for(Cliente c : clst){
-							System.out.println(c);
-						}
-					}else{
-						System.out.println("No hay clientes en el sistema");
-					}
-						
+					mensaje = arg.isEmpty()? "No hay clientes en el sistema" : "No hay clientes con ese id";
+					imprimirLista(NegocioFacade.listadoClientes(arg),mensaje);
 					break;
 				case COMANDO_PROGRAMAS_SOLICITADOS_CLIENTE:
 					System.out.println(">>Programas Solicitados Cliente");
-					NegocioFacade.programasSolicitadosCliente(arg);
 					break;
 				case COMANDO_TOP_PAGINAS:
 					System.out.println(">>Top 10 prog con mas paginas");
-					NegocioFacade.topProgramasNroPaginas();
+					imprimirLista(NegocioFacade.topProgramasNroPaginas(),NO_HAY_PROGRAMAS_EN_EL_SISTEMA);
 					break;
 				case COMANDO_TOP_PESADOS:
 					System.out.println(">>Top 10 prog mas pesados");
-					NegocioFacade.topProgramasMasPesados();
+					imprimirLista(NegocioFacade.topProgramasMasPesados(),NO_HAY_PROGRAMAS_EN_EL_SISTEMA);
 					break;
 				case COMANDO_EXIT:
 					System.out.println(">>Salir");
@@ -210,5 +205,15 @@ public class ConsolaUI {
 			e.printStackTrace();
 		}
 
+	}
+	
+	private static <O> void imprimirLista(List<O> lst,String mensaje){
+		if(!lst.isEmpty() && lst.get(0)!=null && lst.size()>0){
+			for(O o : lst){
+				System.out.println(o);
+			}
+		}else{
+			System.out.println(mensaje);
+		}
 	}
 }

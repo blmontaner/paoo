@@ -25,5 +25,11 @@ public class Pagina {
 	public void setPeso(long peso) {
 		this.peso = peso;
 	}
+
+	@Override
+	public String toString() {
+		return "Pagina [nombre: " + nombre + "]";
+	}
+	
 	
 }
