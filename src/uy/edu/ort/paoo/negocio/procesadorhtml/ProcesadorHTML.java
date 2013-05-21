@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
-import java.util.List;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.exceptions.PaooException;
@@ -21,18 +20,14 @@ import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
  */
 public class ProcesadorHTML {
 
-    public static void generarProgramasHTML(List<Programa> programas) throws PaooException {
-        if (!programas.isEmpty()) {
-            for (Programa programa : programas) {
-                if (!programa.getNombre().isEmpty()) {
-                    crearDirectorio(programa.getNombre());
-                    for (Pagina pagina : programa.getPaginas()) {
-                        File f = crearArchivoHtml(programa.getNombre(), pagina.getBody(), pagina.getNombre());
-                        //Ahora tengo que actualizar el tamanio de la pagina y la cantidad de lineas
-                        pagina.setLineas(obtenerLineasArchivo(f));
-                        pagina.setPeso(f.length());
-                    }
-                }
+    public static void generarProgramasHTML(Programa programa) throws PaooException {
+        if (!programa.getNombre().isEmpty()) {
+            crearDirectorio(programa.getNombre());
+            for (Pagina pagina : programa.getPaginas()) {
+                File f = crearArchivoHtml(programa.getNombre(), pagina.getBody(), pagina.getNombre());
+                //Ahora tengo que actualizar el tamanio de la pagina y la cantidad de lineas
+                pagina.setLineas(obtenerLineasArchivo(f));
+                pagina.setPeso(f.length());
             }
         }
     }

@@ -15,6 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.exceptions.PaooException;
@@ -27,14 +29,10 @@ import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
  */
 public class ProcesadorPDF {
 
-    public static void generarProgramasPDF(List<Programa> programas) throws PaooException {
-        if (!programas.isEmpty()) {
-            for (Programa programa : programas) {
-                if (!programa.getNombre().isEmpty()) {
-                    for (Pagina pagina : programa.getPaginas()) {
-                        crearPDF(pagina.getNombre(), programa.getNombre());
-                    }
-                }
+    public static void generarProgramasPDF(Programa programa) throws PaooException {
+        if (!programa.getNombre().isEmpty()) {
+            for (Pagina pagina : programa.getPaginas()) {
+                crearPDF(pagina.getNombre(), programa.getNombre());
             }
         }
     }
@@ -46,7 +44,7 @@ public class ProcesadorPDF {
      * @param carpeta
      * @param nombrePDF
      */
-    public static void crearPDF(String nombre, String carpeta) {
+    public static void crearPDF(String nombre, String carpeta) throws PaooException {
 
         String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + carpeta + "/" + nombre + ".pdf";
 
@@ -69,9 +67,9 @@ public class ProcesadorPDF {
             //open document
             document.open();
             String pathInput = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + carpeta + "/" + nombre + ".html";
-
+            
             InputStreamReader fis = new InputStreamReader(new FileInputStream(pathInput));
-
+            
             //get the XMLWorkerHelper Instance
             XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
             //convert to PDF
@@ -82,10 +80,10 @@ public class ProcesadorPDF {
             //close the writer
             pdfWriter.close();
 
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
-        } catch (IOException | DocumentException e) {
-            System.out.println(e);
+        }  catch (IOException e) {
+           throw new PaooException("No se ha generado el html, debe generarlo antes de generar pdf");
+        } catch (DocumentException ex) {
+            throw new PaooException(ex.getMessage());
         }
 
     }
