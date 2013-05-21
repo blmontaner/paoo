@@ -28,15 +28,15 @@ import uy.edu.ort.paoo.util.Utilidades;
  */
 public class ProcesadorPDF {
 
-    public static void generarProgramasPDF(List<Programa> programas) throws PaooException {
-        if (!programas.isEmpty()) {
-            for (Programa programa : programas) {
-                if (!programa.getNombre().isEmpty()) {
-                    for (Pagina pagina : programa.getPaginas()) {
-                        crearPDF(programa.getNombre(), pagina.getNombre(), pagina.getBody());
-                    }
+    public static void generarProgramasPDF(Programa programa) throws PaooException {
+        if (programa != null) {
+            if (!programa.getNombre().isEmpty()) {
+                for (Pagina pagina : programa.getPaginas()) {
+                    crearPDF(programa.getNombre(), pagina.getNombre(), pagina.getBody());
                 }
             }
+        }else{
+            throw new PaooException("No existe el programa que intenta convertir. Verifique y vuelta a intentar.");
         }
     }
     private static final String PATH_PROGRAMAS = "PathProgramas";
@@ -50,11 +50,10 @@ public class ProcesadorPDF {
     private static void crearPDF(String carpeta, String nombre, String html) throws PaooException {
 
         String pathDirectorio = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + carpeta;
-        if(!Utilidades.existeDirectorio(pathDirectorio))
-        {
+        if (!Utilidades.existeDirectorio(pathDirectorio)) {
             Utilidades.crearDirectorio(pathDirectorio);
         }
-        
+
         String path = pathDirectorio + "/" + nombre + ".pdf";
 
         PdfWriter pdfWriter = null;
@@ -75,7 +74,7 @@ public class ProcesadorPDF {
 
             //open document
             document.open();
-            
+
             //InputStreamReader fis = new InputStreamReader(new FileInputStream(pathInput));
             InputStreamReader fis = new InputStreamReader(new ByteArrayInputStream(html.getBytes()));
             //get the XMLWorkerHelper Instance

@@ -1,10 +1,7 @@
 package uy.edu.ort.paoo.datos.factory;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import uy.edu.ort.paoo.datos.dao.IClienteDAO;
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
-import uy.edu.ort.paoo.datos.dao.memoria.ProgramaDAO;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 

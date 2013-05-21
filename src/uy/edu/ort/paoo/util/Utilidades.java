@@ -16,7 +16,6 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import org.xml.sax.SAXException;
 import uy.edu.ort.paoo.exceptions.PaooException;
-import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 
 /**
  *
@@ -52,6 +51,17 @@ public class Utilidades {
     public static void crearDirectorio(String path) throws PaooException {
         File dir = new File(path);
         dir.mkdir();
+    }
+    
+    
+    /**
+     *
+     * @param path
+     * @throws PaooException
+     */
+    public static boolean existeDirectorio(String path) throws PaooException {
+        File dir = new File(path);
+        return dir.exists();
     }
     
     /**

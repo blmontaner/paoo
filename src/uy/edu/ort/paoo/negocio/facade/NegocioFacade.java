@@ -50,8 +50,6 @@ public class NegocioFacade {
      */
     public static Resultado cargarProgramas(String url) throws PaooException {
         Resultado resultado = Procesador.cargarProgramas(url);
-        generarHTML(resultado.getObjetosProcesados());
-        generarPDF(resultado.getObjetosProcesados());
         return resultado;
     }
 
@@ -126,11 +124,13 @@ public class NegocioFacade {
         return Factory.getProgramaDAO().getTop10MasPesados();
     }
 
-    private static void generarHTML(List<Programa> programas) throws PaooException {
-        ProcesadorHTML.generarProgramasHTML(programas);
+    public static void generarHTML(String nombreProg) throws PaooException {
+        Programa p = Factory.getProgramaDAO().getByPK(nombreProg);
+        ProcesadorHTML.generarProgramasHTML(p);
     }
-
-    private static void generarPDF(List<Programa> programas) throws PaooException {
-        ProcesadorPDF.generarProgramasPDF(programas);
+    
+    public static void generarPDF(String nombreProg) throws PaooException {
+        Programa p = Factory.getProgramaDAO().getByPK(nombreProg);
+        ProcesadorPDF.generarProgramasPDF(p);
     }
 }
