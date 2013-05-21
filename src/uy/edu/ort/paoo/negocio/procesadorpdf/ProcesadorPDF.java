@@ -9,8 +9,8 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,6 +19,7 @@ import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
+import uy.edu.ort.paoo.util.Utilidades;
 
 /**
  *
@@ -32,7 +33,7 @@ public class ProcesadorPDF {
             for (Programa programa : programas) {
                 if (!programa.getNombre().isEmpty()) {
                     for (Pagina pagina : programa.getPaginas()) {
-                        crearPDF(pagina.getNombre(), programa.getNombre());
+                        crearPDF(programa.getNombre(), pagina.getNombre(), pagina.getBody());
                     }
                 }
             }
@@ -46,9 +47,15 @@ public class ProcesadorPDF {
      * @param carpeta
      * @param nombrePDF
      */
-    public static void crearPDF(String nombre, String carpeta) {
+    private static void crearPDF(String carpeta, String nombre, String html) throws PaooException {
 
-        String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + carpeta + "/" + nombre + ".pdf";
+        String pathDirectorio = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + carpeta;
+        if(!Utilidades.existeDirectorio(pathDirectorio))
+        {
+            Utilidades.crearDirectorio(pathDirectorio);
+        }
+        
+        String path = pathDirectorio + "/" + nombre + ".pdf";
 
         PdfWriter pdfWriter = null;
 
@@ -68,10 +75,9 @@ public class ProcesadorPDF {
 
             //open document
             document.open();
-            String pathInput = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + carpeta + "/" + nombre + ".html";
-
-            InputStreamReader fis = new InputStreamReader(new FileInputStream(pathInput));
-
+            
+            //InputStreamReader fis = new InputStreamReader(new FileInputStream(pathInput));
+            InputStreamReader fis = new InputStreamReader(new ByteArrayInputStream(html.getBytes()));
             //get the XMLWorkerHelper Instance
             XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
             //convert to PDF
@@ -82,10 +88,8 @@ public class ProcesadorPDF {
             //close the writer
             pdfWriter.close();
 
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
         } catch (IOException | DocumentException e) {
-            System.out.println(e);
+            throw new PaooException(e.getMessage());
         }
 
     }
