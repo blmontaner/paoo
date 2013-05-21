@@ -44,9 +44,8 @@ public class ProgramaDAO implements IProgramaDAO {
     @Override
     public List<Programa> getByProperty(String prop, Object val) {
         List<Programa> programasRetorno = new ArrayList<Programa>();
-        if (prop == Programa.PROPIEDAD_CLIENTE) {
+        if (prop.equals(Programa.PROPIEDAD_CLIENTE)) {
             for (Programa programa : DB.getInstance().getProgramas()) {
-                System.out.println(programa.getCliente().getIdentificador());
                 if (programa.getCliente().getIdentificador().equals(val)) {
                     programasRetorno.add(programa);
                 }

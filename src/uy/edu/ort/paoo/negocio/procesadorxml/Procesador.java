@@ -63,10 +63,12 @@ public class Procesador {
             builder = factory.newDocumentBuilder();
             Document document = builder.parse(new File(ruta));
             NodeList programas = document.getElementsByTagName(NODO_PROGRAMA);
+            Boolean saltar;
 
             for (int i = 0; i < programas.getLength(); i++) {
                 Node programaNode = programas.item(i);
                 prog = new Programa();
+                saltar = false;
                 NodeList hijos = programaNode.getChildNodes();
                 for (int j = 0; j < hijos.getLength(); j++) {
                     Node n = hijos.item(j);
@@ -77,14 +79,16 @@ public class Procesador {
                                 prog.setCliente(cAux);
                             } else {
                                 resultado.aumentarDescartados();
-                                break;
+                                saltar = true;
+                                break;                                
                             }
                         }
                         if (n.getNodeName().equals(NODO_NOMBRE)) {
-                            if (Utilidades.isValidName(n.getTextContent())) {
+                            if (Utilidades.isValidName(n.getTextContent())&& programaDAO.getByPK(n.getTextContent())==null) {
                                 prog.setNombre(n.getTextContent());
                             } else {
                                 resultado.aumentarDescartados();
+                                saltar = true;
                                 break;
                             }
                         }
@@ -124,8 +128,10 @@ public class Procesador {
                         }
                     }
                 }
-                programaDAO.save(prog);
-                resultado.getObjetosProcesados().add(prog);
+                if(!saltar){
+                    programaDAO.save(prog);
+                    resultado.getObjetosProcesados().add(prog);
+                }
                 resultado.aumentarProcesados();
             }
         } catch (SAXException | IOException | ParserConfigurationException ex) {
