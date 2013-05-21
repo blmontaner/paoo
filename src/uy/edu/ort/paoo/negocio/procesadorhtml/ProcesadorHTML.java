@@ -16,11 +16,21 @@ import uy.edu.ort.paoo.util.Utilidades;
 
 /**
  *
+ * Se encarga de manejar todo lo relacionado con los HTML (crearlos, obtener
+ * tamanio, cantidad de lineas)
+ *
  * @author Victor Nessi
  * @author Bruno Montaner
  */
 public class ProcesadorHTML {
 
+    /**
+     * Programa que quiero convertir a PDF, si le paso un objeto nulo, retorno
+     * una excepcion.
+     *
+     * @param programa programa que deseo convertir a PDF
+     * @throws PaooException
+     */
     public static void generarProgramasHTML(Programa programa) throws PaooException {
         if (programa != null) {
             if (!programa.getNombre().isEmpty()) {
@@ -42,8 +52,10 @@ public class ProcesadorHTML {
     private static final String PATH_PROGRAMAS = "PathProgramas";
 
     /**
+     * Funcion auxiliar para crear los directorios donde se van a alojar los
+     * HTMLs
      *
-     * @param nombre
+     * @param nombre nombre del directorio que deseo crear
      * @throws PaooException
      */
     private static void crearDirectorio(String nombre) throws PaooException {
@@ -52,8 +64,9 @@ public class ProcesadorHTML {
     }
 
     /**
+     * Metodo auxiliar para consultar si ya existe un directorio
      *
-     * @param nombre
+     * @param nombre nombre del directorio que deseo saber si existe
      * @throws PaooException
      */
     private static boolean existeDirectorio(String nombre) throws PaooException {
@@ -62,10 +75,12 @@ public class ProcesadorHTML {
     }
 
     /**
+     * Metodo auxiliar para crear un archivo HTML, retorna un File para obtener
+     * sus propiedades y actualizar (lineas y peso) del objeto Pagina.
      *
-     * @param directorio
-     * @param html
-     * @param nombre
+     * @param directorio Directorio donde se va a cerar el archivo HTML
+     * @param html Contenido en formato HTML del archivo
+     * @param nombre nombre del archivo HTML.
      * @return
      * @throws PaooException
      */
@@ -75,8 +90,9 @@ public class ProcesadorHTML {
     }
 
     /**
+     * Metodo auxiliar para obtener la cantidad de lineas de un archivo HTML.
      *
-     * @param f
+     * @param f Archivo para contar sus lineas
      * @return
      * @throws PaooException
      * @throws IOException

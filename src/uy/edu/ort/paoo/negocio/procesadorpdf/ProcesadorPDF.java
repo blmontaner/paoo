@@ -10,13 +10,9 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.exceptions.PaooException;
@@ -25,11 +21,19 @@ import uy.edu.ort.paoo.util.Utilidades;
 
 /**
  *
+ * Se encarga de manejar todo lo relacionado con los PDFs
+ *
  * @author Victor Nessi
  * @author Bruno Montaner
  */
 public class ProcesadorPDF {
 
+    /**
+     * Programa que deseo convertir a PDF
+     *
+     * @param programa programa para convertir a PDF.
+     * @throws PaooException
+     */
     public static void generarProgramasPDF(Programa programa) throws PaooException {
         if (programa != null) {
             if (!programa.getNombre().isEmpty()) {
@@ -37,17 +41,18 @@ public class ProcesadorPDF {
                     crearPDF(programa.getNombre(), pagina.getNombre(), pagina.getBody());
                 }
             }
-        }else{
+        } else {
             throw new PaooException("No existe el programa que intenta convertir. Verifique y vuelta a intentar.");
         }
     }
     private static final String PATH_PROGRAMAS = "PathProgramas";
 
     /**
+     * Funcion auxiliar para crear un archivo PDF
      *
-     * @param pathInput
-     * @param carpeta
-     * @param nombrePDF
+     * @param carpeta destino donde se va a crear el archivo PDF
+     * @param nombre nombre del archivo PDF
+     * @param html contenido del PDF en formato HTML.
      */
     private static void crearPDF(String carpeta, String nombre, String html) throws PaooException {
 

@@ -12,58 +12,57 @@ import uy.edu.ort.paoo.datos.dominio.Cliente;
 
 /**
  *
- * @author Victor
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "clientes")
 public class ClientesLista {
 
-	@XmlElement(name = "cliente", type = Cliente.class)
-	private List<Cliente> clientes = new ArrayList<Cliente>();
+    @XmlElement(name = "cliente", type = Cliente.class)
+    private List<Cliente> clientes = new ArrayList<Cliente>();
 
-	/**
+    /**
      *
      */
     public ClientesLista() {
-	}
+    }
 
-	/**
+    /**
      *
      * @param clientes
      */
     public ClientesLista(List<Cliente> clientes) {
-		this.clientes = clientes;
-	}
+        this.clientes = clientes;
+    }
 
-	/**
+    /**
      *
      * @return
      */
     public List<Cliente> getClientes() {
-		return clientes;
-	}
+        return clientes;
+    }
 
-	/**
+    /**
      *
      * @param clientes
      */
     public void setBooks(List<Cliente> clientes) {
-		this.clientes = clientes;
-	}
-        
-        /**
+        this.clientes = clientes;
+    }
+
+    /**
      *
      * @param cliente
      * @return
      */
-    public boolean existeCliente(Cliente cliente)
-        {
-            for (Cliente c : clientes) {
-                if(c.Equals(cliente))
-                {
-                    return true;
-                }
+    public boolean existeCliente(Cliente cliente) {
+        for (Cliente c : clientes) {
+            if (c.Equals(cliente)) {
+                return true;
             }
-            return false;
         }
+        return false;
+    }
 }

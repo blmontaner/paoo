@@ -1,15 +1,10 @@
 package uy.edu.ort.paoo.negocio.facade;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import uy.edu.ort.paoo.datos.dao.IClienteDAO;
-import uy.edu.ort.paoo.datos.dao.IDAO;
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
-import uy.edu.ort.paoo.datos.dao.memoria.DB;
 import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.factory.Factory;
@@ -33,7 +28,8 @@ public class NegocioFacade {
      * valida parsea e inserta en la DB
      *
      * @param url direccion del archivo xml a procesar para cargar clientes
-     * @return Resultado
+     * @return Resultado objeto con las propiedades resultado de haber cargado
+     * Clientes
      * @throws PaooException
      */
     public static Resultado cargarClientes(String url) throws PaooException {
@@ -45,7 +41,7 @@ public class NegocioFacade {
      * valida parsea e inserta en la DB
      *
      * @param url direccion del archivo xml a procesar para cargar programas
-     * @return Resultado
+     * @return Resultado propiedades resultado de haber cargado programas
      * @throws PaooException
      */
     public static Resultado cargarProgramas(String url) throws PaooException {
@@ -58,7 +54,9 @@ public class NegocioFacade {
      * datos, si no se ingresa nada se muestran todos los programas generados.
      *
      * @param nombreProg Nombre del programa o vacio para ver todos
-     * @return List<Programa>
+     * @return List<Programa> Lista de programas que cumplen con la condicion
+     * nombreProg
+     * @throws PaooException
      */
     public static List<Programa> programasSolicitados(String nombreProg) throws PaooException {
         List<Programa> ret = new ArrayList<Programa>();
@@ -80,6 +78,7 @@ public class NegocioFacade {
      * @param idCliente identificador Cliente para ver uno o vacio para ver
      * todos
      * @return
+     * @throws PaooException
      */
     public static List<Cliente> listadoClientes(String idCliente) throws PaooException {
         List<Cliente> ret;
@@ -98,7 +97,9 @@ public class NegocioFacade {
      * y se listan los programas solicitados por este.
      *
      * @param idCliente identificador Cliente
-     * @return List<Programa>
+     * @return List<Programa> Listado de Programas que solicito un determinado
+     * cliente
+     * @throws PaooException
      */
     public static List<Programa> programasSolicitadosCliente(String idCliente) throws PaooException {
         return Factory.getProgramaDAO().getByProperty(Programa.PROPIEDAD_CLIENTE, idCliente);
@@ -109,6 +110,7 @@ public class NegocioFacade {
      * programas que tienen mayor cantidad de paginas.
      *
      * @return List<Programa>
+     * @throws PaooException
      */
     public static List<Programa> topProgramasNroPaginas() throws PaooException {
         return Factory.getProgramaDAO().getTop10MasPaginas();
@@ -119,19 +121,34 @@ public class NegocioFacade {
      * programas que tienen mayor cantidad de paginas.
      *
      * @return List<Programa>
+     * @throws PaooException
      */
     public static List<Programa> topProgramasMasPesados() throws PaooException {
         return Factory.getProgramaDAO().getTop10MasPesados();
     }
 
+    /**
+     * Operacion que crear la esctructura de directorios y genera los HTMLs
+     * correspondientes al nombreProg
+     *
+     * @param nombreProg nombre de programa que quiero generar sus archivos
+     * HTMLs
+     * @throws PaooException
+     */
     public static void generarHTML(String nombreProg) throws PaooException {
         Programa p = Factory.getProgramaDAO().getByPK(nombreProg);
         ProcesadorHTML.generarProgramasHTML(p);
     }
-    
+
+    /**
+     * Operacion que crear la esctructura de directorios y genera los PDFs
+     * correspondientes al nombreProg
+     *
+     * @param nombreProg nombre de programa que quiero generar sus archivos PDFs
+     * @throws PaooException
+     */
     public static void generarPDF(String nombreProg) throws PaooException {
         Programa p = Factory.getProgramaDAO().getByPK(nombreProg);
         ProcesadorPDF.generarProgramasPDF(p);
     }
-    
 }

@@ -31,7 +31,8 @@ import uy.edu.ort.paoo.util.Utilidades;
 
 /**
  *
- * @author Victor
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class Procesador {
 
@@ -44,8 +45,9 @@ public class Procesador {
     public static ClientesLista clientes = null;
 
     /**
+     * Metodo Procesador de archivos XML, convirtiendolos a programas y paginas.
      *
-     * @param ruta
+     * @param ruta Path del Archivo XML a convertir
      * @return
      * @throws PaooException
      */
@@ -134,8 +136,10 @@ public class Procesador {
     }
 
     /**
+     * Metodo encargado de parsear los Clientes, desde un archivo XML
+     * convirtiendolos en Objetos clientes.
      *
-     * @param ruta
+     * @param ruta path del archivo XML de clientes.
      * @return
      * @throws PaooException
      */
@@ -151,17 +155,17 @@ public class Procesador {
             throw new PaooException(e.getMessage());
         }
         //uso un hashMap para asegurarme q no tengo repetidos
-        Map<String,Cliente> cmap = new HashMap<>();
+        Map<String, Cliente> cmap = new HashMap<>();
         //valido q los clientes q se quieren ingresar no existan ya en el sistema
         IClienteDAO clienteDAO = Factory.getClienteDAO();
-        
-        for(Cliente c: clientes.getClientes()){
-        	if(!cmap.containsKey(c.getIdentificador()) && clienteDAO.getByPK(c.getIdentificador()) == null){
-        		cmap.put(c.getIdentificador(),c);
-        	}else{
-        		res.aumentarDescartados();
-        	}
-        	res.aumentarProcesados();
+
+        for (Cliente c : clientes.getClientes()) {
+            if (!cmap.containsKey(c.getIdentificador()) && clienteDAO.getByPK(c.getIdentificador()) == null) {
+                cmap.put(c.getIdentificador(), c);
+            } else {
+                res.aumentarDescartados();
+            }
+            res.aumentarProcesados();
         }
         clienteDAO.getAll().addAll(cmap.values());
         return res;
@@ -178,10 +182,10 @@ public class Procesador {
      * @throws PaooException
      */
     public static Resultado cargarProgramas(String nombreXML) throws PaooException {
-        
+
         String rutaXSD = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathXSD");
         String rutaXML = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos") + nombreXML;
-        
+
         File xml = new File(rutaXML);
         File xsd = new File(rutaXSD);
 

@@ -9,7 +9,8 @@ import java.util.List;
 
 /**
  * 
- * @author Victor
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class Resultado <T> {
 

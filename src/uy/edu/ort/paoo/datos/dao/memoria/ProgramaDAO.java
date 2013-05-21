@@ -5,11 +5,15 @@ import java.util.Collections;
 import java.util.List;
 
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
-import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.dominio.ProgramaComparator;
 import uy.edu.ort.paoo.datos.dominio.ProgramaComparator.EnumProgramaComparator;
 
+/**
+ *
+ * @author Victor Nessi
+ * @author Bruno Montaner
+ */
 public class ProgramaDAO implements IProgramaDAO {
 
     @Override

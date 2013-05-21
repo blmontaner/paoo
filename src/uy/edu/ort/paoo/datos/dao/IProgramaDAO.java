@@ -4,10 +4,14 @@ import java.util.List;
 
 import uy.edu.ort.paoo.datos.dominio.Programa;
 
-public interface IProgramaDAO extends IDAO<Programa>{
-	
-	List<Programa> getTop10MasPaginas();
-	
-	List<Programa> getTop10MasPesados();
+/**
+ *
+ * @author Victor Nessi
+ * @author Bruno Montaner
+ */
+public interface IProgramaDAO extends IDAO<Programa> {
 
+    List<Programa> getTop10MasPaginas();
+
+    List<Programa> getTop10MasPesados();
 }

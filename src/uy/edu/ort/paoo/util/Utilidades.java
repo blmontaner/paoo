@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package uy.edu.ort.paoo.util;
 
 import java.io.File;
@@ -19,14 +15,16 @@ import uy.edu.ort.paoo.exceptions.PaooException;
 
 /**
  *
- * @author 
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class Utilidades {
-    
+
     /**
+     * Metodo auxiliar para crear archivos en el FileSystem
      *
-     * @param sb
-     * @param path
+     * @param sb String que deseo guardar en el archivo
+     * @param path ruta absoluta del archivo que deseo guardar
      * @return
      * @throws PaooException
      */
@@ -42,28 +40,28 @@ public class Utilidades {
             throw new PaooException(ex.getMessage());
         }
     }
-    
+
     /**
+     * Metodo auxiliar para crear un Directorio en el FileSystem.
      *
-     * @param path
+     * @param path ruta completa donde crear el Directorio.
      * @throws PaooException
      */
     public static void crearDirectorio(String path) throws PaooException {
         File dir = new File(path);
         dir.mkdir();
     }
-    
-    
+
     /**
+     * Funcion auxiliar para consultar si existe un Directorio en el FileSystem.
      *
-     * @param path
+     * @param path ruta absoluta del Directorio a consultar si existe.
      * @throws PaooException
      */
     public static boolean existeDirectorio(String path) throws PaooException {
         File dir = new File(path);
         return dir.exists();
     }
-    
     /**
      *
      */
@@ -108,8 +106,10 @@ public class Utilidades {
     }
 
     /**
+     * Funcion auxiliar para consultar si un nombre de Directorio o archivo es
+     * valido.
      *
-     * @param text
+     * @param text parametro de nombre a consultar.
      * @return
      */
     public static boolean isValidName(String text) {
