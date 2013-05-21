@@ -4,13 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.LineNumberReader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -26,7 +21,6 @@ import org.xml.sax.SAXException;
 
 import uy.edu.ort.paoo.datos.dao.IClienteDAO;
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
-import uy.edu.ort.paoo.datos.dao.memoria.DB;
 import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
@@ -158,15 +152,17 @@ public class Procesador {
         //uso un hashMap para asegurarme q no tengo repetidos
         Map<String,Cliente> cmap = new HashMap<>();
         //valido q los clientes q se quieren ingresar no existan ya en el sistema
+        IClienteDAO clienteDAO = Factory.getClienteDAO();
+        
         for(Cliente c: clientes.getClientes()){
-        	if(!cmap.containsKey(c.getIdentificador()) && Factory.getClienteDAO().getByPK(c.getIdentificador()) == null){
+        	if(!cmap.containsKey(c.getIdentificador()) && clienteDAO.getByPK(c.getIdentificador()) == null){
         		cmap.put(c.getIdentificador(),c);
         	}else{
         		res.aumentarDescartados();
         	}
         	res.aumentarProcesados();
         }
-        DB.getInstance().getClientes().addAll(cmap.values());
+        clienteDAO.getAll().addAll(cmap.values());
         return res;
     }
 

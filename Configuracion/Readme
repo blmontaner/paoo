@@ -1,0 +1,14 @@
+En el directorio Configuracion se encuentra un archivo Propiedades.properties
+
+En PathProgramas indico el directorio donde residen los programas
+PathProgramas=C:/Programas/
+
+En PathXSD indico el directorio relativo del proyecto, donde se encuentra el validador de XML
+PathXSD=recursos/validadorProgramasXSD.xsd
+
+En PathRecursos indico donde van a residir los recursos xml
+PathRecursos=C:/Users/Victor/Documents/GitHub/paoo/recursos/
+
+Los siguientes atributos de configuracion son para indicar que Fabrica DAO se va a instanciar
+ClienteDAO=uy.edu.ort.paoo.datos.dao.memoria.ClienteDAO
+ProgramaDAO=uy.edu.ort.paoo.datos.dao.memoria.ProgramaDAO

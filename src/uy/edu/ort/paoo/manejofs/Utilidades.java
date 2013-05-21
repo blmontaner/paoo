@@ -12,7 +12,7 @@ import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 
 /**
  *
- * @author timba
+ * @author 
  */
 public class Utilidades {
     
@@ -42,7 +42,6 @@ public class Utilidades {
      * @throws PaooException
      */
     public static void crearDirectorio(String path) throws PaooException {
-        //File dir = new File(ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathProgramas") + nombre);
         File dir = new File(path);
         dir.mkdir();
     }
