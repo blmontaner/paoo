@@ -45,7 +45,7 @@ public class ProcesadorHTML {
      */
     private static void crearDirectorio(String nombre) throws PaooException {
         String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + nombre;
-        uy.edu.ort.paoo.manejofs.Utilidades.crearDirectorio(path);
+        uy.edu.ort.paoo.util.Utilidades.crearDirectorio(path);
     }
 
     /**
@@ -58,7 +58,7 @@ public class ProcesadorHTML {
      */
     private static File crearArchivoHtml(String directorio, String html, String nombre) throws PaooException {
         String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + directorio + "/" + nombre + ".html";
-        return uy.edu.ort.paoo.manejofs.Utilidades.crearArchivo(html, path);
+        return uy.edu.ort.paoo.util.Utilidades.crearArchivo(html, path);
     }
 
     /**
