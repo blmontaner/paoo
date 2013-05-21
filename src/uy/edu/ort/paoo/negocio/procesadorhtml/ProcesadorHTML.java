@@ -13,6 +13,7 @@ import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
+import uy.edu.ort.paoo.util.Utilidades;
 
 /**
  *
@@ -25,7 +26,9 @@ public class ProcesadorHTML {
         if (!programas.isEmpty()) {
             for (Programa programa : programas) {
                 if (!programa.getNombre().isEmpty()) {
-                    crearDirectorio(programa.getNombre());
+                    if(!existeDirectorio(programa.getNombre())){
+                        crearDirectorio(programa.getNombre());
+                    }
                     for (Pagina pagina : programa.getPaginas()) {
                         File f = crearArchivoHtml(programa.getNombre(), pagina.getBody(), pagina.getNombre());
                         //Ahora tengo que actualizar el tamanio de la pagina y la cantidad de lineas
@@ -36,6 +39,7 @@ public class ProcesadorHTML {
             }
         }
     }
+    
     private static final String PATH_PROGRAMAS = "PathProgramas";
 
     /**
@@ -45,7 +49,17 @@ public class ProcesadorHTML {
      */
     private static void crearDirectorio(String nombre) throws PaooException {
         String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + nombre;
-        uy.edu.ort.paoo.util.Utilidades.crearDirectorio(path);
+        Utilidades.crearDirectorio(path);
+    }
+    
+    /**
+     *
+     * @param nombre
+     * @throws PaooException
+     */
+    private static boolean existeDirectorio(String nombre) throws PaooException {
+        String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + nombre;
+        return Utilidades.existeDirectorio(path);
     }
 
     /**
@@ -58,7 +72,7 @@ public class ProcesadorHTML {
      */
     private static File crearArchivoHtml(String directorio, String html, String nombre) throws PaooException {
         String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + directorio + "/" + nombre + ".html";
-        return uy.edu.ort.paoo.util.Utilidades.crearArchivo(html, path);
+        return Utilidades.crearArchivo(html, path);
     }
 
     /**
@@ -68,7 +82,7 @@ public class ProcesadorHTML {
      * @throws PaooException
      * @throws IOException
      */
-    public static long obtenerLineasArchivo(File f) throws PaooException {
+    private static long obtenerLineasArchivo(File f) throws PaooException {
         try {
             LineNumberReader lnr = new LineNumberReader(new FileReader(f));
             lnr.skip(Long.MAX_VALUE);
