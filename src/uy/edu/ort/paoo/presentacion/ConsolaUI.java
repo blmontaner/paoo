@@ -93,6 +93,9 @@ public class ConsolaUI {
                         System.out.println(">>Generar HTML");
                         if (checkArgs(arg)) {
                             NegocioFacade.generarHTML(arg);
+                            System.out.println();
+                            System.out.println("Archivos HTML generados con exito.");
+                            System.out.println();
                         }
                         break;
                     case COMANDO_GENERAR_PDF:
@@ -100,6 +103,9 @@ public class ConsolaUI {
                         try {
                             if (checkArgs(arg)) {
                                 NegocioFacade.generarPDF(arg);
+                                System.out.println();
+                                System.out.println("Archivos PDF generados con exito.");
+                                System.out.println();
                             }
                         } catch (PaooException ex) {
                             System.out.println("Lo siento a ocurrido un error, Error: " + ex.getMessage());

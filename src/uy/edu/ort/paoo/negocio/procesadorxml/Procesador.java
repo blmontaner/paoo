@@ -51,7 +51,7 @@ public class Procesador {
      * @return
      * @throws PaooException
      */
-    public static Resultado procesarProgramas(String ruta) throws PaooException {
+    private static Resultado procesarProgramas(String ruta) throws PaooException {
         Resultado resultado = new Resultado();
         IClienteDAO clienteDAO = Factory.getClienteDAO();
         IProgramaDAO programaDAO = Factory.getProgramaDAO();
