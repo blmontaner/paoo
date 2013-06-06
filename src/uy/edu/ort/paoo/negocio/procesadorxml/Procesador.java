@@ -168,12 +168,13 @@ public class Procesador {
         for (Cliente c : clientes.getClientes()) {
             if (!cmap.containsKey(c.getIdentificador()) && clienteDAO.getByPK(c.getIdentificador()) == null) {
                 cmap.put(c.getIdentificador(), c);
+                clienteDAO.save(c);
             } else {
                 res.aumentarDescartados();
             }
             res.aumentarProcesados();
         }
-        clienteDAO.getAll().addAll(cmap.values());
+        
         return res;
     }
 

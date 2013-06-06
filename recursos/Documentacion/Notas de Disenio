@@ -1,0 +1,13 @@
+La idea de este archivo es ir anotando las decisiones de diseño que hayamos tomado,
+asi el dia de la entrega nos acordamos de las cosas que tenemos que documentar.
+
+::::::::: TO-DOs :::::::::::::::
+- Crear paquete de exception por cada capa.
+- Crear tests de error
+- Loggear las excepciones
+- Validar XML Clientes con XSD
+
+
+--- JPA ---
+Creamos una clase padre (EntidadPersistente) con los atributos comunes a las entidades que se van a persistir.
+De esta forma evitamos agregar atributos nuevos a las clases de dominio y solamente agregar las anotaciones de JPA

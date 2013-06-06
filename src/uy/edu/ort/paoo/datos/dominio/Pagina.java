@@ -1,10 +1,20 @@
 package uy.edu.ort.paoo.datos.dominio;
 
-public class Pagina {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "PAGINAS")
+public class Pagina extends EntidadPersistente {
+
+    @Column(name="NOMBRE")
     private String nombre;
+    @Column(name="BODY")
     private String body;
+    @Column(name="PESO")
     private long peso;
+    @Column(name="LINEAS")
     private long lineas;
 
     public Pagina() {
