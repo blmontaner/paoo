@@ -97,9 +97,9 @@ public class Resultado <T> {
 
 	@Override
 	public String toString() {
-		return "Resultado \nProcesados: " + getProcesados() + "\nErrores: "
-				+ getErrores() + "\nDescartados: " + getDescartados()
-				+ "\nExitosos: " + getExitosos();
+		return "Resultado: \n\tProcesados: " + getProcesados() + "\n\tErrores: "
+				+ getErrores() + "\n\tDescartados: " + getDescartados()
+				+ "\n\tExitosos: " + getExitosos();
 	}
 
     /**

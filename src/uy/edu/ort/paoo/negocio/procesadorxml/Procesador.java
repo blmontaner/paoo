@@ -149,10 +149,10 @@ public class Procesador {
      * @return
      * @throws PaooException
      */
-    public static Resultado ingresarClientes(String nombreArchivo) throws PaooException {
+    public static Resultado ingresarClientes(String ruta) throws PaooException {
         JAXBContext context;
         Resultado res = new Resultado();
-        String ruta = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos") + nombreArchivo;
+        
         try {
             context = JAXBContext.newInstance(ClientesLista.class);
             Unmarshaller um = context.createUnmarshaller();
@@ -188,10 +188,9 @@ public class Procesador {
      * @param rutaXSD
      * @throws PaooException
      */
-    public static Resultado cargarProgramas(String nombreXML) throws PaooException {
+    public static Resultado cargarProgramas(String rutaXML) throws PaooException {
 
         String rutaXSD = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathXSD");
-        String rutaXML = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos") + nombreXML;
 
         File xml = new File(rutaXML);
         File xsd = new File(rutaXSD);

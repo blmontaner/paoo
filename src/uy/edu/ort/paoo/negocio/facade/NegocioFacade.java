@@ -59,7 +59,7 @@ public class NegocioFacade {
      * @throws PaooException
      */
     public static List<Programa> programasSolicitados(String nombreProg) throws PaooException {
-        List<Programa> ret = new ArrayList<Programa>();
+        List<Programa> ret = new ArrayList<>();
         IProgramaDAO daoProg = Factory.getProgramaDAO();
         if (nombreProg.equals("")) {
             ret = daoProg.getAll();
