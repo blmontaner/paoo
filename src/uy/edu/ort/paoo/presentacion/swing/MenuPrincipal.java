@@ -30,12 +30,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         catch(Exception e){
             e.printStackTrace();
         }
-        ImageIcon img = new ImageIcon("img\\ico.png");
+        ImageIcon img = new ImageIcon("uy.edu.ort.paoo.presentacion.swing.img.ico.png");
         this.setIconImage(img.getImage());
-        
-        ImageIcon back = new ImageIcon("img\\gears-big.jpg");
-        jLabel1.setIcon(back);
-        //jPanel1.add( label, BorderLayout.CENTER );
         
         this.setLocationRelativeTo(null);
     }
@@ -65,20 +61,22 @@ public class MenuPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Generador Paginas");
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/edu/ort/paoo/presentacion/swing/img/gears-big.jpg"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jMenu1.setLabel("Clientes");
 
-        jMenuItem4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Bruno\\Desktop\\Prog Av Objetos\\paoo\\img\\cli lst.png")); // NOI18N
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/edu/ort/paoo/presentacion/swing/img/cli lst.png"))); // NOI18N
         jMenuItem4.setText("Ver Lista ");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,7 +85,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem4);
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Bruno\\Desktop\\Prog Av Objetos\\paoo\\img\\xml.png")); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/edu/ort/paoo/presentacion/swing/img/xml.png"))); // NOI18N
         jMenuItem1.setLabel("Cargar de Xml");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,7 +98,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenu2.setText("Programas");
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Bruno\\Desktop\\Prog Av Objetos\\paoo\\img\\prog lst.png")); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/edu/ort/paoo/presentacion/swing/img/prog lst.png"))); // NOI18N
         jMenuItem2.setText("Ver Lista");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,7 +107,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem2);
 
-        jMenuItem3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Bruno\\Desktop\\Prog Av Objetos\\paoo\\img\\xml.png")); // NOI18N
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/edu/ort/paoo/presentacion/swing/img/xml.png"))); // NOI18N
         jMenuItem3.setText("Cargar de Xml");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,10 +116,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem3);
 
-        jMenu3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Bruno\\Desktop\\Prog Av Objetos\\paoo\\img\\gen.png")); // NOI18N
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/edu/ort/paoo/presentacion/swing/img/gen.png"))); // NOI18N
         jMenu3.setText("Generar");
 
-        jMenuItem5.setIcon(new javax.swing.ImageIcon("C:\\Users\\Bruno\\Desktop\\Prog Av Objetos\\paoo\\img\\HTML.png")); // NOI18N
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/edu/ort/paoo/presentacion/swing/img/HTML.png"))); // NOI18N
         jMenuItem5.setText("Html de Paginas");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,7 +128,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem5);
 
-        jMenuItem6.setIcon(new javax.swing.ImageIcon("C:\\Users\\Bruno\\Desktop\\Prog Av Objetos\\paoo\\img\\pdf.png")); // NOI18N
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/edu/ort/paoo/presentacion/swing/img/pdf.png"))); // NOI18N
         jMenuItem6.setText("Pdf de paginas");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
