@@ -14,6 +14,7 @@ public class Factory {
 
     private static final String FABRICA_CLIENTES = "ClienteDAO";
     private static final String FABRICA_PROGRAMAS = "ProgramaDAO";
+    private static final String FABRICA_PAGINAS = "PaginaDAO";
 
     /**
      *
@@ -53,5 +54,25 @@ public class Factory {
             throw new PaooException(ex.getMessage());
         }
         return (IProgramaDAO) programaDAO;
+    }
+    
+    /**
+     *
+     * @return una instancia de DAO Pagina, especificada en el archivo
+     * properties.
+     * @throws PaooException
+     */
+    public static IClienteDAO getPaginaDAO() throws PaooException {
+
+        String fabricaPaginas = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(FABRICA_PAGINAS);
+
+        Object paginaDAO = null;
+        try {
+            Class clienteImpl = Class.forName(fabricaPaginas);
+            paginaDAO = clienteImpl.newInstance();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            throw new PaooException(ex.getMessage());
+        }
+        return (IClienteDAO) paginaDAO;
     }
 }

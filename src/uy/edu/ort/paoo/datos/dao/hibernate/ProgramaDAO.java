@@ -4,6 +4,7 @@ import uy.edu.ort.paoo.datos.dao.memoria.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.hibernate.HibernateException;
 
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
 import uy.edu.ort.paoo.datos.dominio.Programa;
@@ -15,11 +16,22 @@ import uy.edu.ort.paoo.datos.dominio.ProgramaComparator.EnumProgramaComparator;
  * @author Victor Nessi
  * @author Bruno Montaner
  */
-public class ProgramaDAO implements IProgramaDAO {
+public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
 
     @Override
     public void save(Programa entity) {
-        DB.getInstance().getProgramas().add(entity);
+        try 
+        { 
+            iniciarOperacion(); 
+            sesion.save(entity); 
+            tx.commit(); 
+        } catch (HibernateException he) 
+        { 
+            throw he; 
+        } finally 
+        { 
+            sesion.close(); 
+        }
     }
 
     @Override
@@ -39,20 +51,45 @@ public class ProgramaDAO implements IProgramaDAO {
 
     @Override
     public List<Programa> getAll() {
-        return DB.getInstance().getProgramas();
+        List<Programa> resultado;
+        try 
+        { 
+            iniciarOperacion(); 
+            
+            String consulta = "from Programa";
+            resultado = sesion.createQuery(consulta).list();
+            //tx.commit(); 
+        } catch (HibernateException he) 
+        { 
+            //manejaExcepcion(he); 
+            throw he; 
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+        
+        return resultado;
     }
 
     @Override
     public List<Programa> getByProperty(String prop, Object val) {
-        List<Programa> programasRetorno = new ArrayList<Programa>();
-        if (prop.equals(Programa.PROPIEDAD_CLIENTE)) {
-            for (Programa programa : DB.getInstance().getProgramas()) {
-                if (programa.getCliente().getIdentificador().equals(val)) {
-                    programasRetorno.add(programa);
-                }
-            }
-        }
-        return programasRetorno;
+        List<Programa> resultado;
+        try 
+        { 
+            iniciarOperacion(); 
+            
+            String consulta = "from Programa where :prop = :val";
+            resultado = sesion.createQuery(consulta).setString("prop", prop).setString("val", (String)val).list();
+            //tx.commit(); 
+        } catch (HibernateException he) 
+        { 
+            //manejaExcepcion(he); 
+            throw he; 
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+        return resultado;
     }
 
     @Override

@@ -15,10 +15,7 @@ import uy.edu.ort.paoo.negocio.procesadorxml.Resultado;
  * @author Victor Nessi
  * @author Bruno Montaner
  */
-public class ClienteDAO implements IClienteDAO {
-
-    private Session sesion; 
-    private Transaction tx;  
+public class ClienteDAO extends HibernateBase implements IClienteDAO {
     
     /**
      *
@@ -26,23 +23,18 @@ public class ClienteDAO implements IClienteDAO {
      */
     @Override
     public void save(Cliente entity) {
-        long id = 0;  
-
         try 
         { 
-            iniciaOperacion(); 
-            id = (Long) sesion.save(entity); 
+            iniciarOperacion(); 
+            sesion.save(entity); 
             tx.commit(); 
         } catch (HibernateException he) 
         { 
-            //manejaExcepcion(he); 
             throw he; 
         } finally 
         { 
             sesion.close(); 
         }  
-
-        
     }
 
     @Override
@@ -52,11 +44,10 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public List<Cliente> getAll() {
-        long id = 0;  
         List<Cliente> resultado;
         try 
         { 
-            iniciaOperacion(); 
+            iniciarOperacion(); 
             
             String consulta = "from Cliente";
             resultado = sesion.createQuery(consulta).list();
@@ -78,7 +69,7 @@ public class ClienteDAO implements IClienteDAO {
         List<Cliente> resultado;
         try 
         { 
-            iniciaOperacion(); 
+            iniciarOperacion(); 
             
             String consulta = "from Cliente where :prop = :val";
             resultado = sesion.createQuery(consulta).setString("prop", prop).setString("val", (String)val).list();
@@ -106,8 +97,5 @@ public class ClienteDAO implements IClienteDAO {
         return null;
     }
     
-    public void iniciaOperacion() throws HibernateException { 
-        sesion = HibernateUtil.getSessionFactory().openSession(); 
-        tx = sesion.beginTransaction(); 
-    } 
+    
 }
