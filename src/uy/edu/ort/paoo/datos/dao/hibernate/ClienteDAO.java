@@ -3,6 +3,7 @@ package uy.edu.ort.paoo.datos.dao.hibernate;
 import uy.edu.ort.paoo.datos.dao.memoria.*;
 import java.util.List;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -71,8 +72,10 @@ public class ClienteDAO extends HibernateBase implements IClienteDAO {
         { 
             iniciarOperacion(); 
             
-            String consulta = "from Cliente where :prop = :val";
-            resultado = sesion.createQuery(consulta).setString("prop", prop).setString("val", (String)val).list();
+            String consulta = "from Cliente where " + prop + " = :val";
+            Query query = sesion.createQuery(consulta);
+            query.setParameter("val", (String)val);
+            resultado = query.list();
             //tx.commit(); 
         } catch (HibernateException he) 
         { 
@@ -90,7 +93,7 @@ public class ClienteDAO extends HibernateBase implements IClienteDAO {
      */
     @Override
     public Cliente getByPK(Object id) {
-        List<Cliente> clientes = getByProperty("IDENTIFICADOR", id);
+        List<Cliente> clientes = getByProperty("identificador", id);
         if(!clientes.isEmpty())
             return clientes.get(0);
         

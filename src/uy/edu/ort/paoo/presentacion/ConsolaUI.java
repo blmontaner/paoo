@@ -3,6 +3,9 @@ package uy.edu.ort.paoo.presentacion;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
+import uy.edu.ort.paoo.datos.dao.IClienteDAO;
+import uy.edu.ort.paoo.datos.dominio.Cliente;
+import uy.edu.ort.paoo.datos.factory.Factory;
 
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.negocio.facade.NegocioFacade;
@@ -32,7 +35,7 @@ public class ConsolaUI {
 
     public static void main(String[] args) {
         try {
-            printHeader();
+            /*printHeader();
             printCommands();
             boolean noSalir = true;
             while (noSalir) {
@@ -122,7 +125,13 @@ public class ConsolaUI {
                 }
             }
             System.exit(0);
-            //
+            //*/
+            
+            IClienteDAO c = Factory.getClienteDAO();
+            Cliente cliente = new Cliente();
+            cliente.setIdentificador("CL1");
+            cliente.setNombre("Nombre");
+            c.save(cliente);
 
         } catch (Exception e) {
             // TODO Auto-generated catch block

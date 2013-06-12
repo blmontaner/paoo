@@ -15,7 +15,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
  * @author Victor Nessi
  * @author Bruno Montaner
  */
-public class HibernateBase {
+public abstract class HibernateBase {
     
     public Session sesion; 
     public Transaction tx;  
