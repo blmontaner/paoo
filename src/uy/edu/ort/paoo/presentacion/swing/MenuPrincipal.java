@@ -25,11 +25,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public MenuPrincipal() {
         initComponents();
         worker = new LoadingCaller(this);
-        
-        try{ 
+
+        try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         this.setIconImage((new javax.swing.ImageIcon(getClass().getResource("/uy/edu/ort/paoo/presentacion/swing/img/ico.png"))).getImage());
@@ -158,53 +157,75 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        ListaObjetos lc = new ListaObjetos(this, rootPaneCheckingEnabled,ListaObjetos.LISTA_CLIENTES);
+        ListaObjetos lc = new ListaObjetos(this, rootPaneCheckingEnabled, ListaObjetos.LISTA_CLIENTES);
         lc.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-         FileChooser fc = new FileChooser("Seleccione un archivo xml con Programas",this);
-         
+        FileChooser fc = new FileChooser("Seleccione un archivo xml con Programas", this);
+
         try {
-            String nombreFile = fc.showChooser();
+            final String nombreFile = fc.showChooser();
             worker.execute();
-            resultado = NegocioFacade.cargarProgramas(nombreFile);
-            worker.done();
-            mostrarResultado("Carga Programas",resultado);
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        resultado = NegocioFacade.cargarProgramas(nombreFile);
+                        worker.done();
+                        mostrarResultado("Carga Programas", resultado);
+                    } catch (PaooException ex) {
+                        //TODO si tira exception hay q ponersela en el resutlado
+                        Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            };
+            t.start();
         } catch (PaooException ex) {
             Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        ListaObjetos lc = new ListaObjetos(this, rootPaneCheckingEnabled,ListaObjetos.LISTA_PROGRAMAS);
+        ListaObjetos lc = new ListaObjetos(this, rootPaneCheckingEnabled, ListaObjetos.LISTA_PROGRAMAS);
         lc.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-    
     Resultado resultado;
     LoadingCaller worker;
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 
-        FileChooser fc = new FileChooser("Seleccione un archivo xml con Clientes",this);
+        FileChooser fc = new FileChooser("Seleccione un archivo xml con Clientes", this);
         try {
-            String nombreFile = fc.showChooser();
-            
+
+            final String nombreFile = fc.showChooser();
             worker.execute();
-            resultado = NegocioFacade.cargarClientes(nombreFile);
-            worker.done();
-            mostrarResultado("Carga Clientes",resultado);
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        resultado = NegocioFacade.cargarClientes(nombreFile);
+                        worker.done();
+                        mostrarResultado("Carga Clientes", resultado);
+                    } catch (PaooException ex) {
+                        //TODO si tira exception hay q ponersela en el resutlado
+                        Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            };
+            t.start();
+
         } catch (PaooException ex) {
             Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        ListaObjetos ls = new ListaObjetos(this, rootPaneCheckingEnabled,ListaObjetos.LISTA_PROGRAMAS_GEN_HTML);
+        ListaObjetos ls = new ListaObjetos(this, rootPaneCheckingEnabled, ListaObjetos.LISTA_PROGRAMAS_GEN_HTML);
         ls.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        ListaObjetos ls = new ListaObjetos(this, rootPaneCheckingEnabled,ListaObjetos.LISTA_PROGRAMAS_GEN_HTML);
+        ListaObjetos ls = new ListaObjetos(this, rootPaneCheckingEnabled, ListaObjetos.LISTA_PROGRAMAS_GEN_HTML);
         ls.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
@@ -242,11 +263,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
     }
-    
-    public void mostrarResultado(String titulo,Resultado r){
-        JOptionPane.showMessageDialog(this.getParent(),r.toString(),titulo, 1);
+
+    public void mostrarResultado(String titulo, Resultado r) {
+        JOptionPane.showMessageDialog(this.getParent(), r.toString(), titulo, 1);
     }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;

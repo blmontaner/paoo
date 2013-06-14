@@ -6,6 +6,7 @@ package uy.edu.ort.paoo.presentacion.swing;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import uy.edu.ort.paoo.datos.factory.Factory;
 import uy.edu.ort.paoo.exceptions.PaooException;
@@ -18,16 +19,17 @@ import uy.edu.ort.paoo.negocio.facade.NegocioFacade;
 public class ListaObjetos extends javax.swing.JDialog {
 
     public AbstractTableModel model;
-    public static final String LISTA_CLIENTES ="Clientes";
-    public static final String LISTA_PROGRAMAS ="Programas";
-    public static final String LISTA_PROGRAMAS_GEN_HTML ="Programas";
-    public static final String LISTA_PROGRAMAS_GEN_PDF ="Programas";
+    public static final String LISTA_CLIENTES = "Clientes";
+    public static final String LISTA_PROGRAMAS = "Programas";
+    public static final String LISTA_PROGRAMAS_GEN_HTML = "Programas";
+    public static final String LISTA_PROGRAMAS_GEN_PDF = "Programas";
     private String tipoLista;
     LoadingCaller worker;
+
     /**
      * Creates new form ListaObjetos
      */
-    public ListaObjetos(java.awt.Frame parent, boolean modal,String tipo) {
+    public ListaObjetos(java.awt.Frame parent, boolean modal, String tipo) {
         super(parent, modal);
         initComponents();
         worker = new LoadingCaller(parent);
@@ -36,27 +38,27 @@ public class ListaObjetos extends javax.swing.JDialog {
             this.setLocationRelativeTo(null);
             tipoLista = tipo;
             jLabel1.setText(tipo);
-            this.setTitle("Lista "+tipo);
-            model = tipo.equals(LISTA_CLIENTES)? new ClienteTableModel(Factory.getClienteDAO().getAll()) : new ProgramaTableModel(Factory.getProgramaDAO().getAll());
+            this.setTitle("Lista " + tipo);
+            model = tipo.equals(LISTA_CLIENTES) ? new ClienteTableModel(Factory.getClienteDAO().getAll()) : new ProgramaTableModel(Factory.getProgramaDAO().getAll());
         } catch (PaooException ex) {
             Logger.getLogger(ListaObjetos.class.getName()).log(Level.SEVERE, null, ex);
         }
-         jTable1.setModel(model);
-         
+        jTable1.setModel(model);
+
     }
-    
+
     public ListaObjetos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         try {
-            model = tipoLista.equals(LISTA_CLIENTES)? new ClienteTableModel(Factory.getClienteDAO().getAll()) : new ProgramaTableModel(Factory.getProgramaDAO().getAll());
+            model = tipoLista.equals(LISTA_CLIENTES) ? new ClienteTableModel(Factory.getClienteDAO().getAll()) : new ProgramaTableModel(Factory.getProgramaDAO().getAll());
         } catch (PaooException ex) {
             Logger.getLogger(ListaObjetos.class.getName()).log(Level.SEVERE, null, ex);
         }
-         jTable1.setModel(model);
-         
+        jTable1.setModel(model);
+
     }
-    
+
     public String getTipoLista() {
         return tipoLista;
     }
@@ -152,31 +154,45 @@ public class ListaObjetos extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(tipoLista.equals(LISTA_CLIENTES)){
-            
+        if (tipoLista.equals(LISTA_CLIENTES)) {
         }
-        
-        if(tipoLista.equals(LISTA_PROGRAMAS_GEN_HTML)){
-            String nombProg = (String)model.getValueAt(jTable1.getSelectedRow(),0);
-            try {
-                worker.execute();
-                NegocioFacade.generarHTML(nombProg);
-                worker.done();
-            } catch (PaooException ex) {
-                Logger.getLogger(ListaObjetos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+
+        if (tipoLista.equals(LISTA_PROGRAMAS_GEN_HTML)) {
+            final String nombProg = (String) model.getValueAt(jTable1.getSelectedRow(), 0);
+            worker.execute();
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        NegocioFacade.generarHTML(nombProg);
+                        worker.done();
+                        JOptionPane.showMessageDialog(null, "html generado", "Finalizo", 1);
+                    } catch (PaooException ex) {
+                        //TODO si tira exception hay q ponersela en el resutlado
+                        Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            };
+            t.start();
+
         }
-        if(tipoLista.equals(LISTA_PROGRAMAS_GEN_PDF)){
-            String nombProg = (String)model.getValueAt(jTable1.getSelectedRow(),0);
-            try {
-                worker.execute();
-                NegocioFacade.generarPDF(nombProg);
-                worker.done();
-            } catch (PaooException ex) {
-                Logger.getLogger(ListaObjetos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+        if (tipoLista.equals(LISTA_PROGRAMAS_GEN_PDF)) {
+            final String nombProg = (String) model.getValueAt(jTable1.getSelectedRow(), 0);
+            worker.execute();
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        NegocioFacade.generarPDF(nombProg);
+                        worker.done();
+                        JOptionPane.showMessageDialog(null, "html generado", "Finalizo", 1);
+                    } catch (PaooException ex) {
+                        //TODO si tira exception hay q ponersela en el resutlado
+                        Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            };
+            t.start();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -210,7 +226,7 @@ public class ListaObjetos extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListaObjetos dialog = new ListaObjetos(new javax.swing.JFrame(),true);
+                ListaObjetos dialog = new ListaObjetos(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
