@@ -10,7 +10,7 @@ public class Pagina extends EntidadPersistente {
 
     @Column(name="NOMBRE")
     private String nombre;
-    @Column(name="BODY")
+    @Column(name="BODY", columnDefinition="text")
     private String body;
     @Column(name="PESO")
     private long peso;

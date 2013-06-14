@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
+import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.dominio.ProgramaComparator;
 import uy.edu.ort.paoo.datos.dominio.ProgramaComparator.EnumProgramaComparator;
@@ -41,11 +43,10 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
 
     @Override
     public Programa getByPK(Object id) {
-        for (Programa p : DB.getInstance().getProgramas()) {
-            if (p.getNombre().equals(id)) {
-                return p;
-            }
-        }
+        List<Programa> progs = getByProperty("nombre", id);
+        if(!progs.isEmpty())
+            return progs.get(0);
+        
         return null;
     }
 
@@ -78,9 +79,10 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
         { 
             iniciarOperacion(); 
             
-            String consulta = "from Programa where :prop = :val";
-            resultado = sesion.createQuery(consulta).setString("prop", prop).setString("val", (String)val).list();
-            //tx.commit(); 
+            String consulta = "from Programa where "+prop +"= :val";
+            Query query = sesion.createQuery(consulta);
+            query.setParameter("val", (String)val);
+            resultado = query.list();
         } catch (HibernateException he) 
         { 
             //manejaExcepcion(he); 

@@ -23,12 +23,14 @@ public class ListaObjetos extends javax.swing.JDialog {
     public static final String LISTA_PROGRAMAS_GEN_HTML ="Programas";
     public static final String LISTA_PROGRAMAS_GEN_PDF ="Programas";
     private String tipoLista;
+    LoadingCaller worker;
     /**
      * Creates new form ListaObjetos
      */
     public ListaObjetos(java.awt.Frame parent, boolean modal,String tipo) {
         super(parent, modal);
         initComponents();
+        worker = new LoadingCaller(parent);
         jButton2.setVisible(tipo.equals(LISTA_PROGRAMAS_GEN_PDF) || tipo.equals(LISTA_PROGRAMAS_GEN_HTML));
         try {
             this.setLocationRelativeTo(null);
@@ -157,7 +159,9 @@ public class ListaObjetos extends javax.swing.JDialog {
         if(tipoLista.equals(LISTA_PROGRAMAS_GEN_HTML)){
             String nombProg = (String)model.getValueAt(jTable1.getSelectedRow(),0);
             try {
+                worker.execute();
                 NegocioFacade.generarHTML(nombProg);
+                worker.done();
             } catch (PaooException ex) {
                 Logger.getLogger(ListaObjetos.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -166,7 +170,9 @@ public class ListaObjetos extends javax.swing.JDialog {
         if(tipoLista.equals(LISTA_PROGRAMAS_GEN_PDF)){
             String nombProg = (String)model.getValueAt(jTable1.getSelectedRow(),0);
             try {
+                worker.execute();
                 NegocioFacade.generarPDF(nombProg);
+                worker.done();
             } catch (PaooException ex) {
                 Logger.getLogger(ListaObjetos.class.getName()).log(Level.SEVERE, null, ex);
             }

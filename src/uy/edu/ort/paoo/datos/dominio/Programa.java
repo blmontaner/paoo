@@ -2,8 +2,10 @@ package uy.edu.ort.paoo.datos.dominio;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -15,14 +17,14 @@ public class Programa extends EntidadPersistente {
 
     public static String PROPIEDAD_CLIENTE = "Cliente";
     
-    @OneToOne 
+    @OneToOne (cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     @JoinColumn(name="CLIENTE_FK")
     private Cliente cliente;
     
     @Column(name="NOMBRE")
     private String nombre;
     
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     @JoinColumn(name="ID_PROGRAMA")
     private List<Pagina> paginas;
 

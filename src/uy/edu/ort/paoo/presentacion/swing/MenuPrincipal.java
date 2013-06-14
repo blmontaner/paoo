@@ -24,15 +24,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
      */
     public MenuPrincipal() {
         initComponents();
+        worker = new LoadingCaller(this);
+        
         try{ 
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
         catch(Exception e){
             e.printStackTrace();
         }
-        ImageIcon img = new ImageIcon("uy.edu.ort.paoo.presentacion.swing.img.ico.png");
-        this.setIconImage(img.getImage());
-        
+        this.setIconImage((new javax.swing.ImageIcon(getClass().getResource("/uy/edu/ort/paoo/presentacion/swing/img/ico.png"))).getImage());
         this.setLocationRelativeTo(null);
     }
 
@@ -166,7 +166,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
          FileChooser fc = new FileChooser("Seleccione un archivo xml con Programas",this);
          
         try {
-            mostrarResultado("Carga Programas",NegocioFacade.cargarProgramas(fc.showChooser()));
+            String nombreFile = fc.showChooser();
+            worker.execute();
+            resultado = NegocioFacade.cargarProgramas(nombreFile);
+            worker.done();
+            mostrarResultado("Carga Programas",resultado);
         } catch (PaooException ex) {
             Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -176,12 +180,19 @@ public class MenuPrincipal extends javax.swing.JFrame {
         ListaObjetos lc = new ListaObjetos(this, rootPaneCheckingEnabled,ListaObjetos.LISTA_PROGRAMAS);
         lc.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-
+    
+    Resultado resultado;
+    LoadingCaller worker;
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 
         FileChooser fc = new FileChooser("Seleccione un archivo xml con Clientes",this);
         try {
-            mostrarResultado("Carga Clientes",NegocioFacade.cargarClientes(fc.showChooser()));
+            String nombreFile = fc.showChooser();
+            
+            worker.execute();
+            resultado = NegocioFacade.cargarClientes(nombreFile);
+            worker.done();
+            mostrarResultado("Carga Clientes",resultado);
         } catch (PaooException ex) {
             Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }

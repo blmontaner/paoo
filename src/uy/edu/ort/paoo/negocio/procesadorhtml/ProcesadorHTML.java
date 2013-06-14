@@ -8,8 +8,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
+import uy.edu.ort.paoo.datos.dao.IPaginaDAO;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
+import uy.edu.ort.paoo.datos.factory.Factory;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 import uy.edu.ort.paoo.util.Utilidades;
@@ -34,6 +36,7 @@ public class ProcesadorHTML {
     public static void generarProgramasHTML(Programa programa) throws PaooException {
         if (programa != null) {
             if (!programa.getNombre().isEmpty()) {
+                IPaginaDAO paginaDAO = Factory.getPaginaDAO();
                 if (!existeDirectorio(programa.getNombre())) {
                     crearDirectorio(programa.getNombre());
                 }
@@ -42,6 +45,8 @@ public class ProcesadorHTML {
                     //Ahora tengo que actualizar el tamanio de la pagina y la cantidad de lineas
                     pagina.setLineas(obtenerLineasArchivo(f));
                     pagina.setPeso(f.length());
+                    paginaDAO.save(pagina);
+                    
                 }
             }
         } else {

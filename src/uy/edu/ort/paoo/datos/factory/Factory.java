@@ -1,6 +1,7 @@
 package uy.edu.ort.paoo.datos.factory;
 
 import uy.edu.ort.paoo.datos.dao.IClienteDAO;
+import uy.edu.ort.paoo.datos.dao.IPaginaDAO;
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
@@ -62,17 +63,17 @@ public class Factory {
      * properties.
      * @throws PaooException
      */
-    public static IClienteDAO getPaginaDAO() throws PaooException {
+    public static IPaginaDAO getPaginaDAO() throws PaooException {
 
         String fabricaPaginas = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(FABRICA_PAGINAS);
 
         Object paginaDAO = null;
         try {
-            Class clienteImpl = Class.forName(fabricaPaginas);
-            paginaDAO = clienteImpl.newInstance();
+            Class pagImpl = Class.forName(fabricaPaginas);
+            paginaDAO = pagImpl.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             throw new PaooException(ex.getMessage());
         }
-        return (IClienteDAO) paginaDAO;
+        return (IPaginaDAO) paginaDAO;
     }
 }
