@@ -4,8 +4,12 @@
  */
 package uy.edu.ort.paoo.presentacion.swing;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.table.AbstractTableModel;
+
 import uy.edu.ort.paoo.datos.dominio.Cliente;
 
 /**
@@ -48,6 +52,7 @@ public class ClienteTableModel extends AbstractTableModel{
         if(columnIndex == 4){
             return clientes.get(rowIndex).getDireccion();
         }
+        
         return null;
     }
     

@@ -130,7 +130,6 @@ public class Procesador {
                 }
                 if(!saltar){
                     programaDAO.save(prog);
-                    resultado.getObjetosProcesados().add(prog);
                 }
                 resultado.aumentarProcesados();
             }

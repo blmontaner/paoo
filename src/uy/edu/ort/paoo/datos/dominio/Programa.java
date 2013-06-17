@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Table(name = "PROGRAMAS")
 public class Programa extends EntidadPersistente {
 
-    public static String PROPIEDAD_CLIENTE = "Cliente";
+    public static String PROPIEDAD_CLIENTE = "CLIENTE_FK";
     
     @OneToOne (cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     @JoinColumn(name="CLIENTE_FK")

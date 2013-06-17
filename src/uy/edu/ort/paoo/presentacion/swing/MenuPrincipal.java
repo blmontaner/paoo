@@ -4,11 +4,9 @@
  */
 package uy.edu.ort.paoo.presentacion.swing;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.negocio.facade.NegocioFacade;
 import uy.edu.ort.paoo.negocio.procesadorxml.Resultado;
@@ -18,6 +16,9 @@ import uy.edu.ort.paoo.negocio.procesadorxml.Resultado;
  * @author Bruno
  */
 public class MenuPrincipal extends javax.swing.JFrame {
+    
+    private Resultado resultado;
+    private LoadingCaller worker;
 
     /**
      * Creates new form MenuPrincipal
@@ -25,12 +26,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public MenuPrincipal() {
         initComponents();
         worker = new LoadingCaller(this);
-
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            resultado = new Resultado("Ocurrio un problema al iniciar el programa");
+            resultado.setTipo(Resultado.TIPO_RESULTADO.EXCEPTION);
+            DisplayResultado.showResultado(getThisFrame(),"Inicio",resultado);
+        } 
         this.setIconImage((new javax.swing.ImageIcon(getClass().getResource("/uy/edu/ort/paoo/presentacion/swing/img/ico.png"))).getImage());
         this.setLocationRelativeTo(null);
     }
@@ -166,56 +168,66 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         try {
             final String nombreFile = fc.showChooser();
-            worker.execute();
-            Thread t = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        resultado = NegocioFacade.cargarProgramas(nombreFile);
-                        worker.done();
-                        mostrarResultado("Carga Programas", resultado);
-                    } catch (PaooException ex) {
-                        //TODO si tira exception hay q ponersela en el resutlado
-                        Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            if(!nombreFile.isEmpty()){
+                worker.execute();
+                Thread t = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            resultado = NegocioFacade.cargarProgramas(nombreFile);
+                            worker.done();
+                            DisplayResultado.showResultado(getThisFrame(),"Carga Programas",resultado);
+                        } catch (PaooException ex) {
+                            resultado = new Resultado("Ocurrio un problema al cargar los datos");
+                            resultado.setTipo(Resultado.TIPO_RESULTADO.EXCEPTION);
+                            DisplayResultado.showResultado(getThisFrame(),"Carga Programas",resultado);
+                        }
                     }
-                }
-            };
-            t.start();
+                };
+                t.start();
+            }
         } catch (PaooException ex) {
-            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            resultado = new Resultado("Ocurrio un problema al cargar los datos");
+            resultado.setTipo(Resultado.TIPO_RESULTADO.EXCEPTION);
+            DisplayResultado.showResultado(getThisFrame(),"Carga Programas",resultado);
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-
+    private JFrame getThisFrame(){
+        return this;
+    }
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         ListaObjetos lc = new ListaObjetos(this, rootPaneCheckingEnabled, ListaObjetos.LISTA_PROGRAMAS);
         lc.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-    Resultado resultado;
-    LoadingCaller worker;
+    
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 
         FileChooser fc = new FileChooser("Seleccione un archivo xml con Clientes", this);
         try {
-
             final String nombreFile = fc.showChooser();
-            worker.execute();
-            Thread t = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        resultado = NegocioFacade.cargarClientes(nombreFile);
-                        worker.done();
-                        mostrarResultado("Carga Clientes", resultado);
-                    } catch (PaooException ex) {
-                        //TODO si tira exception hay q ponersela en el resutlado
-                        Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            if(!nombreFile.isEmpty()){
+                worker.execute();
+                Thread t = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            resultado = NegocioFacade.cargarClientes(nombreFile);
+                            worker.done();
+                            DisplayResultado.showResultado(getThisFrame(),"Carga Clientes",resultado);
+                        } catch (PaooException ex) {
+                            resultado = new Resultado("Ocurrio un problema al cargar los datos");
+                            resultado.setTipo(Resultado.TIPO_RESULTADO.EXCEPTION);
+                            DisplayResultado.showResultado(getThisFrame(),"Carga Clientes",resultado);
+                        }
                     }
-                }
-            };
-            t.start();
-
+                };
+                t.start();
+            }
+            
         } catch (PaooException ex) {
-            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            resultado = new Resultado("Ocurrio un problema al cargar los datos");
+            resultado.setTipo(Resultado.TIPO_RESULTADO.EXCEPTION);
+            DisplayResultado.showResultado(getThisFrame(),"Carga Clientes",resultado);
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -264,9 +276,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
     }
 
-    public void mostrarResultado(String titulo, Resultado r) {
-        JOptionPane.showMessageDialog(this.getParent(), r.toString(), titulo, 1);
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;

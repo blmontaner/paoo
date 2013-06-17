@@ -4,10 +4,12 @@
  */
 package uy.edu.ort.paoo.presentacion.swing;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
+import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.factory.Factory;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.negocio.facade.NegocioFacade;
@@ -21,8 +23,11 @@ public class ListaObjetos extends javax.swing.JDialog {
     public AbstractTableModel model;
     public static final String LISTA_CLIENTES = "Clientes";
     public static final String LISTA_PROGRAMAS = "Programas";
-    public static final String LISTA_PROGRAMAS_GEN_HTML = "Programas";
-    public static final String LISTA_PROGRAMAS_GEN_PDF = "Programas";
+    public static final String LISTA_PROGRAMAS_GEN_HTML = "Programas HTML";
+    public static final String LISTA_PROGRAMAS_GEN_PDF = "Programas PDF";
+    public static final String LISTA_PROGRAMAS_CLIENTE = "Programas Cliente";
+    private java.awt.Frame parent;
+
     private String tipoLista;
     LoadingCaller worker;
 
@@ -32,8 +37,13 @@ public class ListaObjetos extends javax.swing.JDialog {
     public ListaObjetos(java.awt.Frame parent, boolean modal, String tipo) {
         super(parent, modal);
         initComponents();
+        this.parent = parent;
         worker = new LoadingCaller(parent);
-        jButton2.setVisible(tipo.equals(LISTA_PROGRAMAS_GEN_PDF) || tipo.equals(LISTA_PROGRAMAS_GEN_HTML));
+        jButton2.setVisible(tipo.equals(LISTA_PROGRAMAS_GEN_PDF) || tipo.equals(LISTA_PROGRAMAS_GEN_HTML) || tipo.equals(LISTA_CLIENTES));
+        if (tipo.equals(LISTA_CLIENTES)){
+            jButton2.setText("Ver Programas");
+        }
+        
         try {
             this.setLocationRelativeTo(null);
             tipoLista = tipo;
@@ -56,6 +66,21 @@ public class ListaObjetos extends javax.swing.JDialog {
             Logger.getLogger(ListaObjetos.class.getName()).log(Level.SEVERE, null, ex);
         }
         jTable1.setModel(model);
+
+    }
+    
+     public <T> ListaObjetos(java.awt.Frame parent, boolean modal, List<T> lista, String tipo) {
+        super(parent, modal);
+        initComponents();
+        this.tipoLista = tipo;
+        if(tipoLista.equals(LISTA_PROGRAMAS_CLIENTE)){
+            List<Programa> l = ((List<Programa>) lista);
+            model = new ProgramaTableModel(l);
+        }
+        jTable1.setModel(model);
+        this.setTitle("Programas Solicitados");
+        jLabel1.setText("Programas");
+        this.setLocationRelativeTo(null);
 
     }
 
@@ -154,17 +179,27 @@ public class ListaObjetos extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        final String nomb = (String) model.getValueAt(jTable1.getSelectedRow(), 0);
         if (tipoLista.equals(LISTA_CLIENTES)) {
+            List<Programa> lista=null;
+            try {
+                String idCli =Factory.getClienteDAO().getByPK(nomb).getId().toString();
+                lista = NegocioFacade.programasSolicitadosCliente(idCli);
+                ListaObjetos lo = new ListaObjetos(getParent(), true, lista, LISTA_PROGRAMAS_CLIENTE);
+                lo.setVisible(true);
+            } catch (PaooException ex) {
+                Logger.getLogger(ListaObjetos.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         if (tipoLista.equals(LISTA_PROGRAMAS_GEN_HTML)) {
-            final String nombProg = (String) model.getValueAt(jTable1.getSelectedRow(), 0);
+            
             worker.execute();
             Thread t = new Thread() {
                 @Override
                 public void run() {
                     try {
-                        NegocioFacade.generarHTML(nombProg);
+                        NegocioFacade.generarHTML(nomb);
                         worker.done();
                         JOptionPane.showMessageDialog(null, "html generado", "Finalizo", 1);
                     } catch (PaooException ex) {
@@ -177,13 +212,12 @@ public class ListaObjetos extends javax.swing.JDialog {
 
         }
         if (tipoLista.equals(LISTA_PROGRAMAS_GEN_PDF)) {
-            final String nombProg = (String) model.getValueAt(jTable1.getSelectedRow(), 0);
             worker.execute();
             Thread t = new Thread() {
                 @Override
                 public void run() {
                     try {
-                        NegocioFacade.generarPDF(nombProg);
+                        NegocioFacade.generarPDF(nomb);
                         worker.done();
                         JOptionPane.showMessageDialog(null, "html generado", "Finalizo", 1);
                     } catch (PaooException ex) {
@@ -236,6 +270,14 @@ public class ListaObjetos extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
+    }
+    
+    public java.awt.Frame getParent() {
+        return parent;
+    }
+
+    public void setParent(java.awt.Frame parent) {
+        this.parent = parent;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
