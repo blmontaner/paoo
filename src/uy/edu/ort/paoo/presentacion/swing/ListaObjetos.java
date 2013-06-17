@@ -66,7 +66,7 @@ public class ListaObjetos extends javax.swing.JDialog {
             if(tipo.equals(LISTA_TOP_PAGINAS)){
                 model = new ProgramaTableModel(Factory.getProgramaDAO().getTop10MasPaginas());
             }
-            if(tipo.equals(LISTA_PROGRAMAS)){
+            if(tipo.equals(LISTA_PROGRAMAS) || tipo.equals(LISTA_PROGRAMAS_GEN_HTML) || tipo.equals(LISTA_PROGRAMAS_GEN_PDF)){
                 model = new ProgramaTableModel(Factory.getProgramaDAO().getAll());
             }
             

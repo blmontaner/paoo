@@ -255,7 +255,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        ListaObjetos ls = new ListaObjetos(this, rootPaneCheckingEnabled, ListaObjetos.LISTA_PROGRAMAS_GEN_HTML);
+        ListaObjetos ls = new ListaObjetos(this, rootPaneCheckingEnabled, ListaObjetos.LISTA_PROGRAMAS_GEN_PDF);
         ls.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
