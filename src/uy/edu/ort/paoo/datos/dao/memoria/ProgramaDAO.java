@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
+import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.dominio.ProgramaComparator;
 import uy.edu.ort.paoo.datos.dominio.ProgramaComparator.EnumProgramaComparator;
@@ -78,5 +79,10 @@ public class ProgramaDAO implements IProgramaDAO {
         } else {
             return progs;
         }
+    }
+
+    @Override
+    public List<Pagina> getPaginasPrograma(long idProg) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

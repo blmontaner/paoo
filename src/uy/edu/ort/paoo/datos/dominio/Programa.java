@@ -55,7 +55,6 @@ public class Programa extends EntidadPersistente {
     public void setPaginas(List<Pagina> paginas) {
         this.paginas = paginas;
     }
-
     public long getPesoTotal() {
         long ret = 0;
         for (Pagina p : getPaginas()) {
@@ -63,7 +62,6 @@ public class Programa extends EntidadPersistente {
         }
         return ret;
     }
-
     public int getCantidadPaginas() {
         return getPaginas().size();
     }

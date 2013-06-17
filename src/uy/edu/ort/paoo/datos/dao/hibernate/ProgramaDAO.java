@@ -9,6 +9,7 @@ import org.hibernate.Query;
 
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
 import uy.edu.ort.paoo.datos.dominio.Cliente;
+import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.dominio.ProgramaComparator;
 import uy.edu.ort.paoo.datos.dominio.ProgramaComparator.EnumProgramaComparator;
@@ -98,7 +99,7 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
     public List<Programa> getTop10MasPaginas() {
         ProgramaComparator comp = new ProgramaComparator();
         comp.setComparator(EnumProgramaComparator.COMPARATOR_PAGINAS);
-        List<Programa> progs = DB.getInstance().getProgramas();
+        List<Programa> progs = getAll();
         Collections.sort(progs, comp);
         if (progs.size() >= 9) {
             return progs.subList(0, 9);
@@ -111,12 +112,34 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
     public List<Programa> getTop10MasPesados() {
         ProgramaComparator comp = new ProgramaComparator();
         comp.setComparator(EnumProgramaComparator.COMPARATOR_PESO);
-        List<Programa> progs = DB.getInstance().getProgramas();
+        List<Programa> progs = getAll();
         Collections.sort(progs, comp);
         if (progs.size() >= 9) {
             return progs.subList(0, 9);
         } else {
             return progs;
         }
+    }
+
+    @Override
+    public List<Pagina> getPaginasPrograma(long idProg) {
+        List<Pagina> resultado;
+        try 
+        { 
+            iniciarOperacion(); 
+            
+            String consulta = "from Pagina where ID_PROGRAMA = :val";
+            Query query = sesion.createQuery(consulta);
+            query.setParameter("val", (Long)idProg);
+            resultado = query.list();
+        } catch (HibernateException he) 
+        { 
+            //manejaExcepcion(he); 
+            throw he; 
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+        return resultado;
     }
 }
