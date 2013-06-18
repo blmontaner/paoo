@@ -7,9 +7,10 @@ package uy.edu.ort.paoo.presentacion.swing;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import uy.edu.ort.paoo.exceptions.PaooException;
+import uy.edu.ort.paoo.negocio.NegocioPaooException;
 import uy.edu.ort.paoo.negocio.facade.NegocioFacade;
 import uy.edu.ort.paoo.negocio.procesadorxml.Resultado;
+import uy.edu.ort.paoo.propiedades.PropiedadesPaooException;
 
 /**
  *
@@ -182,9 +183,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        FileChooser fc = new FileChooser("Seleccione un archivo xml con Programas", this);
-
         try {
+            
+            FileChooser fc = new FileChooser("Seleccione un archivo xml con Programas", this);
+
             final String nombreFile = fc.showChooser();
             if(!nombreFile.isEmpty()){
                 worker.execute();
@@ -195,7 +197,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                             resultado = NegocioFacade.cargarProgramas(nombreFile);
                             worker.done();
                             DisplayResultado.showResultado(getThisFrame(),"Carga Programas",resultado);
-                        } catch (PaooException ex) {
+                        } catch (NegocioPaooException ex) {
                             resultado = new Resultado("Ocurrio un problema al cargar los datos");
                             resultado.setTipo(Resultado.TIPO_RESULTADO.EXCEPTION);
                             DisplayResultado.showResultado(getThisFrame(),"Carga Programas",resultado);
@@ -204,7 +206,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 };
                 t.start();
             }
-        } catch (PaooException ex) {
+        } catch (PropiedadesPaooException ex) {
             resultado = new Resultado("Ocurrio un problema al cargar los datos");
             resultado.setTipo(Resultado.TIPO_RESULTADO.EXCEPTION);
             DisplayResultado.showResultado(getThisFrame(),"Carga Programas",resultado);
@@ -219,9 +221,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
     
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-
-        FileChooser fc = new FileChooser("Seleccione un archivo xml con Clientes", this);
+        
         try {
+            
+            FileChooser fc = new FileChooser("Seleccione un archivo xml con Clientes", this);
+        
             final String nombreFile = fc.showChooser();
             if(!nombreFile.isEmpty()){
                 worker.execute();
@@ -232,7 +236,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                             resultado = NegocioFacade.cargarClientes(nombreFile);
                             worker.done();
                             DisplayResultado.showResultado(getThisFrame(),"Carga Clientes",resultado);
-                        } catch (PaooException ex) {
+                        } catch (NegocioPaooException ex) {
                             resultado = new Resultado("Ocurrio un problema al cargar los datos");
                             resultado.setTipo(Resultado.TIPO_RESULTADO.EXCEPTION);
                             DisplayResultado.showResultado(getThisFrame(),"Carga Clientes",resultado);
@@ -242,11 +246,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 t.start();
             }
             
-        } catch (PaooException ex) {
+        } catch (PropiedadesPaooException ex) {
             resultado = new Resultado("Ocurrio un problema al cargar los datos");
             resultado.setTipo(Resultado.TIPO_RESULTADO.EXCEPTION);
             DisplayResultado.showResultado(getThisFrame(),"Carga Clientes",resultado);
-        }
+        } 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed

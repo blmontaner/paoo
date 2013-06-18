@@ -43,7 +43,7 @@ public class PaginaTableModel extends AbstractTableModel{
             return paginas.get(rowIndex).getLineas();
         }
         if(columnIndex == 3){
-            return paginas.get(rowIndex).getBody();
+            return paginas.get(rowIndex).getBody().replaceAll("<[^>]*>","");
         }
         return null;
     }

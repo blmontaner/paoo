@@ -1,6 +1,8 @@
 package uy.edu.ort.paoo.exceptions;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import uy.edu.ort.paoo.util.UtilPaooException;
 import uy.edu.ort.paoo.util.Utilidades;
 
 /**
@@ -21,6 +23,10 @@ public class PaooException extends Exception {
      */
     public PaooException(String message) {
         super(message);
-        Utilidades.getLogFile().log(Level.SEVERE, message, this);
+        try {
+            Utilidades.getLogFile().log(Level.SEVERE, message, this);
+        } catch (UtilPaooException ex) {
+            Logger.getLogger(PaooException.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
