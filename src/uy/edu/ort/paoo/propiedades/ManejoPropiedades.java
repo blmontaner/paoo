@@ -3,8 +3,6 @@ package uy.edu.ort.paoo.propiedades;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Clase encargada de manejar las propiedades del Sistema.
@@ -17,12 +15,8 @@ public class ManejoPropiedades {
     private static ManejoPropiedades instancia;
     private static Properties propiedades = new Properties();
 
-    private ManejoPropiedades() {
-        try {
-            cargarProperties();
-        } catch (IOException ex) {
-            Logger.getLogger(ManejoPropiedades.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private ManejoPropiedades() throws PropiedadesPaooException {
+        cargarProperties();
     }
 
     /**
@@ -30,9 +24,13 @@ public class ManejoPropiedades {
      *
      * @return
      */
-    public static ManejoPropiedades obtenerInstancia() {
+    public static ManejoPropiedades obtenerInstancia() throws PropiedadesPaooException {
         if (instancia == null) {
-            instancia = new ManejoPropiedades();
+            try {
+                instancia = new ManejoPropiedades();
+            } catch (PropiedadesPaooException ex) {
+                throw new PropiedadesPaooException(ex.getMessage());
+            }
         }
         return instancia;
     }
@@ -47,7 +45,7 @@ public class ManejoPropiedades {
         return propiedades.getProperty(clave);
     }
 
-    private static void cargarProperties() throws IOException {
+    private static void cargarProperties() throws PropiedadesPaooException {
         try {
             //se crea una instancia a la clase Properties
             propiedades = new Properties();
@@ -57,7 +55,7 @@ public class ManejoPropiedades {
             propiedades.load(new FileInputStream(path));
 
         } catch (IOException ex) {
-            throw ex;
+            throw new PropiedadesPaooException(ex.getMessage());
         }
     }
 }

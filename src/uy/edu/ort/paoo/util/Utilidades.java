@@ -17,6 +17,7 @@ import javax.xml.validation.Validator;
 import org.xml.sax.SAXException;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
+import uy.edu.ort.paoo.propiedades.PropiedadesPaooException;
 
 /**
  *
@@ -125,7 +126,7 @@ public class Utilidades {
     
     private static Logger LOGGER = Logger.getLogger("LOGO");
     
-    public static Logger getLogFile(){
+    public static Logger getLogFile() throws UtilPaooException  {
         try {
             LOGGER.setLevel(Level.ALL);
             FileHandler fhandler = new FileHandler(ManejoPropiedades.obtenerInstancia().obtenerPropiedad("Log"));
@@ -133,9 +134,7 @@ public class Utilidades {
             fhandler.setFormatter(sformatter);
             LOGGER.addHandler(fhandler);
             return LOGGER;
-        } catch (IOException ex) {
-            Logger.getLogger(Utilidades.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
+        } catch (IOException | PropiedadesPaooException | SecurityException ex) {
             Logger.getLogger(Utilidades.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;

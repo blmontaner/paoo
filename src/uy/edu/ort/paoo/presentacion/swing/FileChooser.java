@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import uy.edu.ort.paoo.presentacion.PresentacionPaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
+import uy.edu.ort.paoo.propiedades.PropiedadesPaooException;
 
 /**
  *
@@ -25,14 +26,18 @@ public class FileChooser {
     private JFileChooser fc;
     private JFrame frame;
     
-    public FileChooser(String titulo, JFrame frame){
-        this.frame=frame;
-        String ruta = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos");
-        fc = new JFileChooser(ruta);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("xml files (*.xml)", "xml");
-        fc.setAcceptAllFileFilterUsed(false);
-        fc.addChoosableFileFilter(filter);
-        fc.setDialogTitle(titulo);
+    public FileChooser(String titulo, JFrame frame) throws PropiedadesPaooException{
+        try {
+            this.frame=frame;
+            String ruta = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos");
+            fc = new JFileChooser(ruta);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("xml files (*.xml)", "xml");
+            fc.setAcceptAllFileFilterUsed(false);
+            fc.addChoosableFileFilter(filter);
+            fc.setDialogTitle(titulo);
+        } catch (PropiedadesPaooException ex) {
+            throw ex;
+        }
     }
     
     public String showChooser() throws PresentacionPaooException{

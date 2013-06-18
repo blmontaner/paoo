@@ -10,12 +10,11 @@ import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
+import uy.edu.ort.paoo.propiedades.PropiedadesPaooException;
 import uy.edu.ort.paoo.util.Utilidades;
 
 /**
@@ -98,7 +97,7 @@ public class ProcesadorPDF {
             //close the writer
             pdfWriter.close();
 
-        } catch (IOException | DocumentException | RuntimeWorkerException e) {
+        } catch (IOException | DocumentException | RuntimeWorkerException | PropiedadesPaooException e) {
             throw new ProcesadorPDFPaooException(e.getMessage());
         }
 

@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -28,6 +30,7 @@ import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.factory.Factory;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
+import uy.edu.ort.paoo.propiedades.PropiedadesPaooException;
 import uy.edu.ort.paoo.util.UtilPaooException;
 import uy.edu.ort.paoo.util.Utilidades;
 
@@ -162,7 +165,7 @@ public class Procesador {
                 return true;
             }
             return false;
-        } catch (UtilPaooException ex) {
+        } catch (UtilPaooException | PropiedadesPaooException ex) {
             throw new ProcesadorXMLPaooException(ex.getMessage());
         }
     }
@@ -236,7 +239,7 @@ public class Procesador {
                 return procesarProgramas(rutaXML);
             }
             return null;
-        } catch (UtilPaooException ex) {
+        } catch (UtilPaooException | PropiedadesPaooException ex) {
             throw new ProcesadorXMLPaooException(ex.getMessage());
         }
     }

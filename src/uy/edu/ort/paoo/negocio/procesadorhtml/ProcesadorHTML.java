@@ -18,6 +18,7 @@ import uy.edu.ort.paoo.datos.factory.Factory;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.negocio.NegocioPaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
+import uy.edu.ort.paoo.propiedades.PropiedadesPaooException;
 import uy.edu.ort.paoo.util.UtilPaooException;
 import uy.edu.ort.paoo.util.Utilidades;
 
@@ -52,8 +53,6 @@ public class ProcesadorHTML {
                         pagina.setLineas(obtenerLineasArchivo(f));
                         pagina.setPeso(f.length());
                         paginaDAO.save(pagina);
-                    
-                        
                     }
                 } catch (DatosPaooException ex) {
                     throw new NegocioPaooException(ex.getMessage());
@@ -74,8 +73,12 @@ public class ProcesadorHTML {
      * @throws PaooException
      */
     private static void crearDirectorio(String nombre) throws NegocioPaooException {
-        String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + nombre;
-        Utilidades.crearDirectorio(path);
+        try {
+            String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + nombre;
+            Utilidades.crearDirectorio(path);
+        } catch (PropiedadesPaooException ex) {
+            throw new NegocioPaooException(ex.getMessage());
+        }
     }
 
     /**
@@ -84,9 +87,13 @@ public class ProcesadorHTML {
      * @param nombre nombre del directorio que deseo saber si existe
      * @throws PaooException
      */
-    private static boolean existeDirectorio(String nombre) {
-        String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + nombre;
-        return Utilidades.existeDirectorio(path);
+    private static boolean existeDirectorio(String nombre) throws NegocioPaooException {
+        try {
+            String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + nombre;
+            return Utilidades.existeDirectorio(path);
+        } catch (PropiedadesPaooException ex) {
+            throw new NegocioPaooException(ex.getMessage());
+        }
     }
 
     /**
@@ -103,7 +110,7 @@ public class ProcesadorHTML {
         try {
             String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + directorio + "/" + nombre + ".html";
             return Utilidades.crearArchivo(html, path);
-        } catch (UtilPaooException ex) {
+        } catch (UtilPaooException | PropiedadesPaooException ex) {
             throw new NegocioPaooException(ex.getMessage());
         }
     }
