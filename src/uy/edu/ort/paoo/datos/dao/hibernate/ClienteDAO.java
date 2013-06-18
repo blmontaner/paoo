@@ -27,7 +27,7 @@ public class ClienteDAO extends HibernateBase implements IClienteDAO {
         try 
         { 
             iniciarOperacion(); 
-            sesion.save(entity); 
+            sesion.saveOrUpdate(entity); 
             tx.commit(); 
         } catch (HibernateException he) 
         { 

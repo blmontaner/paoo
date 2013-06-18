@@ -28,6 +28,7 @@ public class ListaObjetos extends javax.swing.JDialog {
     public static final String LISTA_PROGRAMAS_CLIENTE = "Programas Cliente";
     public static final String LISTA_TOP_PESADOS = "Top programas mas pesados";
     public static final String LISTA_TOP_PAGINAS = "Top programas con mas paginas";
+    public static final String LISTA_PAGINAS = "Paginas";
     
     private java.awt.Frame parent;
     Resultado resultado;
@@ -40,12 +41,9 @@ public class ListaObjetos extends javax.swing.JDialog {
     public ListaObjetos(java.awt.Frame parent, boolean modal, String tipo) {
         super(parent, modal);
         initComponents();
+        jButton2.setVisible(false);
         this.parent = parent;
         worker = new LoadingCaller(parent);
-        jButton2.setVisible(tipo.equals(LISTA_PROGRAMAS_GEN_PDF) || tipo.equals(LISTA_PROGRAMAS_GEN_HTML) || tipo.equals(LISTA_CLIENTES));
-        if (tipo.equals(LISTA_CLIENTES)) {
-            jButton2.setText("Ver Programas");
-        }
         if (tipo.equals(LISTA_PROGRAMAS)) {
             jButton2.setText("Ver Paginas");
         }
@@ -56,6 +54,8 @@ public class ListaObjetos extends javax.swing.JDialog {
             this.setTitle("Lista " + tipo);
             
             if(tipo.equals(LISTA_CLIENTES)){
+                jButton2.setText("Ver Programas");
+                jButton2.setVisible(true);
                 model = new ClienteTableModel(Factory.getClienteDAO().getAll());
             }            
         
@@ -68,9 +68,11 @@ public class ListaObjetos extends javax.swing.JDialog {
             }
             if(tipo.equals(LISTA_PROGRAMAS) || tipo.equals(LISTA_PROGRAMAS_GEN_HTML) || tipo.equals(LISTA_PROGRAMAS_GEN_PDF)){
                 model = new ProgramaTableModel(Factory.getProgramaDAO().getAll());
+                jButton2.setVisible(true);
             }
-            
-        
+            if(tipo.equals(LISTA_PROGRAMAS)){
+                jButton2.setVisible(true);
+            }
         } catch (PaooException ex) {
             mostrarException("Inicializar ventana", "Ocurrio un problema al inicializar lista de objetos");
         }
@@ -94,16 +96,24 @@ public class ListaObjetos extends javax.swing.JDialog {
     public <T> ListaObjetos(java.awt.Frame parent, boolean modal, List<T> lista, String tipo) {
         super(parent, modal);
         initComponents();
+        jButton2.setVisible(false);
         this.tipoLista = tipo;
         if (tipoLista.equals(LISTA_PROGRAMAS_CLIENTE)) {
             List<Programa> l = ((List<Programa>) lista);
             model = new ProgramaTableModel(l);
+            this.setTitle("Programas Solicitados");
+            jLabel1.setText("Programas");
         }
+        
+        if (tipoLista.equals(LISTA_PAGINAS)) {
+            List<Pagina> l = ((List<Pagina>) lista);
+            model = new PaginaTableModel(l);
+            this.setTitle("Paginas Programa");
+            jLabel1.setText("Paginas");
+        }
+        
         jTable1.setModel(model);
-        this.setTitle("Programas Solicitados");
-        jLabel1.setText("Programas");
         this.setLocationRelativeTo(null);
-
     }
 
     public String getTipoLista() {
@@ -251,9 +261,9 @@ public class ListaObjetos extends javax.swing.JDialog {
         if (tipoLista.equals(LISTA_PROGRAMAS)) {
             List<Pagina> lista = null;
             try {
-                long idProg = Factory.getPaginaDAO().getByPK(nomb).getId();
+                long idProg = Factory.getProgramaDAO().getByPK(nomb).getId();
                 lista = Factory.getProgramaDAO().getPaginasPrograma(idProg);
-                ListaObjetos lo = new ListaObjetos(getFrame(), true, lista, LISTA_PROGRAMAS_CLIENTE);
+                ListaObjetos lo = new ListaObjetos(getFrame(), true, lista, LISTA_PAGINAS);
                 lo.setVisible(true);
             } catch (PaooException ex) {
                 mostrarException("Paginas Programa", "Ocurrio un problema al obtener las paginas");

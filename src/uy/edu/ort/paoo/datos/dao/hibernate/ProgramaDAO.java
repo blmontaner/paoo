@@ -26,7 +26,7 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
         try 
         { 
             iniciarOperacion(); 
-            sesion.save(entity); 
+            sesion.saveOrUpdate(entity); 
             tx.commit(); 
         } catch (HibernateException he) 
         { 
