@@ -5,7 +5,6 @@ asi el dia de la entrega nos acordamos de las cosas que tenemos que documentar.
 - Crear paquete de exception por cada capa.
 - Crear tests de error
 - Loggear las excepciones
-- Validar XML Clientes con XSD
 
 
 --- JPA ---

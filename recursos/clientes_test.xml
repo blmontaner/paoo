@@ -3,7 +3,6 @@
     <cliente>
         <nombre>Best Caller</nombre>
         <direccion>21 de Setiembre 1402</direccion>
-        <identificador>CL1</identificador>
         <telefono>27101010</telefono>
         <pagina>www.bestcaller.com</pagina>
     </cliente>

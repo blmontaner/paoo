@@ -3,6 +3,10 @@ package uy.edu.ort.paoo.util;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.XMLConstants;
@@ -12,6 +16,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import org.xml.sax.SAXException;
 import uy.edu.ort.paoo.exceptions.PaooException;
+import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 
 /**
  *
@@ -116,5 +121,21 @@ public class Utilidades {
         Matcher matcher = pattern.matcher(text);
         boolean isMatch = matcher.matches();
         return isMatch;
+    }
+    private static Logger LOGGER = Logger.getLogger("LOGO");
+    public static Logger getLogFile(){
+        try {
+            LOGGER.setLevel(Level.ALL);
+            FileHandler fhandler = new FileHandler(ManejoPropiedades.obtenerInstancia().obtenerPropiedad("Log"));
+            SimpleFormatter sformatter = new SimpleFormatter();
+            fhandler.setFormatter(sformatter);
+            LOGGER.addHandler(fhandler);
+            return LOGGER;
+        } catch (IOException ex) {
+            Logger.getLogger(Utilidades.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(Utilidades.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

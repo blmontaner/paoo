@@ -139,6 +139,23 @@ public class Procesador {
 
         return resultado;
     }
+    
+    private static boolean validarClientesXSD(String rutaXML){
+        
+        String rutaXSD = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathXSDClientes");
+
+        File xml = new File(rutaXML);
+        File xsd = new File(rutaXSD);
+
+        try {
+            if (Utilidades.validarXMLContraXSD(xml, xsd)) {
+                return true;
+            }
+        } catch (PaooException ex) {
+            //throw ex;
+        }
+        return false;
+    }
 
     /**
      * Metodo encargado de parsear los Clientes, desde un archivo XML
@@ -149,13 +166,21 @@ public class Procesador {
      * @throws PaooException
      */
     public static Resultado ingresarClientes(String ruta) throws PaooException {
+        
         JAXBContext context;
         Resultado res = new Resultado();
         
         try {
-            context = JAXBContext.newInstance(ClientesLista.class);
-            Unmarshaller um = context.createUnmarshaller();
-            clientes = (ClientesLista) um.unmarshal(new FileReader(ruta));
+            if(validarClientesXSD(ruta)) {
+                context = JAXBContext.newInstance(ClientesLista.class);
+                Unmarshaller um = context.createUnmarshaller();
+                clientes = (ClientesLista) um.unmarshal(new FileReader(ruta));
+            }else{
+                res = new Resultado();
+                res.setTipo(Resultado.TIPO_RESULTADO.ERROR);
+                res.setMensaje("Archivo xml no validado");
+                return res;
+            }
         } catch (JAXBException | FileNotFoundException e) {
             throw new PaooException(e.getMessage());
         }

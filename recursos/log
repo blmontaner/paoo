@@ -1,0 +1,27 @@
+Jun 18, 2013 6:35:23 AM uy.edu.ort.paoo.exceptions.PaooException <init>
+SEVERE: cvc-elt.1: Cannot find the declaration of element 'listado_programas'.
+uy.edu.ort.paoo.exceptions.PaooException: cvc-elt.1: Cannot find the declaration of element 'listado_programas'.
+	at uy.edu.ort.paoo.util.Utilidades.validarXMLContraXSD(Utilidades.java:109)
+	at uy.edu.ort.paoo.negocio.procesadorxml.Procesador.validarClientesXSD(Procesador.java:151)
+	at uy.edu.ort.paoo.negocio.procesadorxml.Procesador.ingresarClientes(Procesador.java:174)
+	at uy.edu.ort.paoo.negocio.facade.NegocioFacade.cargarClientes(NegocioFacade.java:36)
+	at uy.edu.ort.paoo.presentacion.swing.MenuPrincipal$10.run(MenuPrincipal.java:232)
+
+Jun 18, 2013 6:36:10 AM uy.edu.ort.paoo.exceptions.PaooException <init>
+SEVERE: cvc-elt.1: Cannot find the declaration of element 'listado_programas'.
+uy.edu.ort.paoo.exceptions.PaooException: cvc-elt.1: Cannot find the declaration of element 'listado_programas'.
+	at uy.edu.ort.paoo.util.Utilidades.validarXMLContraXSD(Utilidades.java:109)
+	at uy.edu.ort.paoo.negocio.procesadorxml.Procesador.validarClientesXSD(Procesador.java:151)
+	at uy.edu.ort.paoo.negocio.procesadorxml.Procesador.ingresarClientes(Procesador.java:174)
+	at uy.edu.ort.paoo.negocio.facade.NegocioFacade.cargarClientes(NegocioFacade.java:36)
+	at uy.edu.ort.paoo.presentacion.swing.MenuPrincipal$10.run(MenuPrincipal.java:232)
+
+Jun 18, 2013 6:36:49 AM uy.edu.ort.paoo.exceptions.PaooException <init>
+SEVERE: cvc-elt.1: Cannot find the declaration of element 'listado_programas'.
+uy.edu.ort.paoo.exceptions.PaooException: cvc-elt.1: Cannot find the declaration of element 'listado_programas'.
+	at uy.edu.ort.paoo.util.Utilidades.validarXMLContraXSD(Utilidades.java:109)
+	at uy.edu.ort.paoo.negocio.procesadorxml.Procesador.validarClientesXSD(Procesador.java:151)
+	at uy.edu.ort.paoo.negocio.procesadorxml.Procesador.ingresarClientes(Procesador.java:174)
+	at uy.edu.ort.paoo.negocio.facade.NegocioFacade.cargarClientes(NegocioFacade.java:36)
+	at uy.edu.ort.paoo.presentacion.swing.MenuPrincipal$10.run(MenuPrincipal.java:232)
+

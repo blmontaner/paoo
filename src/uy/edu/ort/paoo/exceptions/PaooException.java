@@ -1,5 +1,8 @@
 package uy.edu.ort.paoo.exceptions;
 
+import java.util.logging.Level;
+import uy.edu.ort.paoo.util.Utilidades;
+
 /**
  *
  * @author Victor Nessi
@@ -18,5 +21,6 @@ public class PaooException extends Exception {
      */
     public PaooException(String message) {
         super(message);
+        Utilidades.getLogFile().log(Level.SEVERE, message, this);
     }
 }
