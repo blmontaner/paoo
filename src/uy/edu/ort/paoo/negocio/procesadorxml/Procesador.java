@@ -209,7 +209,7 @@ public class Procesador {
 
             return res;
 
-        } catch (JAXBException | FileNotFoundException | DatosPaooException e) {
+        } catch (JAXBException | FileNotFoundException | DatosPaooException | ProcesadorXMLPaooException e) {
             throw new ProcesadorXMLPaooException(e.getMessage());
         }
     }

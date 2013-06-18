@@ -5,6 +5,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
+import com.itextpdf.tool.xml.exceptions.RuntimeWorkerException;
 import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,7 +37,11 @@ public class ProcesadorPDF {
         if (programa != null) {
             if (!programa.getNombre().isEmpty()) {
                 for (Pagina pagina : programa.getPaginas()) {
-                    crearPDF(programa.getNombre(), pagina.getNombre(), pagina.getBody());
+                    try{
+                        crearPDF(programa.getNombre(), pagina.getNombre(), pagina.getBody());
+                    }catch(ProcesadorPDFPaooException e){
+                        throw new ProcesadorPDFPaooException("Ocurrio un error al generar pagina.");
+                    }
                 }
             }
         } else {
@@ -93,7 +98,7 @@ public class ProcesadorPDF {
             //close the writer
             pdfWriter.close();
 
-        } catch (IOException | DocumentException e) {
+        } catch (IOException | DocumentException | RuntimeWorkerException e) {
             throw new ProcesadorPDFPaooException(e.getMessage());
         }
 
