@@ -1,6 +1,7 @@
 package uy.edu.ort.paoo.datos.dao;
 
 import java.util.List;
+import uy.edu.ort.paoo.datos.DatosPaooException;
 
 /**
  *
@@ -9,9 +10,9 @@ import java.util.List;
  */
 public interface IDAO <T> {
 	
-	void save(T entity);
-	void delete(T entity);
-	T getByPK(Object id);
-	List<T> getAll();
-	List<T> getByProperty(String prop, Object val);
+	void save(T entity) throws DatosPaooException;
+	void delete(T entity) throws DatosPaooException;
+	T getByPK(Object id) throws DatosPaooException;
+	List<T> getAll() throws DatosPaooException;
+	List<T> getByProperty(String prop, Object val) throws DatosPaooException;
 }

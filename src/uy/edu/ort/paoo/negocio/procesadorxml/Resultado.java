@@ -4,10 +4,6 @@
  */
 package uy.edu.ort.paoo.negocio.procesadorxml;
 
-import java.util.ArrayList;
-import java.util.List;
-import uy.edu.ort.paoo.exceptions.PaooException;
-
 /**
  *
  * @author Victor Nessi

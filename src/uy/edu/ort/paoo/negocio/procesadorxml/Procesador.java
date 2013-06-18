@@ -18,6 +18,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import uy.edu.ort.paoo.datos.DatosPaooException;
 
 import uy.edu.ort.paoo.datos.dao.IClienteDAO;
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
@@ -27,6 +28,7 @@ import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.factory.Factory;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
+import uy.edu.ort.paoo.util.UtilPaooException;
 import uy.edu.ort.paoo.util.Utilidades;
 
 /**
@@ -51,15 +53,16 @@ public class Procesador {
      * @return
      * @throws PaooException
      */
-    private static Resultado procesarProgramas(String ruta) throws PaooException {
-        Resultado resultado = new Resultado();
-        IClienteDAO clienteDAO = Factory.getClienteDAO();
-        IProgramaDAO programaDAO = Factory.getProgramaDAO();
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder;
-        Programa prog;
-        Pagina pag;
+    private static Resultado procesarProgramas(String ruta) throws ProcesadorXMLPaooException {
         try {
+            Resultado resultado = new Resultado();
+            IClienteDAO clienteDAO = Factory.getClienteDAO();
+            IProgramaDAO programaDAO = Factory.getProgramaDAO();
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder;
+            Programa prog;
+            Pagina pag;
+
             builder = factory.newDocumentBuilder();
             Document document = builder.parse(new File(ruta));
             NodeList programas = document.getElementsByTagName(NODO_PROGRAMA);
@@ -80,11 +83,11 @@ public class Procesador {
                             } else {
                                 resultado.aumentarDescartados();
                                 saltar = true;
-                                break;                                
+                                break;
                             }
                         }
                         if (n.getNodeName().equals(NODO_NOMBRE)) {
-                            if (Utilidades.isValidName(n.getTextContent())&& programaDAO.getByPK(n.getTextContent())==null) {
+                            if (Utilidades.isValidName(n.getTextContent()) && programaDAO.getByPK(n.getTextContent()) == null) {
                                 prog.setNombre(n.getTextContent());
                             } else {
                                 resultado.aumentarDescartados();
@@ -128,33 +131,40 @@ public class Procesador {
                         }
                     }
                 }
-                if(!saltar){
+                if (!saltar) {
                     programaDAO.save(prog);
                 }
                 resultado.aumentarProcesados();
             }
-        } catch (SAXException | IOException | ParserConfigurationException ex) {
-            throw new PaooException(ex.getMessage());
+
+            return resultado;
+        } catch (SAXException | IOException | ParserConfigurationException | DatosPaooException ex) {
+            throw new ProcesadorXMLPaooException(ex.getMessage());
         }
-
-        return resultado;
     }
-    
-    private static boolean validarClientesXSD(String rutaXML){
-        
-        String rutaXSD = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathXSDClientes");
 
-        File xml = new File(rutaXML);
-        File xsd = new File(rutaXSD);
+    /**
+     * Metodo para validar el XML de los Clientes.
+     *
+     * @param ruta path del archivo XML de clientes.
+     * @return true si el XML es validado correctamente contra el XSD
+     * @throws ProcesadorXMLPaooException
+     */
+    private static boolean validarClientesXSD(String rutaXML) throws ProcesadorXMLPaooException {
 
         try {
+            String rutaXSD = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathXSDClientes");
+
+            File xml = new File(rutaXML);
+            File xsd = new File(rutaXSD);
+
             if (Utilidades.validarXMLContraXSD(xml, xsd)) {
                 return true;
             }
-        } catch (PaooException ex) {
-            //throw ex;
+            return false;
+        } catch (UtilPaooException ex) {
+            throw new ProcesadorXMLPaooException(ex.getMessage());
         }
-        return false;
     }
 
     /**
@@ -165,41 +175,43 @@ public class Procesador {
      * @return
      * @throws PaooException
      */
-    public static Resultado ingresarClientes(String ruta) throws PaooException {
-        
+    public static Resultado ingresarClientes(String ruta) throws ProcesadorXMLPaooException {
+
         JAXBContext context;
         Resultado res = new Resultado();
-        
+
         try {
-            if(validarClientesXSD(ruta)) {
+            if (validarClientesXSD(ruta)) {
                 context = JAXBContext.newInstance(ClientesLista.class);
                 Unmarshaller um = context.createUnmarshaller();
                 clientes = (ClientesLista) um.unmarshal(new FileReader(ruta));
-            }else{
+            } else {
                 res = new Resultado();
                 res.setTipo(Resultado.TIPO_RESULTADO.ERROR);
                 res.setMensaje("Archivo xml no validado");
                 return res;
             }
-        } catch (JAXBException | FileNotFoundException e) {
-            throw new PaooException(e.getMessage());
-        }
-        //uso un hashMap para asegurarme q no tengo repetidos
-        Map<String, Cliente> cmap = new HashMap<>();
-        //valido q los clientes q se quieren ingresar no existan ya en el sistema
-        IClienteDAO clienteDAO = Factory.getClienteDAO();
 
-        for (Cliente c : clientes.getClientes()) {
-            if (!cmap.containsKey(c.getIdentificador()) && clienteDAO.getByPK(c.getIdentificador()) == null) {
-                cmap.put(c.getIdentificador(), c);
-                clienteDAO.save(c);
-            } else {
-                res.aumentarDescartados();
+            //uso un hashMap para asegurarme q no tengo repetidos
+            Map<String, Cliente> cmap = new HashMap<>();
+            //valido q los clientes q se quieren ingresar no existan ya en el sistema
+            IClienteDAO clienteDAO = Factory.getClienteDAO();
+
+            for (Cliente c : clientes.getClientes()) {
+                if (!cmap.containsKey(c.getIdentificador()) && clienteDAO.getByPK(c.getIdentificador()) == null) {
+                    cmap.put(c.getIdentificador(), c);
+                    clienteDAO.save(c);
+                } else {
+                    res.aumentarDescartados();
+                }
+                res.aumentarProcesados();
             }
-            res.aumentarProcesados();
+
+            return res;
+
+        } catch (JAXBException | FileNotFoundException | DatosPaooException e) {
+            throw new ProcesadorXMLPaooException(e.getMessage());
         }
-        
-        return res;
     }
 
     /*
@@ -212,21 +224,20 @@ public class Procesador {
      * @param rutaXSD
      * @throws PaooException
      */
-    public static Resultado cargarProgramas(String rutaXML) throws PaooException {
-
-        String rutaXSD = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathXSD");
-
-        File xml = new File(rutaXML);
-        File xsd = new File(rutaXSD);
-
+    public static Resultado cargarProgramas(String rutaXML) throws ProcesadorXMLPaooException {
         try {
+            String rutaXSD = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathXSD");
+
+            File xml = new File(rutaXML);
+            File xsd = new File(rutaXSD);
+        
             if (Utilidades.validarXMLContraXSD(xml, xsd)) {
                 //Realizar el resto de las validaciones
                 return procesarProgramas(rutaXML);
             }
-        } catch (PaooException ex) {
-            throw ex;
+            return null;
+        } catch (UtilPaooException ex) {
+            throw new ProcesadorXMLPaooException(ex.getMessage());
         }
-        return null;
     }
 }

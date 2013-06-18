@@ -33,7 +33,7 @@ public class Utilidades {
      * @return
      * @throws PaooException
      */
-    public static File crearArchivo(String sb, String path) throws PaooException {
+    public static File crearArchivo(String sb, String path) throws UtilPaooException {
         File f = new File(path);
         try {
             FileWriter fw = new FileWriter(f);
@@ -42,7 +42,7 @@ public class Utilidades {
             fw.close();
             return f;
         } catch (IOException ex) {
-            throw new PaooException(ex.getMessage());
+            throw new UtilPaooException(ex.getMessage());
         }
     }
 
@@ -52,7 +52,7 @@ public class Utilidades {
      * @param path ruta completa donde crear el Directorio.
      * @throws PaooException
      */
-    public static void crearDirectorio(String path) throws PaooException {
+    public static void crearDirectorio(String path) {
         File dir = new File(path);
         dir.mkdir();
     }
@@ -63,7 +63,7 @@ public class Utilidades {
      * @param path ruta absoluta del Directorio a consultar si existe.
      * @throws PaooException
      */
-    public static boolean existeDirectorio(String path) throws PaooException {
+    public static boolean existeDirectorio(String path) {
         File dir = new File(path);
         return dir.exists();
     }
@@ -98,7 +98,7 @@ public class Utilidades {
      * @param xsd File del xsd que valida
      * @return Un boolean que indica si es valido el xml
      */
-    public static boolean validarXMLContraXSD(File xml, File xsd) throws PaooException {
+    public static boolean validarXMLContraXSD(File xml, File xsd) throws UtilPaooException {
         try {
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             Schema schema = factory.newSchema(xsd);
@@ -106,7 +106,7 @@ public class Utilidades {
             validator.validate(new StreamSource(xml));
             return true;
         } catch (SAXException | IOException ex) {
-            throw new PaooException(ex.getMessage());
+            throw new UtilPaooException(ex.getMessage());
         }
     }
 
@@ -122,7 +122,9 @@ public class Utilidades {
         boolean isMatch = matcher.matches();
         return isMatch;
     }
+    
     private static Logger LOGGER = Logger.getLogger("LOGO");
+    
     public static Logger getLogFile(){
         try {
             LOGGER.setLevel(Level.ALL);

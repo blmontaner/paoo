@@ -1,15 +1,12 @@
 package uy.edu.ort.paoo.datos.dao.hibernate;
 
-import uy.edu.ort.paoo.datos.dao.memoria.*;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import uy.edu.ort.paoo.datos.DatosPaooException;
 
 import uy.edu.ort.paoo.datos.dao.IClienteDAO;
 import uy.edu.ort.paoo.datos.dominio.Cliente;
-import uy.edu.ort.paoo.negocio.procesadorxml.Resultado;
 
 /**
  *
@@ -23,7 +20,7 @@ public class ClienteDAO extends HibernateBase implements IClienteDAO {
      * @param entity Cliente a salvar
      */
     @Override
-    public void save(Cliente entity) {
+    public void save(Cliente entity) throws DatosPaooException {
         try 
         { 
             iniciarOperacion(); 
@@ -31,7 +28,7 @@ public class ClienteDAO extends HibernateBase implements IClienteDAO {
             tx.commit(); 
         } catch (HibernateException he) 
         { 
-            throw he; 
+            throw new HibernatePaooException(he.getMessage());
         } finally 
         { 
             sesion.close(); 
@@ -44,7 +41,7 @@ public class ClienteDAO extends HibernateBase implements IClienteDAO {
     }
 
     @Override
-    public List<Cliente> getAll() {
+    public List<Cliente> getAll() throws HibernatePaooException {
         List<Cliente> resultado;
         try 
         { 
@@ -55,8 +52,7 @@ public class ClienteDAO extends HibernateBase implements IClienteDAO {
             //tx.commit(); 
         } catch (HibernateException he) 
         { 
-            //manejaExcepcion(he); 
-            throw he; 
+            throw new HibernatePaooException(he.getMessage());
         } finally 
         { 
             sesion.close(); 
@@ -66,7 +62,7 @@ public class ClienteDAO extends HibernateBase implements IClienteDAO {
     }
 
     @Override
-    public List<Cliente> getByProperty(String prop, Object val) {
+    public List<Cliente> getByProperty(String prop, Object val) throws HibernatePaooException {
         List<Cliente> resultado;
         try 
         { 
@@ -79,8 +75,7 @@ public class ClienteDAO extends HibernateBase implements IClienteDAO {
             //tx.commit(); 
         } catch (HibernateException he) 
         { 
-            //manejaExcepcion(he); 
-            throw he; 
+            throw new HibernatePaooException(he.getMessage());
         } finally 
         { 
             sesion.close(); 
@@ -92,12 +87,15 @@ public class ClienteDAO extends HibernateBase implements IClienteDAO {
      * Asumimos que PK en caso del Cliente es el Identifador
      */
     @Override
-    public Cliente getByPK(Object id) {
-        List<Cliente> clientes = getByProperty("identificador", id);
-        if(!clientes.isEmpty())
-            return clientes.get(0);
-        
-        return null;
+    public Cliente getByPK(Object id) throws HibernatePaooException {
+        try {
+            List<Cliente> clientes = getByProperty("identificador", id);
+            if(!clientes.isEmpty())
+                return clientes.get(0);
+            return null;
+        } catch (HibernatePaooException ex) {
+            throw ex;
+        }
     }
     
     

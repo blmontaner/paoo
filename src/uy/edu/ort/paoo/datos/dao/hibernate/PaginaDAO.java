@@ -4,7 +4,6 @@ import java.util.List;
 import org.hibernate.HibernateException;
 
 import uy.edu.ort.paoo.datos.dao.IPaginaDAO;
-import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 
 /**
@@ -15,7 +14,7 @@ import uy.edu.ort.paoo.datos.dominio.Pagina;
 public class PaginaDAO extends HibernateBase implements IPaginaDAO {
 
     @Override
-    public void save(Pagina entity) {
+    public void save(Pagina entity) throws HibernatePaooException {
         try 
         { 
             iniciarOperacion(); 
@@ -23,7 +22,7 @@ public class PaginaDAO extends HibernateBase implements IPaginaDAO {
             tx.commit(); 
         } catch (HibernateException he) 
         { 
-            throw he; 
+            throw new HibernatePaooException(he.getMessage());
         } finally 
         { 
             sesion.close(); 
@@ -41,7 +40,7 @@ public class PaginaDAO extends HibernateBase implements IPaginaDAO {
     }
 
     @Override
-    public List<Pagina> getAll() {
+    public List<Pagina> getAll() throws HibernatePaooException {
         List<Pagina> resultado;
         try 
         { 
@@ -49,11 +48,9 @@ public class PaginaDAO extends HibernateBase implements IPaginaDAO {
             
             String consulta = "from Pagina";
             resultado = sesion.createQuery(consulta).list();
-            //tx.commit(); 
         } catch (HibernateException he) 
         { 
-            //manejaExcepcion(he); 
-            throw he; 
+            throw new HibernatePaooException(he.getMessage());
         } finally 
         { 
             sesion.close(); 
@@ -63,7 +60,7 @@ public class PaginaDAO extends HibernateBase implements IPaginaDAO {
     }
 
     @Override
-    public List<Pagina> getByProperty(String prop, Object val) {
+    public List<Pagina> getByProperty(String prop, Object val) throws HibernatePaooException {
         List<Pagina> resultado;
         try 
         { 
@@ -71,10 +68,9 @@ public class PaginaDAO extends HibernateBase implements IPaginaDAO {
             
             String consulta = "from Cliente where :prop = :val";
             resultado = sesion.createQuery(consulta).setString("prop", prop).setString("val", (String)val).list();
-            //tx.commit(); 
         } catch (HibernateException he) 
         { 
-            throw he; 
+            throw new HibernatePaooException(he.getMessage());
         } finally 
         { 
             sesion.close(); 

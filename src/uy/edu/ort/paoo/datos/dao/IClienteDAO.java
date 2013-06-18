@@ -7,7 +7,7 @@ import uy.edu.ort.paoo.datos.dominio.Cliente;
  * @author Victor Nessi
  * @author Bruno Montaner
  */
-public interface IClienteDAO extends IDAO<Cliente>{
+public interface IClienteDAO extends IDAO<Cliente> {
 
 
 }

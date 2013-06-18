@@ -22,22 +22,31 @@ public abstract class HibernateBase {
     
     private static SessionFactory sessionFactory;
     
-    public SessionFactory getSessionFactory() {
+    public SessionFactory getSessionFactory() throws HibernatePaooException {
         if(sessionFactory == null){
             try 
             { 
                 sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory(); 
             } catch (HibernateException he) 
             { 
-               System.err.println("Ocurrió un error en la inicialización de la SessionFactory: " + he); 
-               throw new ExceptionInInitializerError(he); 
+               throw new HibernatePaooException(he.getMessage());
             } 
         }
         return sessionFactory;
     }
 
-    public void iniciarOperacion() throws HibernateException { 
-        sesion = getSessionFactory().openSession(); 
-        tx = sesion.beginTransaction(); 
+    /**
+     * Metodo generalizado para iniciar las operaciones de acceso
+     * a la base de datos.
+     * 
+     * @throws HibernatePaooException
+     */
+    public void iniciarOperacion() throws HibernatePaooException { 
+        try {
+            sesion = getSessionFactory().openSession(); 
+            tx = sesion.beginTransaction();
+        } catch (HibernatePaooException ex) {
+            throw ex;
+        }
     } 
 }

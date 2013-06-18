@@ -1,14 +1,11 @@
 package uy.edu.ort.paoo.datos.dao.hibernate;
 
-import uy.edu.ort.paoo.datos.dao.memoria.*;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
-import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.dominio.ProgramaComparator;
@@ -22,7 +19,7 @@ import uy.edu.ort.paoo.datos.dominio.ProgramaComparator.EnumProgramaComparator;
 public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
 
     @Override
-    public void save(Programa entity) {
+    public void save(Programa entity) throws HibernatePaooException {
         try 
         { 
             iniciarOperacion(); 
@@ -30,7 +27,7 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
             tx.commit(); 
         } catch (HibernateException he) 
         { 
-            throw he; 
+            throw new HibernatePaooException(he.getMessage()); 
         } finally 
         { 
             sesion.close(); 
@@ -43,16 +40,19 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
     }
 
     @Override
-    public Programa getByPK(Object id) {
-        List<Programa> progs = getByProperty("nombre", id);
-        if(!progs.isEmpty())
-            return progs.get(0);
-        
-        return null;
+    public Programa getByPK(Object id) throws HibernatePaooException {
+        try {
+            List<Programa> progs = getByProperty("nombre", id);
+            if(!progs.isEmpty())
+                return progs.get(0);
+            return null;
+        } catch (HibernatePaooException ex) {
+            throw new HibernatePaooException(ex.getMessage());
+        }
     }
 
     @Override
-    public List<Programa> getAll() {
+    public List<Programa> getAll() throws HibernatePaooException {
         List<Programa> resultado;
         try 
         { 
@@ -63,8 +63,7 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
             //tx.commit(); 
         } catch (HibernateException he) 
         { 
-            //manejaExcepcion(he); 
-            throw he; 
+            throw new HibernatePaooException(he.getMessage());
         } finally 
         { 
             sesion.close(); 
@@ -74,7 +73,7 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
     }
 
     @Override
-    public List<Programa> getByProperty(String prop, Object val) {
+    public List<Programa> getByProperty(String prop, Object val) throws HibernatePaooException {
         List<Programa> resultado;
         try 
         { 
@@ -86,8 +85,7 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
             resultado = query.list();
         } catch (HibernateException he) 
         { 
-            //manejaExcepcion(he); 
-            throw he; 
+            throw new HibernatePaooException(he.getMessage()); 
         } finally 
         { 
             sesion.close(); 
@@ -95,34 +93,59 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
         return resultado;
     }
 
+    /**
+     * Obtiene los 10 programas con mayor cantidad de Paginas
+     *
+     * @return Lista con los 10 programas que contienen mas paginas
+     */
     @Override
-    public List<Programa> getTop10MasPaginas() {
-        ProgramaComparator comp = new ProgramaComparator();
-        comp.setComparator(EnumProgramaComparator.COMPARATOR_PAGINAS);
-        List<Programa> progs = getAll();
-        Collections.sort(progs, comp);
-        if (progs.size() >= 9) {
-            return progs.subList(0, 9);
-        } else {
-            return progs;
+    public List<Programa> getTop10MasPaginas() throws HibernatePaooException {
+        try {
+            ProgramaComparator comp = new ProgramaComparator();
+            comp.setComparator(EnumProgramaComparator.COMPARATOR_PAGINAS);
+            List<Programa> progs = getAll();
+            Collections.sort(progs, comp);
+            if (progs.size() >= 9) {
+                return progs.subList(0, 9);
+            } else {
+                return progs;
+            }
+        } catch (HibernatePaooException ex) {
+            throw new HibernatePaooException(ex.getMessage());
         }
     }
 
+    /**
+     * Obtiene la lista de los 10 programas con paginas mas pesadas
+     *
+     * @return Lista de 10 programas con la suma de sus paginas mas pesados
+     */
     @Override
-    public List<Programa> getTop10MasPesados() {
-        ProgramaComparator comp = new ProgramaComparator();
-        comp.setComparator(EnumProgramaComparator.COMPARATOR_PESO);
-        List<Programa> progs = getAll();
-        Collections.sort(progs, comp);
-        if (progs.size() >= 9) {
-            return progs.subList(0, 9);
-        } else {
-            return progs;
+    public List<Programa> getTop10MasPesados() throws HibernatePaooException {
+        try {
+            ProgramaComparator comp = new ProgramaComparator();
+            comp.setComparator(EnumProgramaComparator.COMPARATOR_PESO);
+            List<Programa> progs = getAll();
+            Collections.sort(progs, comp);
+            if (progs.size() >= 9) {
+                return progs.subList(0, 9);
+            } else {
+                return progs;
+            }
+        } catch (HibernatePaooException ex) {
+            throw new HibernatePaooException(ex.getMessage());
         }
     }
 
+    /**
+     * Obtengo la lista de Paginas que corresponden a un programa.
+     *
+     * @param idProg Identificador del programa q quiero obtener las paginas
+     * @return Lista de Paginas que corresponden a un programa
+     * @throws HibernatePaooException
+     */
     @Override
-    public List<Pagina> getPaginasPrograma(long idProg) {
+    public List<Pagina> getPaginasPrograma(long idProg) throws HibernatePaooException {
         List<Pagina> resultado;
         try 
         { 
@@ -134,8 +157,7 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
             resultado = query.list();
         } catch (HibernateException he) 
         { 
-            //manejaExcepcion(he); 
-            throw he; 
+            throw new HibernatePaooException(he.getMessage());
         } finally 
         { 
             sesion.close(); 

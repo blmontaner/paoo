@@ -2,16 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package uy.edu.ort.paoo.datos;
+package uy.edu.ort.paoo.util;
 
 import uy.edu.ort.paoo.exceptions.PaooException;
 
 /**
  *
- * @author bruno
+ * @author timba
  */
-public class BDPaooException extends PaooException {
-    public BDPaooException(String message){
+public class UtilPaooException extends PaooException{
+    
+    public UtilPaooException(String message) {
         super(message);
     }
 }

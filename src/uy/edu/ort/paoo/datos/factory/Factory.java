@@ -1,5 +1,6 @@
 package uy.edu.ort.paoo.datos.factory;
 
+import uy.edu.ort.paoo.datos.DatosPaooException;
 import uy.edu.ort.paoo.datos.dao.IClienteDAO;
 import uy.edu.ort.paoo.datos.dao.IPaginaDAO;
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
@@ -23,7 +24,7 @@ public class Factory {
      * properties.
      * @throws PaooException
      */
-    public static IClienteDAO getClienteDAO() throws PaooException {
+    public static IClienteDAO getClienteDAO() throws DatosPaooException {
 
         String fabricaClientes = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(FABRICA_CLIENTES);
 
@@ -32,7 +33,7 @@ public class Factory {
             Class clienteImpl = Class.forName(fabricaClientes);
             clienteDAO = clienteImpl.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            throw new PaooException(ex.getMessage());
+            throw new DatosPaooException(ex.getMessage());
         }
         return (IClienteDAO) clienteDAO;
     }
@@ -43,7 +44,7 @@ public class Factory {
      * properties.
      * @throws PaooException
      */
-    public static IProgramaDAO getProgramaDAO() throws PaooException {
+    public static IProgramaDAO getProgramaDAO() throws DatosPaooException {
 
         String fabricaProgramas = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(FABRICA_PROGRAMAS);
 
@@ -52,7 +53,7 @@ public class Factory {
             Class programaImpl = Class.forName(fabricaProgramas);
             programaDAO = programaImpl.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            throw new PaooException(ex.getMessage());
+            throw new DatosPaooException(ex.getMessage());
         }
         return (IProgramaDAO) programaDAO;
     }
@@ -63,7 +64,7 @@ public class Factory {
      * properties.
      * @throws PaooException
      */
-    public static IPaginaDAO getPaginaDAO() throws PaooException {
+    public static IPaginaDAO getPaginaDAO() throws DatosPaooException {
 
         String fabricaPaginas = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(FABRICA_PAGINAS);
 
@@ -72,7 +73,7 @@ public class Factory {
             Class pagImpl = Class.forName(fabricaPaginas);
             paginaDAO = pagImpl.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            throw new PaooException(ex.getMessage());
+            throw new DatosPaooException(ex.getMessage());
         }
         return (IPaginaDAO) paginaDAO;
     }

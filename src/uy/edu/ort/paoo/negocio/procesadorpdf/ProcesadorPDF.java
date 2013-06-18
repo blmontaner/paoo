@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package uy.edu.ort.paoo.negocio.procesadorpdf;
 
 import com.itextpdf.text.Document;
@@ -13,6 +9,8 @@ import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.exceptions.PaooException;
@@ -34,7 +32,7 @@ public class ProcesadorPDF {
      * @param programa programa para convertir a PDF.
      * @throws PaooException
      */
-    public static void generarProgramasPDF(Programa programa) throws PaooException {
+    public static void generarProgramasPDF(Programa programa) throws ProcesadorPDFPaooException {
         if (programa != null) {
             if (!programa.getNombre().isEmpty()) {
                 for (Pagina pagina : programa.getPaginas()) {
@@ -42,7 +40,7 @@ public class ProcesadorPDF {
                 }
             }
         } else {
-            throw new PaooException("No existe el programa que intenta convertir. Verifique y vuelta a intentar.");
+            throw new ProcesadorPDFPaooException("No existe el programa que intenta convertir. Verifique y vuelta a intentar.");
         }
     }
     private static final String PATH_PROGRAMAS = "PathProgramas";
@@ -54,21 +52,22 @@ public class ProcesadorPDF {
      * @param nombre nombre del archivo PDF
      * @param html contenido del PDF en formato HTML.
      */
-    private static void crearPDF(String carpeta, String nombre, String html) throws PaooException {
-
-        String pathDirectorio = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + carpeta;
-        if (!Utilidades.existeDirectorio(pathDirectorio)) {
-            Utilidades.crearDirectorio(pathDirectorio);
-        }
-
-        String path = pathDirectorio + "/" + nombre + ".pdf";
-
-        PdfWriter pdfWriter = null;
-
-        //create a new document
-        Document document = new Document();
+    private static void crearPDF(String carpeta, String nombre, String html) throws ProcesadorPDFPaooException {
 
         try {
+
+            String pathDirectorio = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + carpeta;
+            if (!Utilidades.existeDirectorio(pathDirectorio)) {
+                Utilidades.crearDirectorio(pathDirectorio);
+            }
+
+            String path = pathDirectorio + "/" + nombre + ".pdf";
+
+            PdfWriter pdfWriter = null;
+
+            //create a new document
+            Document document = new Document();
+
 
             //get Instance of the PDFWriter
             pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(path));
@@ -95,7 +94,7 @@ public class ProcesadorPDF {
             pdfWriter.close();
 
         } catch (IOException | DocumentException e) {
-            throw new PaooException(e.getMessage());
+            throw new ProcesadorPDFPaooException(e.getMessage());
         }
 
     }

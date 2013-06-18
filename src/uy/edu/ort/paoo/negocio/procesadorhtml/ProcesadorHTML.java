@@ -8,12 +8,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import uy.edu.ort.paoo.datos.DatosPaooException;
 import uy.edu.ort.paoo.datos.dao.IPaginaDAO;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.factory.Factory;
 import uy.edu.ort.paoo.exceptions.PaooException;
+import uy.edu.ort.paoo.negocio.NegocioPaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
+import uy.edu.ort.paoo.util.UtilPaooException;
 import uy.edu.ort.paoo.util.Utilidades;
 
 /**
@@ -33,24 +38,29 @@ public class ProcesadorHTML {
      * @param programa programa que deseo convertir a PDF
      * @throws PaooException
      */
-    public static void generarProgramasHTML(Programa programa) throws PaooException {
+    public static void generarProgramasHTML(Programa programa) throws NegocioPaooException {
         if (programa != null) {
             if (!programa.getNombre().isEmpty()) {
-                IPaginaDAO paginaDAO = Factory.getPaginaDAO();
-                if (!existeDirectorio(programa.getNombre())) {
-                    crearDirectorio(programa.getNombre());
-                }
-                for (Pagina pagina : programa.getPaginas()) {
-                    File f = crearArchivoHtml(programa.getNombre(), pagina.getBody(), pagina.getNombre());
-                    //Ahora tengo que actualizar el tamanio de la pagina y la cantidad de lineas
-                    pagina.setLineas(obtenerLineasArchivo(f));
-                    pagina.setPeso(f.length());
-                    paginaDAO.save(pagina);
+                try {
+                    IPaginaDAO paginaDAO = Factory.getPaginaDAO();
+                    if (!existeDirectorio(programa.getNombre())) {
+                        crearDirectorio(programa.getNombre());
+                    }
+                    for (Pagina pagina : programa.getPaginas()) {
+                        File f = crearArchivoHtml(programa.getNombre(), pagina.getBody(), pagina.getNombre());
+                        //Ahora tengo que actualizar el tamanio de la pagina y la cantidad de lineas
+                        pagina.setLineas(obtenerLineasArchivo(f));
+                        pagina.setPeso(f.length());
+                        paginaDAO.save(pagina);
                     
+                        
+                    }
+                } catch (DatosPaooException ex) {
+                    throw new NegocioPaooException(ex.getMessage());
                 }
             }
         } else {
-            throw new PaooException("No existe el programa que intenta convertir. Verifique y vuelta a intentar.");
+            throw new NegocioPaooException("No existe el programa que intenta convertir. Verifique y vuelta a intentar.");
         }
 
     }
@@ -63,7 +73,7 @@ public class ProcesadorHTML {
      * @param nombre nombre del directorio que deseo crear
      * @throws PaooException
      */
-    private static void crearDirectorio(String nombre) throws PaooException {
+    private static void crearDirectorio(String nombre) throws NegocioPaooException {
         String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + nombre;
         Utilidades.crearDirectorio(path);
     }
@@ -74,7 +84,7 @@ public class ProcesadorHTML {
      * @param nombre nombre del directorio que deseo saber si existe
      * @throws PaooException
      */
-    private static boolean existeDirectorio(String nombre) throws PaooException {
+    private static boolean existeDirectorio(String nombre) {
         String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + nombre;
         return Utilidades.existeDirectorio(path);
     }
@@ -89,9 +99,13 @@ public class ProcesadorHTML {
      * @return
      * @throws PaooException
      */
-    private static File crearArchivoHtml(String directorio, String html, String nombre) throws PaooException {
-        String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + directorio + "/" + nombre + ".html";
-        return Utilidades.crearArchivo(html, path);
+    private static File crearArchivoHtml(String directorio, String html, String nombre) throws NegocioPaooException {
+        try {
+            String path = ManejoPropiedades.obtenerInstancia().obtenerPropiedad(PATH_PROGRAMAS) + directorio + "/" + nombre + ".html";
+            return Utilidades.crearArchivo(html, path);
+        } catch (UtilPaooException ex) {
+            throw new NegocioPaooException(ex.getMessage());
+        }
     }
 
     /**
@@ -102,13 +116,13 @@ public class ProcesadorHTML {
      * @throws PaooException
      * @throws IOException
      */
-    private static long obtenerLineasArchivo(File f) throws PaooException {
+    private static long obtenerLineasArchivo(File f) throws NegocioPaooException {
         try {
             LineNumberReader lnr = new LineNumberReader(new FileReader(f));
             lnr.skip(Long.MAX_VALUE);
             return lnr.getLineNumber() + 1;
         } catch (IOException ex) {
-            throw new PaooException(ex.getMessage());
+            throw new NegocioPaooException(ex.getMessage());
         }
     }
 }
