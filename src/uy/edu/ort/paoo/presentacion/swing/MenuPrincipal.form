@@ -94,6 +94,9 @@
             </Menu>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/uy/edu/ort/paoo/presentacion/swing/img/moreLines.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Top 10 Mas Pesados"/>
               </Properties>
               <Events>
@@ -102,6 +105,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/uy/edu/ort/paoo/presentacion/swing/img/morePages.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Top 10 Mas Paginas"/>
               </Properties>
               <Events>

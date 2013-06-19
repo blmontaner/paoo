@@ -78,7 +78,6 @@ public class ListaObjetos extends javax.swing.JDialog {
         } catch (PaooException ex) {
             mostrarException("Inicializar ventana", "Ocurrio un problema al inicializar lista de objetos");
         }
-        
         jTable1.setModel(model);
         if(model.getRowCount()>0){
             jTable1.getSelectionModel().setSelectionInterval(0,0);
