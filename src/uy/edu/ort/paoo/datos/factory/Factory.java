@@ -4,7 +4,6 @@ import uy.edu.ort.paoo.datos.DatosPaooException;
 import uy.edu.ort.paoo.datos.dao.IClienteDAO;
 import uy.edu.ort.paoo.datos.dao.IPaginaDAO;
 import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
-import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 import uy.edu.ort.paoo.propiedades.PropiedadesPaooException;
 

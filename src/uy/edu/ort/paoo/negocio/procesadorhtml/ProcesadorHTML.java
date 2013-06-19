@@ -1,15 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package uy.edu.ort.paoo.negocio.procesadorhtml;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import uy.edu.ort.paoo.datos.DatosPaooException;
 import uy.edu.ort.paoo.datos.dao.IPaginaDAO;
 import uy.edu.ort.paoo.datos.dominio.Pagina;

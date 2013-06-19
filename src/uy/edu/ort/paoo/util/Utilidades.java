@@ -15,7 +15,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import org.xml.sax.SAXException;
-import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 import uy.edu.ort.paoo.propiedades.PropiedadesPaooException;
 

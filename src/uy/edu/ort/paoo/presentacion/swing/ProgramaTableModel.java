@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package uy.edu.ort.paoo.presentacion.swing;
 
 import java.util.List;
@@ -10,7 +6,8 @@ import uy.edu.ort.paoo.datos.dominio.Programa;
 
 /**
  *
- * @author alumnoFI
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class ProgramaTableModel extends AbstractTableModel{
 

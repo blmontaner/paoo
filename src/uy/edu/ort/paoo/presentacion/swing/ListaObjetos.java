@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package uy.edu.ort.paoo.presentacion.swing;
 
 import java.util.List;
@@ -16,7 +12,8 @@ import uy.edu.ort.paoo.negocio.procesadorxml.Resultado;
 
 /**
  *
- * @author Bruno
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class ListaObjetos extends javax.swing.JDialog {
 

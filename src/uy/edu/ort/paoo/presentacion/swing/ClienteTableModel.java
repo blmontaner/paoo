@@ -1,20 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package uy.edu.ort.paoo.presentacion.swing;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.JButton;
 import javax.swing.table.AbstractTableModel;
 
 import uy.edu.ort.paoo.datos.dominio.Cliente;
 
 /**
  *
- * @author alumnoFI
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class ClienteTableModel extends AbstractTableModel{
 

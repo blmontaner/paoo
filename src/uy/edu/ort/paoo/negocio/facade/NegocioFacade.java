@@ -9,7 +9,6 @@ import uy.edu.ort.paoo.datos.dao.IProgramaDAO;
 import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.factory.Factory;
-import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.negocio.NegocioPaooException;
 import uy.edu.ort.paoo.negocio.procesadorhtml.ProcesadorHTML;
 import uy.edu.ort.paoo.negocio.procesadorpdf.ProcesadorPDF;
