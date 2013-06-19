@@ -80,6 +80,15 @@ public class ListaObjetos extends javax.swing.JDialog {
         }
         
         jTable1.setModel(model);
+        if(model.getRowCount()>0){
+            jTable1.getSelectionModel().setSelectionInterval(0,0);
+        }else{
+            jButton2.setVisible(false);
+            resultado = new Resultado("No hay datos para mostrar");
+            resultado.setTipo(Resultado.TIPO_RESULTADO.ERROR);
+            DisplayResultado.showResultado(getFrame(), "Inicializar ventana", resultado);
+        }
+        
     }
 
     public ListaObjetos(java.awt.Frame parent, boolean modal) {
