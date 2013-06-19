@@ -16,8 +16,10 @@ import uy.edu.ort.paoo.datos.dominio.Cliente;
 public class ClienteDAO extends HibernateBase implements IClienteDAO {
     
     /**
-     *
+     * Guardar un cliente en la Base de Datos
+     * 
      * @param entity Cliente a salvar
+     * @throws DatosPaooException  
      */
     @Override
     public void save(Cliente entity) throws DatosPaooException {
@@ -35,11 +37,40 @@ public class ClienteDAO extends HibernateBase implements IClienteDAO {
         }  
     }
 
+    /**
+     *
+     * @param entity
+     */
     @Override
     public void delete(Cliente entity) {
         // TODO Auto-generated method stub
     }
+    
+    /**
+     * Metodo para borrar todos los clientes. Se utiliza solo para los tests
+     *
+     * @throws HibernatePaooException
+     */
+    public void deleteAll() throws HibernatePaooException{
+        try {
+            iniciarOperacion(); 
+            String hql = String.format("delete from %s","clientes");
+            Query query = sesion.createQuery(hql);
+            query.executeUpdate();
+        } catch (HibernateException ex) {
+            throw new HibernatePaooException(ex.getMessage());
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+    }
 
+    /**
+     * Obtengo todos los clientes
+     *
+     * @return
+     * @throws HibernatePaooException
+     */
     @Override
     public List<Cliente> getAll() throws HibernatePaooException {
         List<Cliente> resultado;
@@ -61,6 +92,15 @@ public class ClienteDAO extends HibernateBase implements IClienteDAO {
         return resultado;
     }
 
+    /**
+     * Obtengo una lista de Clientes que cumplan con el valor
+     * :val de la propiedad :prop
+     *
+     * @param prop Atributo de comparacion para obtener los Clientes
+     * @param val Valor del atributo de comparacion
+     * @return Lista de Clientes que cumplen la condicion
+     * @throws HibernatePaooException
+     */
     @Override
     public List<Cliente> getByProperty(String prop, Object val) throws HibernatePaooException {
         List<Cliente> resultado;
@@ -85,6 +125,13 @@ public class ClienteDAO extends HibernateBase implements IClienteDAO {
     
     /*
      * Asumimos que PK en caso del Cliente es el Identifador
+     */
+    /**
+     * Obtenemos un cliente por su atributo identificador
+     *
+     * @param id identificador del Cliente
+     * @return Cliente que cumple con el identificador, null en otro caso
+     * @throws HibernatePaooException
      */
     @Override
     public Cliente getByPK(Object id) throws HibernatePaooException {

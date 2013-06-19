@@ -13,6 +13,12 @@ import uy.edu.ort.paoo.datos.dominio.Pagina;
  */
 public class PaginaDAO extends HibernateBase implements IPaginaDAO {
 
+    /**
+     * Salvo una entidad Pagina en la BD
+     *
+     * @param entity
+     * @throws HibernatePaooException
+     */
     @Override
     public void save(Pagina entity) throws HibernatePaooException {
         try 
@@ -29,16 +35,32 @@ public class PaginaDAO extends HibernateBase implements IPaginaDAO {
         }
     }
 
+    /**
+     * No implementado
+     *
+     * @param entity
+     */
     @Override
     public void delete(Pagina entity) {
         // TODO Auto-generated method stub
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public Pagina getByPK(Object id) {
         return null;
     }
 
+    /**
+     * Ontenemos todas las Paginas de la BD
+     *
+     * @return
+     * @throws HibernatePaooException
+     */
     @Override
     public List<Pagina> getAll() throws HibernatePaooException {
         List<Pagina> resultado;
@@ -59,6 +81,15 @@ public class PaginaDAO extends HibernateBase implements IPaginaDAO {
         return resultado;
     }
 
+    /**
+     * Obtengo una lista de Paginas que cumplan con el valor
+     * :val de la propiedad :prop
+     *
+     * @param prop Atributo de comparacion para obtener las Paginas
+     * @param val Valor del atributo de comparacion
+     * @return Lista de Paginas que cumplen la condicion
+     * @throws HibernatePaooException
+     */
     @Override
     public List<Pagina> getByProperty(String prop, Object val) throws HibernatePaooException {
         List<Pagina> resultado;

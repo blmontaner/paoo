@@ -8,6 +8,10 @@ import uy.edu.ort.paoo.datos.DatosPaooException;
  * @author Bruno Montaner
  */
 public class HibernatePaooException extends DatosPaooException {
+    /**
+     *
+     * @param message Mensaje de Exception
+     */
     public HibernatePaooException(String message){
         super(message);
     }

@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
-import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 import uy.edu.ort.paoo.propiedades.PropiedadesPaooException;
 import uy.edu.ort.paoo.util.Utilidades;
@@ -30,7 +29,7 @@ public class ProcesadorPDF {
      * Programa que deseo convertir a PDF
      *
      * @param programa programa para convertir a PDF.
-     * @throws PaooException
+     * @throws ProcesadorPDFPaooException  
      */
     public static void generarProgramasPDF(Programa programa) throws ProcesadorPDFPaooException {
         if (programa != null) {

@@ -10,13 +10,19 @@ import uy.edu.ort.paoo.negocio.procesadorxml.Resultado;
 
 /**
  *
- * @author bruno
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
-
-
 public class DisplayResultado {
 
     
+    /**
+     * Metodo para mostrar resultados en Swing
+     *
+     * @param parent Frame padre
+     * @param titulo Titulo del Frame de Resultados
+     * @param resultado Resultado a mostrar
+     */
     public static void showResultado(Frame parent,String titulo,Resultado resultado){
         if(resultado.getIsOK()){
             JOptionPane.showMessageDialog(parent, resultado.toString(), titulo, JOptionPane.INFORMATION_MESSAGE);

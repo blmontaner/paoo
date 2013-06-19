@@ -14,14 +14,29 @@ import org.hibernate.cfg.AnnotationConfiguration;
  *
  * @author Victor Nessi
  * @author Bruno Montaner
+ * 
+ * Fabrica para manejar las operaciones que se repiten sobre la Base de Datos
+ * 
  */
 public abstract class HibernateBase {
     
+    /**
+     * Atributo Session que vamos a manejar para todas las consultas
+     */
     public Session sesion; 
+    /**
+     *
+     */
     public Transaction tx;  
     
     private static SessionFactory sessionFactory;
     
+    /**
+     * Singleton para obtener la SessionFactory
+     *
+     * @return SessionFactory instanciada
+     * @throws HibernatePaooException
+     */
     public SessionFactory getSessionFactory() throws HibernatePaooException {
         if(sessionFactory == null){
             try 

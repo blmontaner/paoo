@@ -5,14 +5,12 @@
 package uy.edu.ort.paoo.presentacion.swing;
 
 import java.awt.Frame;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 
 /**
  *
- * @author Bruno
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class LoadingCaller extends SwingWorker<Void, Void> {
 

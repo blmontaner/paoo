@@ -67,6 +67,9 @@ public class Resultado<T> {
         this.errores = errores;
     }
 
+    /**
+     *
+     */
     public void aumentarErrores() {
         this.errores++;
     }
@@ -85,6 +88,9 @@ public class Resultado<T> {
         this.descartados = descartados;
     }
 
+    /**
+     *
+     */
     public void aumentarDescartados() {
         this.descartados++;
     }

@@ -22,6 +22,10 @@ public class DB {
         programas = new ArrayList<>();
     }
 
+    /**
+     *
+     * @return
+     */
     public static DB getInstance() {
         if (instance == null) {
             instance = new DB();
@@ -29,18 +33,34 @@ public class DB {
         return instance;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Cliente> getClientes() {
         return clientes;
     }
 
+    /**
+     *
+     * @param clientes
+     */
     public void setClientes(List<Cliente> clientes) {
         this.clientes = clientes;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Programa> getProgramas() {
         return programas;
     }
 
+    /**
+     *
+     * @param programas
+     */
     public void setProgramas(List<Programa> programas) {
         this.programas = programas;
     }

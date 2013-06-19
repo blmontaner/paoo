@@ -32,7 +32,7 @@ public class NegocioFacade {
      * @param url direccion del archivo xml a procesar para cargar clientes
      * @return Resultado objeto con las propiedades resultado de haber cargado
      * Clientes
-     * @throws PaooException
+     * @throws NegocioPaooException 
      */
     public static Resultado cargarClientes(String url) throws NegocioPaooException {
         return Procesador.ingresarClientes(url);
@@ -44,7 +44,7 @@ public class NegocioFacade {
      *
      * @param url direccion del archivo xml a procesar para cargar programas
      * @return Resultado propiedades resultado de haber cargado programas
-     * @throws PaooException
+     * @throws NegocioPaooException  
      */
     public static Resultado cargarProgramas(String url) throws NegocioPaooException {
         Resultado resultado = Procesador.cargarProgramas(url);
@@ -58,7 +58,7 @@ public class NegocioFacade {
      * @param nombreProg Nombre del programa o vacio para ver todos
      * @return List<Programa> Lista de programas que cumplen con la condicion
      * nombreProg
-     * @throws PaooException
+     * @throws NegocioPaooException  
      */
     public static List<Programa> programasSolicitados(String nombreProg) throws NegocioPaooException {
         try {
@@ -84,7 +84,7 @@ public class NegocioFacade {
      * @param idCliente identificador Cliente para ver uno o vacio para ver
      * todos
      * @return
-     * @throws PaooException
+     * @throws NegocioPaooException 
      */
     public static List<Cliente> listadoClientes(String idCliente) throws NegocioPaooException {
         try {
@@ -109,11 +109,15 @@ public class NegocioFacade {
      * @param idCliente identificador Cliente
      * @return List<Programa> Listado de Programas que solicito un determinado
      * cliente
-     * @throws PaooException
+     * @throws NegocioPaooException  
      */
     public static List<Programa> programasSolicitadosCliente(String idCliente) throws NegocioPaooException {
         try {
-            return Factory.getProgramaDAO().getByProperty(Programa.PROPIEDAD_CLIENTE, idCliente);
+            Cliente c = Factory.getClienteDAO().getByPK(idCliente);
+            if(c != null){
+                return Factory.getProgramaDAO().getByProperty(Programa.PROPIEDAD_CLIENTE, c.getId().toString());
+            }
+            return new ArrayList<Programa>();
         } catch (DatosPaooException ex) {
             throw new NegocioPaooException(ex.getMessage());
         }
@@ -124,7 +128,7 @@ public class NegocioFacade {
      * programas que tienen mayor cantidad de paginas.
      *
      * @return List<Programa>
-     * @throws PaooException
+     * @throws NegocioPaooException  
      */
     public static List<Programa> topProgramasNroPaginas() throws NegocioPaooException {
         try {
@@ -139,7 +143,7 @@ public class NegocioFacade {
      * programas que tienen mayor cantidad de paginas.
      *
      * @return List<Programa>
-     * @throws PaooException
+     * @throws NegocioPaooException 
      */
     public static List<Programa> topProgramasMasPesados() throws NegocioPaooException {
         try {
@@ -155,7 +159,7 @@ public class NegocioFacade {
      *
      * @param nombreProg nombre de programa que quiero generar sus archivos
      * HTMLs
-     * @throws PaooException
+     * @throws NegocioPaooException  
      */
     public static void generarHTML(String nombreProg) throws NegocioPaooException {
         try {
@@ -171,7 +175,7 @@ public class NegocioFacade {
      * correspondientes al nombreProg
      *
      * @param nombreProg nombre de programa que quiero generar sus archivos PDFs
-     * @throws PaooException
+     * @throws NegocioPaooException  
      */
     public static void generarPDF(String nombreProg) throws NegocioPaooException {
         try {

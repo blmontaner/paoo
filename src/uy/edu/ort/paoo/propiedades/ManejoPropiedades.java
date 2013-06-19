@@ -23,6 +23,7 @@ public class ManejoPropiedades {
      * Obtengo una instancia de ManejoPropiedades
      *
      * @return
+     * @throws PropiedadesPaooException  
      */
     public static ManejoPropiedades obtenerInstancia() throws PropiedadesPaooException {
         if (instancia == null) {

@@ -17,16 +17,30 @@ import uy.edu.ort.paoo.datos.dominio.ProgramaComparator.EnumProgramaComparator;
  */
 public class ProgramaDAO implements IProgramaDAO {
 
+    /**
+     * Entidad Programa a salvar en la BD
+     *
+     * @param entity
+     */
     @Override
     public void save(Programa entity) {
         DB.getInstance().getProgramas().add(entity);
     }
 
+    /**
+     *
+     * @param entity
+     */
     @Override
     public void delete(Programa entity) {
         // TODO Auto-generated method stub
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public Programa getByPK(Object id) {
         for (Programa p : DB.getInstance().getProgramas()) {
@@ -37,11 +51,21 @@ public class ProgramaDAO implements IProgramaDAO {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<Programa> getAll() {
         return DB.getInstance().getProgramas();
     }
 
+    /**
+     *
+     * @param prop
+     * @param val
+     * @return
+     */
     @Override
     public List<Programa> getByProperty(String prop, Object val) {
         List<Programa> programasRetorno = new ArrayList<Programa>();
@@ -55,6 +79,10 @@ public class ProgramaDAO implements IProgramaDAO {
         return programasRetorno;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<Programa> getTop10MasPaginas() {
         ProgramaComparator comp = new ProgramaComparator();
@@ -68,6 +96,10 @@ public class ProgramaDAO implements IProgramaDAO {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<Programa> getTop10MasPesados() {
         ProgramaComparator comp = new ProgramaComparator();
@@ -81,6 +113,11 @@ public class ProgramaDAO implements IProgramaDAO {
         }
     }
 
+    /**
+     *
+     * @param idProg
+     * @return
+     */
     @Override
     public List<Pagina> getPaginasPrograma(long idProg) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

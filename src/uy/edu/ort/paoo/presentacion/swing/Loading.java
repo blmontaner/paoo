@@ -1,14 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package uy.edu.ort.paoo.presentacion.swing;
-
-import javax.swing.JProgressBar;
 
 /**
  *
- * @author Bruno
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class Loading extends javax.swing.JDialog {
 

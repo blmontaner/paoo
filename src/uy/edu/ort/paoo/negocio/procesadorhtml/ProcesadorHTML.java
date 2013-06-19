@@ -37,7 +37,7 @@ public class ProcesadorHTML {
      * una excepcion.
      *
      * @param programa programa que deseo convertir a PDF
-     * @throws PaooException
+     * @throws NegocioPaooException 
      */
     public static void generarProgramasHTML(Programa programa) throws NegocioPaooException {
         if (programa != null) {

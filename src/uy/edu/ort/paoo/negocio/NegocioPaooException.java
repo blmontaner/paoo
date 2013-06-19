@@ -8,7 +8,8 @@ import uy.edu.ort.paoo.exceptions.PaooException;
 
 /**
  *
- * @author bruno
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class NegocioPaooException extends PaooException {
     

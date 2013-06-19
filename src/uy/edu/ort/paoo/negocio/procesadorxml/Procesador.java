@@ -6,8 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -176,7 +174,7 @@ public class Procesador {
      *
      * @param ruta path del archivo XML de clientes.
      * @return
-     * @throws PaooException
+     * @throws ProcesadorXMLPaooException  
      */
     public static Resultado ingresarClientes(String ruta) throws ProcesadorXMLPaooException {
 
@@ -224,8 +222,8 @@ public class Procesador {
     /**
      *
      * @param rutaXML
-     * @param rutaXSD
-     * @throws PaooException
+     * @return
+     * @throws ProcesadorXMLPaooException  
      */
     public static Resultado cargarProgramas(String rutaXML) throws ProcesadorXMLPaooException {
         try {

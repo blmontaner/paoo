@@ -23,7 +23,7 @@ public class Factory {
      *
      * @return una instancia de DAO Clientes, especificada en el archivo
      * properties.
-     * @throws PaooException
+     * @throws DatosPaooException 
      */
     public static IClienteDAO getClienteDAO() throws DatosPaooException {
         Object clienteDAO = null;
@@ -43,7 +43,7 @@ public class Factory {
      *
      * @return una instancia de DAO Programas, especificada en el archivo
      * properties.
-     * @throws PaooException
+     * @throws DatosPaooException 
      */
     public static IProgramaDAO getProgramaDAO() throws DatosPaooException {
         Object programaDAO = null;
@@ -62,7 +62,7 @@ public class Factory {
      *
      * @return una instancia de DAO Pagina, especificada en el archivo
      * properties.
-     * @throws PaooException
+     * @throws DatosPaooException 
      */
     public static IPaginaDAO getPaginaDAO() throws DatosPaooException {
         Object paginaDAO = null;

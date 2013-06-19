@@ -22,21 +22,40 @@ public class EntidadPersistente {
     @Version
     private Long version;
 
+    /**
+     * Constructor
+     */
     public EntidadPersistente() {
     }
 
+    /**
+     *
+     * @return Id de la Entidad
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id Identificador de la Entidad
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return 
+     */
     public Long getVersion() {
         return version;
     }
 
+    /**
+     *
+     * @param version
+     */
     public void setVersion(Long version) {
         this.version = version;
     }

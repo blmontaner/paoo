@@ -21,22 +21,41 @@ public class ClienteDAO implements IClienteDAO {
         DB.getInstance().getClientes().add(entity);
     }
 
+    /**
+     *
+     * @param entity
+     */
     @Override
     public void delete(Cliente entity) {
         // TODO Auto-generated method stub
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<Cliente> getAll() {
         return DB.getInstance().getClientes();
     }
 
+    /**
+     *
+     * @param prop
+     * @param val
+     * @return
+     */
     @Override
     public List<Cliente> getByProperty(String prop, Object val) {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public Cliente getByPK(Object id) {
         for (Cliente c : DB.getInstance().getClientes()) {

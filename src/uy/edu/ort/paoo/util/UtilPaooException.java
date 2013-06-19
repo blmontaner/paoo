@@ -8,7 +8,8 @@ import uy.edu.ort.paoo.exceptions.PaooException;
 
 /**
  *
- * @author timba
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class UtilPaooException extends PaooException{
     

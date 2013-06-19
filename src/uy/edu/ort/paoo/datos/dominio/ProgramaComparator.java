@@ -11,12 +11,20 @@ import java.util.Comparator;
  */
 public class ProgramaComparator implements Comparator<Programa> {
 
+    /**
+     *
+     */
     public enum EnumProgramaComparator {
-
-        COMPARATOR_PESO, COMPARATOR_PAGINAS
+        COMPARATOR_PESO,
+        COMPARATOR_PAGINAS
     }
     private EnumProgramaComparator parametroComparacion;
 
+    /**
+     * Metodo para setear el tipo de comparador
+     * 
+     * @param par Comparador
+     */
     public void setComparator(EnumProgramaComparator par) {
         this.parametroComparacion = par;
     }

@@ -8,9 +8,14 @@ import uy.edu.ort.paoo.exceptions.PaooException;
 
 /**
  *
- * @author bruno
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class DatosPaooException extends PaooException {
+    /**
+     *
+     * @param message Mensaje de la exception
+     */
     public DatosPaooException(String message){
         super(message);
     }

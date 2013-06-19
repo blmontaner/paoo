@@ -13,9 +13,25 @@ import uy.edu.ort.paoo.datos.dominio.Programa;
  */
 public interface IProgramaDAO extends IDAO<Programa> {
 
+    /**
+     *
+     * @return
+     * @throws DatosPaooException
+     */
     List<Programa> getTop10MasPaginas() throws DatosPaooException;
 
+    /**
+     *
+     * @return
+     * @throws DatosPaooException
+     */
     List<Programa> getTop10MasPesados() throws DatosPaooException;
     
+    /**
+     *
+     * @param idProg
+     * @return
+     * @throws DatosPaooException
+     */
     List<Pagina> getPaginasPrograma(long idProg) throws DatosPaooException;
 }

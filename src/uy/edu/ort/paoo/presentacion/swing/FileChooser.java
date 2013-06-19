@@ -14,13 +14,22 @@ import uy.edu.ort.paoo.propiedades.PropiedadesPaooException;
 
 /**
  *
- * @author Bruno
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class FileChooser {
 
     private JFileChooser fc;
     private JFrame frame;
 
+    /**
+     * Implmentacion de FileChooser para cargar archivos
+     * Carga el directorio de recursos por defecto
+     *
+     * @param titulo Titulo de la ventana
+     * @param frame
+     * @throws PropiedadesPaooException
+     */
     public FileChooser(String titulo, JFrame frame) throws PropiedadesPaooException {
         try {
             this.frame = frame;
@@ -35,6 +44,11 @@ public class FileChooser {
         }
     }
 
+    /**
+     *
+     * @return
+     * @throws PropiedadesPaooException
+     */
     public String showChooser() throws PropiedadesPaooException {
         int returnVal = fc.showOpenDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {

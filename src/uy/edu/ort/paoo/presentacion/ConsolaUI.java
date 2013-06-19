@@ -1,14 +1,10 @@
 package uy.edu.ort.paoo.presentacion;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.List;
 import uy.edu.ort.paoo.datos.dao.IClienteDAO;
 import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.factory.Factory;
 
-import uy.edu.ort.paoo.exceptions.PaooException;
-import uy.edu.ort.paoo.negocio.facade.NegocioFacade;
 
 /**
  *

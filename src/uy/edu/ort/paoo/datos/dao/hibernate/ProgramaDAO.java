@@ -18,6 +18,12 @@ import uy.edu.ort.paoo.datos.dominio.ProgramaComparator.EnumProgramaComparator;
  */
 public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
 
+    /**
+     * Salvo la entidad Programa en la BD
+     *
+     * @param entity
+     * @throws HibernatePaooException
+     */
     @Override
     public void save(Programa entity) throws HibernatePaooException {
         try 
@@ -34,11 +40,22 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
         }
     }
 
+    /**
+     *
+     * @param entity
+     */
     @Override
     public void delete(Programa entity) {
         // TODO Auto-generated method stub
     }
 
+    /**
+     * Obtengo un Programa por su identificador
+     *
+     * @param id identificador del Programa
+     * @return Programa que corresponde con su identificador
+     * @throws HibernatePaooException
+     */
     @Override
     public Programa getByPK(Object id) throws HibernatePaooException {
         try {
@@ -51,6 +68,12 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
         }
     }
 
+    /**
+     * Ontengo todas las Pagins de la BD
+     *
+     * @return
+     * @throws HibernatePaooException
+     */
     @Override
     public List<Programa> getAll() throws HibernatePaooException {
         List<Programa> resultado;
@@ -72,6 +95,15 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
         return resultado;
     }
 
+    /**
+     * Obtengo una lista de Programa que cumplan con el valor
+     * :val de la propiedad :prop
+     *
+     * @param prop Atributo de comparacion para obtener los Programas
+     * @param val Valor del atributo de comparacion
+     * @return Lista de Programas que cumplen la condicion
+     * @throws HibernatePaooException
+     */
     @Override
     public List<Programa> getByProperty(String prop, Object val) throws HibernatePaooException {
         List<Programa> resultado;
@@ -97,6 +129,7 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
      * Obtiene los 10 programas con mayor cantidad de Paginas
      *
      * @return Lista con los 10 programas que contienen mas paginas
+     * @throws HibernatePaooException  
      */
     @Override
     public List<Programa> getTop10MasPaginas() throws HibernatePaooException {
@@ -119,6 +152,7 @@ public class ProgramaDAO extends HibernateBase implements IProgramaDAO {
      * Obtiene la lista de los 10 programas con paginas mas pesadas
      *
      * @return Lista de 10 programas con la suma de sus paginas mas pesados
+     * @throws HibernatePaooException  
      */
     @Override
     public List<Programa> getTop10MasPesados() throws HibernatePaooException {

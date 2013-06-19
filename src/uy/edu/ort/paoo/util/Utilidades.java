@@ -32,7 +32,7 @@ public class Utilidades {
      * @param sb String que deseo guardar en el archivo
      * @param path ruta absoluta del archivo que deseo guardar
      * @return
-     * @throws PaooException
+     * @throws UtilPaooException  
      */
     public static File crearArchivo(String sb, String path) throws UtilPaooException {
         File f = new File(path);
@@ -51,7 +51,6 @@ public class Utilidades {
      * Metodo auxiliar para crear un Directorio en el FileSystem.
      *
      * @param path ruta completa donde crear el Directorio.
-     * @throws PaooException
      */
     public static void crearDirectorio(String path) {
         File dir = new File(path);
@@ -62,7 +61,7 @@ public class Utilidades {
      * Funcion auxiliar para consultar si existe un Directorio en el FileSystem.
      *
      * @param path ruta absoluta del Directorio a consultar si existe.
-     * @throws PaooException
+     * @return 
      */
     public static boolean existeDirectorio(String path) {
         File dir = new File(path);
@@ -98,6 +97,7 @@ public class Utilidades {
      * @param xml File del xml que va a ser validado
      * @param xsd File del xsd que valida
      * @return Un boolean que indica si es valido el xml
+     * @throws UtilPaooException  
      */
     public static boolean validarXMLContraXSD(File xml, File xsd) throws UtilPaooException {
         try {
@@ -126,6 +126,11 @@ public class Utilidades {
     
     private static Logger LOGGER = Logger.getLogger("");
     
+    /**
+     *
+     * @return
+     * @throws UtilPaooException
+     */
     public static Logger getLogFile() throws UtilPaooException  {
         try {
             LOGGER.setLevel(Level.INFO);

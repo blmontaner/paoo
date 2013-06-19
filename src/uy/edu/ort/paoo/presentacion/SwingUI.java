@@ -8,7 +8,8 @@ import uy.edu.ort.paoo.presentacion.swing.MenuPrincipal;
 
 /**
  *
- * @author Bruno
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class SwingUI {
     public static void main(String[] args) {
