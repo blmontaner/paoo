@@ -26,7 +26,6 @@ import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.factory.Factory;
-import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 import uy.edu.ort.paoo.propiedades.PropiedadesPaooException;
 import uy.edu.ort.paoo.util.UtilPaooException;
@@ -52,7 +51,7 @@ public class Procesador {
      *
      * @param ruta Path del Archivo XML a convertir
      * @return
-     * @throws PaooException
+     * @throws ProcesadorXMLPaooException
      */
     private static Resultado procesarProgramas(String ruta) throws ProcesadorXMLPaooException {
         try {

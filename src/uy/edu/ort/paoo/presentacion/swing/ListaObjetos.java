@@ -3,10 +3,11 @@ package uy.edu.ort.paoo.presentacion.swing;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
+import uy.edu.ort.paoo.datos.DatosPaooException;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.factory.Factory;
-import uy.edu.ort.paoo.exceptions.PaooException;
+import uy.edu.ort.paoo.negocio.NegocioPaooException;
 import uy.edu.ort.paoo.negocio.facade.NegocioFacade;
 import uy.edu.ort.paoo.negocio.procesadorxml.Resultado;
 
@@ -72,7 +73,7 @@ public class ListaObjetos extends javax.swing.JDialog {
                 jButton2.setVisible(true);
                 jButton2.setText("Ver Paginas");
             }
-        } catch (PaooException ex) {
+        } catch (DatosPaooException ex) {
             mostrarException("Inicializar ventana", "Ocurrio un problema al inicializar lista de objetos");
         }
         jTable1.setModel(model);
@@ -92,7 +93,7 @@ public class ListaObjetos extends javax.swing.JDialog {
         initComponents();
         try {
             model = tipoLista.equals(LISTA_CLIENTES) ? new ClienteTableModel(Factory.getClienteDAO().getAll()) : new ProgramaTableModel(Factory.getProgramaDAO().getAll());
-        } catch (PaooException ex) {
+        } catch (DatosPaooException ex) {
             mostrarException("Inicializar ventana", "Ocurrio un problema al inicializar lista de objetos");
         }
         jTable1.setModel(model);
@@ -225,7 +226,7 @@ public class ListaObjetos extends javax.swing.JDialog {
                 lista = NegocioFacade.programasSolicitadosCliente(idCli);
                 ListaObjetos lo = new ListaObjetos(getFrame(), true, lista, LISTA_PROGRAMAS_CLIENTE);
                 lo.setVisible(true);
-            } catch (PaooException ex) {
+            } catch (NegocioPaooException | DatosPaooException ex) {
                 mostrarException("Programas Solicitados Cliente", "Ocurrio un problema al obtener los programas");
             }
         }
@@ -241,7 +242,7 @@ public class ListaObjetos extends javax.swing.JDialog {
                         worker.done();
                         JOptionPane.showMessageDialog(getFrame(), "html generado", "Finalizo", 1);
                         cargarTable();
-                    } catch (PaooException ex) {
+                    } catch (NegocioPaooException ex) {
                         
                         mostrarException("Generar html", "Ocurrio un problema al generar html");
                     }
@@ -259,7 +260,7 @@ public class ListaObjetos extends javax.swing.JDialog {
                         NegocioFacade.generarPDF(nomb);
                         worker.done();
                         JOptionPane.showMessageDialog(getFrame(), "pdf generado", "Finalizo", 1);
-                    } catch (PaooException ex) {
+                    } catch (NegocioPaooException ex) {
                         mostrarException("Generar pdf", "Ocurrio un problema al generar pdf");
                     }
                 }
@@ -273,7 +274,7 @@ public class ListaObjetos extends javax.swing.JDialog {
                 lista = Factory.getProgramaDAO().getPaginasPrograma(idProg);
                 ListaObjetos lo = new ListaObjetos(getFrame(), true, lista, LISTA_PAGINAS);
                 lo.setVisible(true);
-            } catch (PaooException ex) {
+            } catch (DatosPaooException ex) {
                 mostrarException("Paginas Programa", "Ocurrio un problema al obtener las paginas");
             }
         }

@@ -9,7 +9,6 @@ import uy.edu.ort.paoo.datos.dao.IPaginaDAO;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.datos.factory.Factory;
-import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.negocio.NegocioPaooException;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 import uy.edu.ort.paoo.propiedades.PropiedadesPaooException;
@@ -64,7 +63,7 @@ public class ProcesadorHTML {
      * HTMLs
      *
      * @param nombre nombre del directorio que deseo crear
-     * @throws PaooException
+     * @throws NegocioPaooException
      */
     private static void crearDirectorio(String nombre) throws NegocioPaooException {
         try {
@@ -79,7 +78,7 @@ public class ProcesadorHTML {
      * Metodo auxiliar para consultar si ya existe un directorio
      *
      * @param nombre nombre del directorio que deseo saber si existe
-     * @throws PaooException
+     * @throws NegocioPaooException
      */
     private static boolean existeDirectorio(String nombre) throws NegocioPaooException {
         try {
@@ -98,7 +97,7 @@ public class ProcesadorHTML {
      * @param html Contenido en formato HTML del archivo
      * @param nombre nombre del archivo HTML.
      * @return
-     * @throws PaooException
+     * @throws NegocioPaooException
      */
     private static File crearArchivoHtml(String directorio, String html, String nombre) throws NegocioPaooException {
         try {
@@ -114,8 +113,7 @@ public class ProcesadorHTML {
      *
      * @param f Archivo para contar sus lineas
      * @return
-     * @throws PaooException
-     * @throws IOException
+     * @throws NegocioPaooException
      */
     private static long obtenerLineasArchivo(File f) throws NegocioPaooException {
         try {
