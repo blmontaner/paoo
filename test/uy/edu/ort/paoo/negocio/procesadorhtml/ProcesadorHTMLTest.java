@@ -8,19 +8,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.Assert;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import uy.edu.ort.paoo.datos.dominio.Pagina;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 
 /**
  *
- * @author timba
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class ProcesadorHTMLTest {
 

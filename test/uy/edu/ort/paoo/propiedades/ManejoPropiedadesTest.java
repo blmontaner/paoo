@@ -19,11 +19,14 @@ public class ManejoPropiedadesTest {
      */
     @Test
     public void testObtenerInstancia() {
-        System.out.println("obtenerInstancia");
-        
-        ManejoPropiedades result = ManejoPropiedades.obtenerInstancia();
-        
-        assertNotNull(result);
+        try {
+            System.out.println("obtenerInstancia");
+            
+            ManejoPropiedades result = ManejoPropiedades.obtenerInstancia();
+            assertNotNull(result);
+        } catch (PropiedadesPaooException ex) {
+            fail();
+        }
     }
 
     /**
@@ -31,12 +34,16 @@ public class ManejoPropiedadesTest {
      */
     @Test
     public void testObtenerPropiedad() {
-        System.out.println("obtenerPropiedad");
-        
-        String clave = "PathProgramas";
-        ManejoPropiedades instance = ManejoPropiedades.obtenerInstancia();
-        String expResult = "";
-        String result = instance.obtenerPropiedad(clave);
-        assertNotSame(expResult, result);
+        try {
+            System.out.println("obtenerPropiedad");
+            
+            String clave = "PathProgramas";
+            ManejoPropiedades instance = ManejoPropiedades.obtenerInstancia();
+            String expResult = "";
+            String result = instance.obtenerPropiedad(clave);
+            assertNotSame(expResult, result);
+        } catch (PropiedadesPaooException ex) {
+            fail();
+        }
     }
 }

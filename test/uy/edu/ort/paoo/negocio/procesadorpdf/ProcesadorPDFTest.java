@@ -15,7 +15,8 @@ import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 
 /**
  *
- * @author timba
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class ProcesadorPDFTest {
     

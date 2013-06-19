@@ -6,16 +6,13 @@ package uy.edu.ort.paoo.negocio.procesadorxml;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import uy.edu.ort.paoo.datos.dao.memoria.DB;
 import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.dominio.Programa;
 import uy.edu.ort.paoo.negocio.facade.NegocioFacade;
+import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 
 /**
  *
@@ -33,7 +30,9 @@ public class ProcesadorTest {
         
         DB.getInstance().setClientes(new ArrayList<Cliente>());
         
-        String url = "clientes_test.xml";
+        String pathRecursos = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos");
+        
+        String url = pathRecursos + "clientes_test.xml";
         
         Resultado result = NegocioFacade.cargarClientes(url);
         assertTrue(result.getProcesados() > 0);
@@ -49,8 +48,10 @@ public class ProcesadorTest {
         DB.getInstance().setClientes(new ArrayList<Cliente>());
         DB.getInstance().setProgramas(new ArrayList<Programa>());
         
-        NegocioFacade.cargarClientes("clientes_test.xml");
-        NegocioFacade.cargarProgramas("programas_test.xml");
+        String pathRecursos = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos");
+                
+        NegocioFacade.cargarClientes(pathRecursos + "clientes_test.xml");
+        NegocioFacade.cargarProgramas(pathRecursos + "programas_test.xml");
         
         List result = NegocioFacade.programasSolicitados("");
         assertEquals(1, result.size());

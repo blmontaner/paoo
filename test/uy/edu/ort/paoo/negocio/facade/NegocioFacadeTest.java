@@ -9,9 +9,11 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import uy.edu.ort.paoo.datos.dao.hibernate.ClienteDAO;
 import uy.edu.ort.paoo.datos.dao.memoria.DB;
 import uy.edu.ort.paoo.datos.dominio.Cliente;
 import uy.edu.ort.paoo.datos.dominio.Programa;
+import uy.edu.ort.paoo.datos.factory.Factory;
 import uy.edu.ort.paoo.exceptions.PaooException;
 import uy.edu.ort.paoo.negocio.procesadorxml.Resultado;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
@@ -22,16 +24,17 @@ import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
  * @author Bruno Montaner
  */
 public class NegocioFacadeTest {
-
-    
-    public static String dirRecursos = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos");
-
     /**
      * Test of cargarClientes method, of class NegocioFacade.
      */
     @Test
     public void testCargarClientes() throws Exception {
         try {
+            
+            ClienteDAO c = (ClienteDAO) Factory.getClienteDAO();
+            c.deleteAll();
+            String dirRecursos = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos");
+            
             Resultado r = NegocioFacade.cargarClientes(dirRecursos + "4ClientesTestIdRep.xml");
             Assert.assertEquals(4, r.getProcesados());
             Assert.assertEquals(3, r.getExitosos());
@@ -61,8 +64,8 @@ public class NegocioFacadeTest {
         DB.getInstance().setProgramas(new ArrayList<Programa>());
         
         System.out.println("cargarProgramas");
-        
-        String url = "programas_test.xml";
+        String dirRecursos = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos");
+        String url = dirRecursos + "programas_test.xml";
         Resultado result = NegocioFacade.cargarProgramas(url);
         assertEquals(1, result.getProcesados());
         
@@ -73,13 +76,15 @@ public class NegocioFacadeTest {
      */
     @Test
     public void testProgramasSolicitados() throws Exception {
+        System.out.println("programasSolicitados");
         
         DB.getInstance().setClientes(new ArrayList<Cliente>());
         DB.getInstance().setProgramas(new ArrayList<Programa>());
         
-        System.out.println("programasSolicitados");
-        NegocioFacade.cargarClientes("clientes_test.xml");
-        NegocioFacade.cargarProgramas("programas_test.xml");
+        String dirRecursos = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos");
+        
+        NegocioFacade.cargarClientes(dirRecursos + "clientes_test.xml");
+        NegocioFacade.cargarProgramas(dirRecursos + "programas_test.xml");
         
         List result = NegocioFacade.programasSolicitados("");
         assertEquals(1, result.size());
@@ -95,7 +100,8 @@ public class NegocioFacadeTest {
         DB.getInstance().setProgramas(new ArrayList<Programa>());
         
         try {
-            NegocioFacade.cargarClientes("5ClientesOK.xml");
+            String dirRecursos = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos");
+            NegocioFacade.cargarClientes(dirRecursos + "5ClientesOK.xml");
         } catch (PaooException e) {
             e.printStackTrace();
         }
@@ -106,7 +112,7 @@ public class NegocioFacadeTest {
 
         //Devuelve todos
         lista = NegocioFacade.listadoClientes("");
-        Assert.assertEquals(5, lista.size());
+        Assert.assertEquals(9, lista.size());
 
         //Busco un cliente q no existe
         lista = NegocioFacade.listadoClientes("NOTEXIST");;
@@ -120,11 +126,13 @@ public class NegocioFacadeTest {
     public void testProgramasSolicitadosCliente() throws Exception {
         System.out.println("programasSolicitadosCliente");
         
+        String dirRecursos = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos");
+        
         DB.getInstance().setClientes(new ArrayList<Cliente>());
         DB.getInstance().setProgramas(new ArrayList<Programa>());
         
-        NegocioFacade.cargarClientes("clientes_test.xml");
-        NegocioFacade.cargarProgramas("programas_test.xml");
+        NegocioFacade.cargarClientes(dirRecursos + "clientes_test.xml");
+        NegocioFacade.cargarProgramas(dirRecursos + "programas_test.xml");
         
         String idCliente = "CL1";
         List result = NegocioFacade.programasSolicitadosCliente(idCliente);
@@ -138,11 +146,13 @@ public class NegocioFacadeTest {
     public void testTopProgramasNroPaginas() throws Exception {
         System.out.println("topProgramasNroPaginas");
         
+        String dirRecursos = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos");
+        
         DB.getInstance().setClientes(new ArrayList<Cliente>());
         DB.getInstance().setProgramas(new ArrayList<Programa>());
         
-        NegocioFacade.cargarClientes("clientes_test.xml");
-        NegocioFacade.cargarProgramas("programas_test.xml");
+        NegocioFacade.cargarClientes(dirRecursos + "clientes_test.xml");
+        NegocioFacade.cargarProgramas(dirRecursos + "programas_test.xml");
         
         List result = NegocioFacade.topProgramasNroPaginas();
         assertTrue(result.size() <= 10);
@@ -155,11 +165,13 @@ public class NegocioFacadeTest {
     public void testTopProgramasMasPesados() throws Exception {
         System.out.println("topProgramasMasPesados");
         
+        String dirRecursos = ManejoPropiedades.obtenerInstancia().obtenerPropiedad("PathRecursos");
+        
         DB.getInstance().setClientes(new ArrayList<Cliente>());
         DB.getInstance().setProgramas(new ArrayList<Programa>());
         
-        NegocioFacade.cargarClientes("clientes_test.xml");
-        NegocioFacade.cargarProgramas("programas_test.xml");
+        NegocioFacade.cargarClientes(dirRecursos + "clientes_test.xml");
+        NegocioFacade.cargarProgramas(dirRecursos + "programas_test.xml");
         
         List result = NegocioFacade.topProgramasMasPesados();
         assertTrue(result.size() < 10);

@@ -5,14 +5,14 @@
 package uy.edu.ort.paoo.util;
 
 import java.io.File;
-import junit.framework.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import uy.edu.ort.paoo.propiedades.ManejoPropiedades;
 
 /**
  *
- * @author timba
+ * @author Victor Nessi
+ * @author Bruno Montaner
  */
 public class UtilidadesTest {
     
