@@ -198,6 +198,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                             worker.done();
                             DisplayResultado.showResultado(getThisFrame(),"Carga Programas",resultado);
                         } catch (NegocioPaooException ex) {
+                            worker.done();
                             resultado = new Resultado("Ocurrio un problema al cargar los datos");
                             resultado.setTipo(Resultado.TIPO_RESULTADO.EXCEPTION);
                             DisplayResultado.showResultado(getThisFrame(),"Carga Programas",resultado);
@@ -207,6 +208,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 t.start();
             }
         } catch (PropiedadesPaooException ex) {
+            worker.done();
             resultado = new Resultado("Ocurrio un problema al cargar los datos");
             resultado.setTipo(Resultado.TIPO_RESULTADO.EXCEPTION);
             DisplayResultado.showResultado(getThisFrame(),"Carga Programas",resultado);
@@ -237,6 +239,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                             worker.done();
                             DisplayResultado.showResultado(getThisFrame(),"Carga Clientes",resultado);
                         } catch (NegocioPaooException ex) {
+                            worker.done();
                             resultado = new Resultado("Ocurrio un problema al cargar los datos");
                             resultado.setTipo(Resultado.TIPO_RESULTADO.EXCEPTION);
                             DisplayResultado.showResultado(getThisFrame(),"Carga Clientes",resultado);
@@ -247,6 +250,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
             
         } catch (PropiedadesPaooException ex) {
+            worker.done();
             resultado = new Resultado("Ocurrio un problema al cargar los datos");
             resultado.setTipo(Resultado.TIPO_RESULTADO.EXCEPTION);
             DisplayResultado.showResultado(getThisFrame(),"Carga Clientes",resultado);

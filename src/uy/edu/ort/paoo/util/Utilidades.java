@@ -124,11 +124,11 @@ public class Utilidades {
         return isMatch;
     }
     
-    private static Logger LOGGER = Logger.getLogger("LOGO");
+    private static Logger LOGGER = Logger.getLogger("");
     
     public static Logger getLogFile() throws UtilPaooException  {
         try {
-            LOGGER.setLevel(Level.ALL);
+            LOGGER.setLevel(Level.INFO);
             FileHandler fhandler = new FileHandler(ManejoPropiedades.obtenerInstancia().obtenerPropiedad("Log"));
             SimpleFormatter sformatter = new SimpleFormatter();
             fhandler.setFormatter(sformatter);
