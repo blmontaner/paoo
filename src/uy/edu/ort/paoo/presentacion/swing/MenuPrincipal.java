@@ -143,6 +143,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenu2.add(jMenu3);
 
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/edu/ort/paoo/presentacion/swing/img/moreLines.png"))); // NOI18N
         jMenuItem7.setText("Top 10 Mas Pesados");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,6 +152,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem7);
 
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uy/edu/ort/paoo/presentacion/swing/img/morePages.png"))); // NOI18N
         jMenuItem8.setText("Top 10 Mas Paginas");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
